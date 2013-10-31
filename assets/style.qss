@@ -1,0 +1,16 @@
+#command_line {
+    min-width: 389px;/*432*/
+    min-height: 45px;/*72*/
+    font-size: 18pt;
+    font-family: "Migu 1M";
+    line-height: 45px;
+    color: #bcbcbc;
+    background-color: transparent;
+    background-image: url(assets/launcher_back.png);
+    background-repeat: none;
+    background-position: top left;
+    padding: 10px 25px 17px 18px;
+    border: none;
+}
+#window {
+}
