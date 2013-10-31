@@ -2,7 +2,7 @@
 TEMPLATE = lib
 CONFIG += static 
 TARGET = cllaun
-INCLUDEPATH += . src
+INCLUDEPATH += src
 # QT += core gui widgets
 
 # Input
