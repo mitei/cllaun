@@ -1,5 +1,5 @@
 #include "main_window.h"
-#include "cllaun_core/src/common.h"
+#include "common.h"
 
 cllaun::MainWindow::MainWindow(QWidget* parent)
         : QWidget(parent, Qt::Dialog|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint),
