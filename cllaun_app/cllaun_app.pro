@@ -9,7 +9,7 @@ INCLUDEPATH += src ../cllaun_core/src
 QT += core gui widgets
 
 # Input
-HEADERS += src/main_window.h ../cllaun_core/src/common.h
+HEADERS += src/main_window.h
 SOURCES += src/main.cc src/main_window.cc
 LIBS += ../cllaun_core/release/cllaun.lib
 

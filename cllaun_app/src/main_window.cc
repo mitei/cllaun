@@ -1,5 +1,5 @@
 #include "main_window.h"
-#include "common.h"
+#include "launcher.h"
 
 cllaun::MainWindow::MainWindow(QWidget* parent)
         : QWidget(parent, Qt::Dialog|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint),
@@ -19,5 +19,5 @@ cllaun::MainWindow::MainWindow(QWidget* parent)
 
 void cllaun::MainWindow::Run() {
     QString command = command_line.text();
-    if (command == "exit") Exit(0);
+    cllaun::Run(command);
 }
