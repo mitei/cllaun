@@ -2,7 +2,8 @@
     min-width: 389px;/*432*/
     min-height: 45px;/*72*/
     font-size: 18pt;
-    font-family: "Migu 1M";
+    font-family: "Migu 1M", "Hiragino Kaku Gothic ProN", "ヒラギノ角ゴ ProN W3",
+        Meiryo, メイリオ, sans-serif;
     line-height: 45px;
     color: #bcbcbc;
     background-color: transparent;
