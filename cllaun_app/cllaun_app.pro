@@ -4,6 +4,7 @@
 
 TEMPLATE = app
 TARGET = cllaun
+DESTDIR = ../build/bin
 DEPENDPATH += ../cllaun_core
 INCLUDEPATH += src ../cllaun_core/src
 QT += core gui widgets
@@ -11,8 +12,23 @@ QT += core gui widgets
 # Input
 HEADERS += src/main_window.h
 SOURCES += src/main.cc src/main_window.cc
-LIBS += ../cllaun_core/release/cllaun.lib
+LIBS += ../build/lib/cllaun.lib
 
 OTHER_FILES += \
     assets/style.qss \
     assets/launcher_back.png
+
+win32 {
+    !exists($$DESTDIR/assets) {
+        QMAKE_POST_LINK += "mkdir $$system_path($$DESTDIR/assets) &"
+    }
+    for(FILE, OTHER_FILES) {
+        QMAKE_POST_LINK += "copy /y $$system_path($$FILE) $$system_path($$DESTDIR/assets/) &"
+    }
+}
+else {
+    !exists($$DESTDIR/assets) {
+        QMAKE_POST_LINK += "mkdir $$system_path($$DESTDIR/assets) &"
+    }
+    QMAKE_POST_LINK += "cp -f $$OTHER_FILES $$DESTDIR/assets &"
+}

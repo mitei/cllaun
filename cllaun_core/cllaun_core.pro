@@ -1,7 +1,7 @@
-
 TEMPLATE = lib
-CONFIG += static 
+CONFIG += static
 TARGET = cllaun
+DESTDIR = ../build/lib
 INCLUDEPATH += src
 # QT += core gui widgets
 
