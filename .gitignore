@@ -4,3 +4,4 @@ release/
 *.pro.user
 *.bat
 build*/
+*.pdb

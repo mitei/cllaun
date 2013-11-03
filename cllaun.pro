@@ -1,5 +1,5 @@
 TEMPLATE = subdirs
-CONFIG += orderd
+CONFIG += orderd debug_and_release
 
 SUBDIRS = cllaun_core \
             cllaun_app
