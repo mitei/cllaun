@@ -24,3 +24,5 @@ INCLUDEPATH += src
 # Input
 HEADERS += src/common.h src/launcher.h
 SOURCES += src/common.cc src/launcher.cc
+
+win:SOURCES += src/launcher_win.cc
