@@ -27,7 +27,12 @@ QT += core gui widgets
 DEPENDPATH += ../cllaun_core
 
 INCLUDEPATH += src ../cllaun_core/src
-LIBS += ../build/lib/cllaun$${suffix}.lib
+win32 {
+    LIBS += ../build/lib/cllaun$${suffix}.lib
+}
+else {
+    LIBS += ../build/lib/libcllaun$${suffix}.a
+}
 
 # Input
 HEADERS += src/main_window.h
