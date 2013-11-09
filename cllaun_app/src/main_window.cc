@@ -3,7 +3,7 @@
 
 cllaun::MainWindow::MainWindow(QWidget* parent)
         : QWidget(parent, Qt::Dialog|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint),
-          command_line(this)
+          command_line(this)//, tray_icon(this)
 {
     setAttribute(Qt::WA_TranslucentBackground, true);
 
