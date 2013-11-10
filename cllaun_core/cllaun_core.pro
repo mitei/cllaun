@@ -22,7 +22,10 @@ INCLUDEPATH += src
 # QT += core gui widgets
 
 # Input
-HEADERS += src/common.h src/launcher.h
-SOURCES += src/common.cc src/launcher.cc
+HEADERS += src/common.h src/launcher.h \
+    src/command.h \
+    src/parser.h
+SOURCES += src/common.cc src/launcher.cc \
+    src/parser.cc
 
 win:SOURCES += src/launcher_win.cc
