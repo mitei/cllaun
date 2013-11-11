@@ -38,7 +38,7 @@ public:
 public:
     Type                 type_  ;
     QString              name_  ; /*!< コマンド名(コロンは含まない)またはパス名 */
-    std::vector<QString> parmas_; /*!< パラメータ(オプショナル) */
+    std::vector<QString> params_; /*!< パラメータ(オプショナル) */
 };
 
 #endif // CORE_COMMAND_H
