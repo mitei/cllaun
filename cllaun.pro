@@ -36,32 +36,18 @@ SOURCES += src/main.cc \
     src/plugin.cc \
     src/api_common.cc
 
-
-skin_files += \
-    assets/skins/test_skin/style.qss \
-    assets/skins/test_skin/launcher_back.png \
-
-plugin_files += \
-    assets/plugins/cllaun/common.js
-
-OTHER_FILES += \
-    $$skin_files \
-    $$plugin_files
-
-
+OTHER_FILES += assets_copy.bat assets_copy.sh
 
 # Assets auto copy
+mkpath($$DESTDIR/plugins)
+mkpath($$DESTDIR/plugins/cllaun)
+mkpath($$DESTDIR/skins)
+mkpath($$DESTDIR/skins/test_skin)
+
+# TODO
 win32 {
-    !exists($$DESTDIR/assets) {
-        QMAKE_POST_LINK += "mkdir $$system_path($$DESTDIR/assets) &"
-    }
-    for(FILE, OTHER_FILES) {
-        QMAKE_POST_LINK += "copy /y $$system_path($$FILE) $$system_path($$DESTDIR/assets/) &"
-    }
+    system(.\\assets_copy.bat)
 }
 else {
-    !exists($$DESTDIR/assets) {
-        QMAKE_POST_LINK += "mkdir $$system_path($$DESTDIR/assets) &"
-    }
-    QMAKE_POST_LINK += "cp -f $$OTHER_FILES $$DESTDIR/assets &"
+    system(./assets_copy.sh)
 }

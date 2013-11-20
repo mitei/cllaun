@@ -7,7 +7,7 @@
     line-height: 45px;
     color: #bcbcbc;
     background-color: transparent;
-    background-image: url(assets/launcher_back.png);
+    background-image: url(skins/test_skin/launcher_back.png);
     background-repeat: none;
     background-position: top left;
     padding: 10px 25px 17px 18px;
