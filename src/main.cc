@@ -1,4 +1,5 @@
 #include <QApplication>
+#include <QDir>
 #include <QFile>
 #include <QMainWindow>
 #include "main_window.h"

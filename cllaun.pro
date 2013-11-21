@@ -27,14 +27,24 @@ INCLUDEPATH += src
 HEADERS += src/main_window.h \
     src/launcher.h \
     src/plugin.h \
+    src/plugin_manager.h \
+    src/api.h \
     src/api_common.h \
-    src/api.h
+    src/api_file.h \
+    src/api_clipboard.h \
+    src/api_http.h \
+    src/api_socket.h \
 
 SOURCES += src/main.cc \
     src/main_window.cc \
     src/launcher.cc \
     src/plugin.cc \
-    src/api_common.cc
+    src/plugin_manager.cc \
+    src/api_common.cc \
+    src/api_file.cc \
+    src/api_clipboard.cc \
+    src/api_http.cc \
+    src/api_socket.cc \
 
 OTHER_FILES += assets_copy.bat assets_copy.sh
 

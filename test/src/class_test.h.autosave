@@ -1,0 +1,20 @@
+#pragma once
+
+#include <QObject>
+#include <QString>
+#include <QDebug>
+#include <QScriptEngine>
+#include "api.h"
+
+class Sample : public QObject, public QScriptClass {
+public:
+    Sample(QScriptEngine* engine);
+    ~Sample();
+    
+    QScriptValue New();
+    
+    
+};
+
+void InitClass(QScriptEngine* engine) {
+}
