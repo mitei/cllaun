@@ -6,4 +6,3 @@ release/
 !assets_copy.bat
 build*/
 *.pdb
-cllaun_test/
