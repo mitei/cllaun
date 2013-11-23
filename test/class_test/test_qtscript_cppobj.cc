@@ -10,15 +10,14 @@ public:
     virtual ~Sample() { qDebug("Sample destructor"); }
 
     static QScriptValue New(QScriptContext* context, QScriptEngine* engine) {
-        if (context->isCalledAsConstructor()) { /* */ }
-
         qint32 x = context->argument(0).toInt32();
         qint32 y = context->argument(1).toInt32();
 
-        QScriptValue instance = engine->newObject();
-        QObject* obj = new Sample(x, y);
-        QScriptValue sample_obj = engine->newQObject(obj, QScriptEngine::ScriptOwnership);
-        instance.setData(sample_obj);
+        Sample* obj = new Sample(x, y);
+
+        QScriptValue instance = (context->isCalledAsConstructor() ?
+                                     engine->newQObject(context->thisObject(), obj, QScriptEngine::AutoOwnership) :
+                                     engine->newQObject(obj, QScriptEngine::AutoOwnership));
         instance.setProperty("x", engine->newFunction(AccessorX), QScriptValue::PropertyGetter|QScriptValue::PropertySetter);
         instance.setProperty("y", engine->newFunction(AccessorY), QScriptValue::PropertyGetter|QScriptValue::PropertySetter);
 
@@ -26,8 +25,7 @@ public:
     }
 
     static QScriptValue AccessorX(QScriptContext* context,  QScriptEngine* engine) {
-        QScriptValue data = context->thisObject().data();
-        Sample* sample = dynamic_cast<Sample*>(data.toQObject());
+        Sample* sample = dynamic_cast<Sample*>(context->thisObject().toQObject());
         if (sample == nullptr) {
             return QScriptValue::UndefinedValue;
         }
@@ -50,8 +48,7 @@ public:
     }
 
     static QScriptValue AccessorY(QScriptContext* context,  QScriptEngine* engine) {
-        QScriptValue data = context->thisObject().data();
-        Sample* sample = dynamic_cast<Sample*>(data.toQObject());
+        Sample* sample = dynamic_cast<Sample*>(context->thisObject().toQObject());
         if (sample == nullptr) {
             return QScriptValue::UndefinedValue;
         }
@@ -73,15 +70,6 @@ public:
         return result;
     }
 
-    /*
-    static QScriptValue Proto(QScriptEngine* engine) {
-        QScriptValue proto = engine->newObject();
-        proto.setProperty("x", engine->newFunction(AccessorX), QScriptValue::PropertyGetter|QScriptValue::PropertySetter);
-        proto.setProperty("y", engine->newFunction(AccessorY), QScriptValue::PropertyGetter|QScriptValue::PropertySetter);
-        return proto;
-    }
-    */
-
     int x, y;
 };
 
@@ -99,17 +87,15 @@ int main(int argc, char** argv) {
     engine.globalObject().setProperty("print", engine.newFunction(Print));
 
     QScriptValue sample_ctr = engine.newFunction(Sample::New);
-    //sample_ctr.setPrototype(Sample::Proto(&engine));
     engine.globalObject().setProperty("Sample", sample_ctr);
 
-    engine.evaluate("(function(){var sample = new Sample(100, 234);\
+    engine.evaluate("var sample = new Sample(100, 234);\
                      print(sample.x);\
                      print(sample.y);\
                      sample.x = 454;\
                      sample.y = 321;\
                      print(sample.x);\
                      print(sample.y);\
-                    })();");
-    engine.collectGarbage();
+                    ");
     return 0;
 }
