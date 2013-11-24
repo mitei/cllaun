@@ -14,13 +14,13 @@ MOC_DIR = moc/$${base_dir}
 RCC_DIR = rcc/$${base_dir}
 UI_DIR = ui/$${base_dir}
 
-
 TEMPLATE = app
 TARGET = cllaun$${suffix}
 DESTDIR = build/bin
 
 QT += core gui widgets qml script
 
+QMAKE_CXXFLAGS += "-std=c++11"
 INCLUDEPATH += src
 
 # Input
@@ -54,10 +54,11 @@ mkpath($$DESTDIR/plugins/cllaun)
 mkpath($$DESTDIR/skins)
 mkpath($$DESTDIR/skins/test_skin)
 
-# TODO
 win32 {
-    system(.\\assets_copy.bat)
+    QMAKE_POST_LINK += "copy /y $$system_path(assets/skins/test_skin/style.qss) $$system_path($$DESTDIR/skins/test_skin/) &"
+    QMAKE_POST_LINK += "copy /y $$system_path(assets/skins/test_skin/launcher_back.png) $$system_path($$DESTDIR/skins/test_skin/) &"
 }
 else {
-    system(./assets_copy.sh)
+    QMAKE_POST_LINK += "cp -f $$system_path(assets/skins/test_skin/style.qss) $$system_path($$DESTDIR/skins/test_skin/) &"
+    QMAKE_POST_LINK += "cp -f $$system_path(assets/skins/test_skin/launcher_back.png) $$system_path($$DESTDIR/skins/test_skin/) &"
 }
