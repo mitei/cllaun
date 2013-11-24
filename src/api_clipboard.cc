@@ -4,10 +4,10 @@
 #include <QClipboard>
 
 static QScriptValue Get(QScriptContext* context, QScriptEngine* engine) {
-
 }
 
 void cllaun::InitClipboard(QScriptEngine* engine) {
-    QClipboard* clipboard = QApplication::clipboard();
+    QClipboard* cb = QApplication::clipboard();
+    QScriptValue cb_obj = engine->newQObject(cb);
 }
 

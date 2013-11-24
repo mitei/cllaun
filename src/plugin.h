@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QVector>
-#include <String>
+#include <QString>
 #include <QScriptEngine>
 #include <QLibrary>
 

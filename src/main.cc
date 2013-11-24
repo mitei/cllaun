@@ -1,10 +1,12 @@
 #include <QApplication>
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QMainWindow>
 #include "main_window.h"
 #include "plugin.h"
 #include "api_common.h"
+#include "api_file.h"
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
@@ -23,8 +25,10 @@ int main(int argc, char** argv) {
 
     // スクリプトエンジンの初期化
     QScriptEngine engine;
+    engine.globalObject().setProperty("global", engine.globalObject());
     cllaun::InitPlugin(&engine);
     cllaun::InitCommon(&engine);
+    cllaun::InitFile(&engine);
 
     return app.exec();
 }
