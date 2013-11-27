@@ -1,13 +1,16 @@
 #include "plugin.h"
+#include "core.h"
 #include <QDebug>
 #include <QFile>
 #include <QFileInfo>
 
+#define c_engine cllaun::Core::Engine()
+
 /*!
  * @brief プラグイン機能の初期化
  */
-void cllaun::InitPlugin(QScriptEngine* engine) {
-    engine->globalObject().setProperty("plugin", engine->newObject());
+void cllaun::InitPlugin() {
+    c_engine->globalObject().setProperty("plugin", c_engine->newObject());
 }
 
 /*!
@@ -16,8 +19,8 @@ void cllaun::InitPlugin(QScriptEngine* engine) {
  * @param name プラグイン・コマンド名
  * @param args プラグイン・コマンドに渡す引数のリスト
  */
-void cllaun::RunPluginCommand(QScriptEngine* engine, const QString& name, cllaun::PluginArguments &args) {
-    QScriptValue plugin = engine->globalObject().property("plugin").property(name);
+void cllaun::RunPluginCommand(const QString& name, cllaun::PluginArguments &args) {
+    QScriptValue plugin = c_engine->globalObject().property("plugin").property(name);
 
     if (!plugin.isFunction()) /* Error! */ return;
 
@@ -26,7 +29,7 @@ void cllaun::RunPluginCommand(QScriptEngine* engine, const QString& name, cllaun
         arg_list.push_back(*iter);
     }
 
-    plugin.call(engine->newObject(), arg_list);
+    plugin.call(c_engine->newObject(), arg_list);
 }
 
 /*!
@@ -37,14 +40,14 @@ void cllaun::RunPluginCommand(QScriptEngine* engine, const QString& name, cllaun
  *
  * @return ロードしたライブラリのポインタ
  */
-QLibrary* cllaun::LoadNativePlugin(QScriptEngine* engine, const QString& path) {
+QLibrary* cllaun::LoadNativePlugin(const QString& path) {
     typedef void (*Initializer)(QScriptEngine*);
 
     QLibrary* lib = new QLibrary(path);
     if (!lib->load()) return nullptr;
     Initializer initializer = (Initializer)lib->resolve("Initialize");
     if (initializer == nullptr) return nullptr;
-    initializer(engine);
+    initializer(c_engine);
 
     return lib;
 }
@@ -55,12 +58,14 @@ QLibrary* cllaun::LoadNativePlugin(QScriptEngine* engine, const QString& path) {
  * @param engine JavaScript ファイルを実行する QScriptEngine インスタンス
  * @param path   実行する JavaScript ファイルのパス
  */
-void cllaun::RunScriptFile(QScriptEngine* engine, const QString& path) {
+void cllaun::RunScriptFile(const QString& path) {
     QFile script_file(path);
     script_file.open(QFile::ReadOnly);
     QString str_script = QString::fromUtf8(script_file.readAll());
     QFileInfo script_info(script_file);
-    engine->pushContext();
-    engine->evaluate(str_script, script_info.fileName());
-    engine->popContext();
+    c_engine->pushContext();
+    c_engine->evaluate(str_script, script_info.fileName());
+    c_engine->popContext();
 }
+
+#undef c_engine

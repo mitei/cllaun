@@ -1,8 +1,7 @@
 #include "plugin_manager.h"
 #include "plugin.h"
-#include <QScriptEngine>
 
-cllaun::PluginManager::PluginManager(QScriptEngine* engine_): engine(engine_) {
+cllaun::PluginManager::PluginManager() {
 }
 
 /*!
@@ -16,10 +15,6 @@ cllaun::PluginManager::~PluginManager() {
     }
 }
 
-void cllaun::PluginManager::SetEngine(QScriptEngine* engine_) {
-    engine = engine_;
-}
-
 /*!
  * @brief DLL をロード
  *
@@ -28,7 +23,7 @@ void cllaun::PluginManager::SetEngine(QScriptEngine* engine_) {
  * @return 読み込んだ DLL のポインタ
  */
 QLibrary* cllaun::PluginManager::Load(const QString& path) {
-    QLibrary* lib = LoadNativePlugin(engine, path);
+    QLibrary* lib = LoadNativePlugin(path);
     if (lib != nullptr) {
         plugins.insert(path, lib);
     }

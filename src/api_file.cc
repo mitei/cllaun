@@ -2,6 +2,8 @@
 #include "api.h"
 #include <QFile>
 
+#define c_engine cllaun::Core::Engine()
+
 static QScriptValue Exists(QScriptContext* context, QScriptEngine* engine) {
     QFile* file = cllaun::GetThis<QFile>(context);
 
@@ -20,10 +22,12 @@ static QScriptValue New(QScriptContext* context, QScriptEngine* engine) {
     return file_obj;
 }
 
-void cllaun::InitFile(QScriptEngine* engine) {
-    QScriptValue file_class = engine->newFunction(New);
-    QScriptValue proto = engine->newObject();
-    proto.setProperty("exists", engine->newFunction(Exists));
+void cllaun::InitFile() {
+    QScriptValue file_class = c_engine->newFunction(New);
+    QScriptValue proto = c_engine->newObject();
+    proto.setProperty("exists", c_engine->newFunction(Exists));
     file_class.setProperty("prototype", proto);
-    engine->globalObject().setProperty("File", file_class);
+    c_engine->globalObject().setProperty("File", file_class);
 }
+
+#undef c_engine

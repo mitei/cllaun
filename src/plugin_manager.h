@@ -4,15 +4,12 @@
 #include <QString>
 #include <QLibrary>
 
-class QScriptEngine;
-
 namespace cllaun {
 
 class PluginManager {
 public:
-    PluginManager(QScriptEngine* engine_ = nullptr);
+    PluginManager();
     ~PluginManager();
-    void SetEngine(QScriptEngine* engine_);
     QLibrary* Load(const QString& path);
     bool Unload(const QString& path);
 private:
@@ -21,6 +18,6 @@ private:
     inline void Unload(Plugins::iterator);
 private:
     Plugins plugins;
-    QScriptEngine* engine;
 };
+
 }

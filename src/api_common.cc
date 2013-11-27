@@ -13,7 +13,7 @@ static QScriptValue Exit(QScriptContext* context, QScriptEngine* engine) {
     return QScriptValue::UndefinedValue;
 }
 
-void cllaun::InitCommon(QScriptEngine* engine) {
-    SetMethod(engine, "exit", Exit);
+void cllaun::InitCommon() {
+    SetMethod("exit", Exit);
 }
 

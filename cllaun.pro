@@ -24,7 +24,10 @@ QMAKE_CXXFLAGS += "-std=c++11"
 INCLUDEPATH += src
 
 # Input
-HEADERS += src/main_window.h \
+HEADERS += \
+    src/core.h \
+    src/config.h \
+    src/main_window.h \
     src/launcher.h \
     src/plugin.h \
     src/plugin_manager.h \
@@ -34,8 +37,12 @@ HEADERS += src/main_window.h \
     src/api_clipboard.h \
     src/api_http.h \
     src/api_socket.h \
+    src/api_window.h \
 
-SOURCES += src/main.cc \
+SOURCES += \
+    src/main.cc \
+    src/core.cc \
+    src/config.cc \
     src/main_window.cc \
     src/launcher.cc \
     src/plugin.cc \
@@ -45,6 +52,9 @@ SOURCES += src/main.cc \
     src/api_clipboard.cc \
     src/api_http.cc \
     src/api_socket.cc \
+    src/api_window.cc \
+
+win:SOURCES += src/launcher_win.cc
 
 OTHER_FILES += assets_copy.bat assets_copy.sh
 

@@ -6,8 +6,8 @@
 static QScriptValue Get(QScriptContext* context, QScriptEngine* engine) {
 }
 
-void cllaun::InitClipboard(QScriptEngine* engine) {
+void cllaun::InitClipboard() {
     QClipboard* cb = QApplication::clipboard();
-    QScriptValue cb_obj = engine->newQObject(cb);
+    QScriptValue cb_obj = cllaun::Core::Engine()->newQObject(cb);
 }
 
