@@ -16,12 +16,13 @@ TEMPLATE = app
 
 
 SOURCES += \
-    src/parser.cc \
-    src/parser_util.cc \
+    ../../src/parser.cc \
+    ../../src/parser_util.cc \
     tst_unit_parsertest.cc
 DEFINES += SRCDIR=\\\"$$PWD/\\\"
 
 HEADERS += \
-    src/parser.h \
-    src/command.h \
-    src/parser_util.h
+    ../../src/command.h \
+    ../../src/parser.h \
+    ../../src/parser_util.h \
+    ../../src/lib/container_make.h \
