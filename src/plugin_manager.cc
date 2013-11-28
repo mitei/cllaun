@@ -1,6 +1,8 @@
 #include "plugin_manager.h"
 #include "plugin.h"
 
+#include <QScriptEngine>
+
 cllaun::PluginManager::PluginManager() {
 }
 
@@ -23,10 +25,13 @@ cllaun::PluginManager::~PluginManager() {
  * @return 読み込んだ DLL のポインタ
  */
 QLibrary* cllaun::PluginManager::Load(const QString& path) {
-    QLibrary* lib = LoadNativePlugin(path);
-    if (lib != nullptr) {
-        plugins.insert(path, lib);
-    }
+    typedef void (*Initializer)(QScriptEngine*);
+
+    QLibrary* lib = new QLibrary(path);
+    if (!lib->load()) return nullptr;
+    Initializer initializer = (Initializer)lib->resolve("Initializer");
+    if (initializer == nullptr) return nullptr;
+    plugins.insert(path, lib);
     return lib;
 }
 

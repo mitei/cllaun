@@ -5,10 +5,13 @@
 cllaun::Core* cllaun::Core::self = nullptr;
 
 cllaun::Core::Core() {
+    if (self != nullptr) self->~Core();
     self = this;
 
     plugin_dirs.append(QCoreApplication::applicationDirPath() + QDir::separator() + "plugins");
     skin_dirs.append(QCoreApplication::applicationDirPath() + QDir::separator() + "skins");
+    config_dirs.append(QCoreApplication::applicationDirPath());
+    config_dirs.append(QDir::homePath());
 }
 
 cllaun::Core::~Core() {

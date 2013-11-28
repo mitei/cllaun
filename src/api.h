@@ -1,6 +1,8 @@
 #pragma once
 
 #include "core.h"
+#include <QFile>
+#include <QFileInfo>
 #define c_engine cllaun::Core::Engine()
 
 /*
@@ -15,7 +17,7 @@ namespace cllaun {
      * @param name   JavaScript プロパティ名
      * @param func   公開したい C++ 関数
      */
-    inline void SetMethod(const char* name,
+    static inline void SetMethod(const char* name,
                           QScriptEngine::FunctionSignature func) {
         c_engine->globalObject().setProperty(name, c_engine->newFunction(func));
     }
@@ -28,7 +30,7 @@ namespace cllaun {
      * @param func   公開したい C++ 関数
      * @param arg    func に渡す引数
      */
-    inline void SetMethod(const char* name,
+    static inline void SetMethod(const char* name,
                           QScriptEngine::FunctionWithArgSignature func,
                           void* arg) {
         c_engine->globalObject().setProperty(name, c_engine->newFunction(func, arg));
@@ -45,6 +47,22 @@ namespace cllaun {
     template <typename T>
     static inline T* GetThis(QScriptContext* context) {
         return dynamic_cast<T*>(context->thisObject().toQObject());
+    }
+
+    /*!
+     * @brief RunScriptFile
+     * @param path
+     * @return
+     */
+    static inline QScriptValue RunScriptFile(const QString& path) {
+        QFile script_file(path);
+        script_file.open(QFile::ReadOnly);
+        QString str_script = QString::fromUtf8(script_file.readAll());
+        QFileInfo script_info(script_file);
+        c_engine->pushContext();
+        QScriptValue retv = c_engine->evaluate(str_script, script_info.fileName());
+        c_engine->popContext();
+        return retv;
     }
 }
 

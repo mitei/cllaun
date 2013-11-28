@@ -6,8 +6,9 @@ namespace cllaun {
 
 class Config {
 public:
-    void Read(const QString& conf_name);
-    static const char* suffix;
+    static void Read(const QString& conf_name);
+    static void ReadAll();
+    static const char* extension;
 private:
     Config();
 };

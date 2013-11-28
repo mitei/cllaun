@@ -26,10 +26,10 @@ INCLUDEPATH += src
 # Input
 HEADERS += \
     src/core.h \
+    src/skin.h \
     src/config.h \
     src/main_window.h \
     src/launcher.h \
-    src/plugin.h \
     src/plugin_manager.h \
     src/api.h \
     src/api_common.h \
@@ -42,10 +42,10 @@ HEADERS += \
 SOURCES += \
     src/main.cc \
     src/core.cc \
+    src/skin.cc \
     src/config.cc \
     src/main_window.cc \
     src/launcher.cc \
-    src/plugin.cc \
     src/plugin_manager.cc \
     src/api_common.cc \
     src/api_file.cc \
@@ -56,7 +56,7 @@ SOURCES += \
 
 win:SOURCES += src/launcher_win.cc
 
-OTHER_FILES += assets_copy.bat assets_copy.sh
+OTHER_FILES += assets_copy.bat assets_copy.sh assets/default.cllaun_conf
 
 # Assets auto copy
 mkpath($$DESTDIR/plugins)
@@ -67,8 +67,10 @@ mkpath($$DESTDIR/skins/test_skin)
 win32 {
     QMAKE_POST_LINK += "copy /y $$system_path(assets/skins/test_skin/style.qss) $$system_path($$DESTDIR/skins/test_skin/) &"
     QMAKE_POST_LINK += "copy /y $$system_path(assets/skins/test_skin/launcher_back.png) $$system_path($$DESTDIR/skins/test_skin/) &"
+    QMAKE_POST_LINK += "copy /y $$system_path(assets/default.cllaun_conf) $$system_path($$DESTDIR/) &"
 }
 else {
     QMAKE_POST_LINK += "cp -f $$system_path(assets/skins/test_skin/style.qss) $$system_path($$DESTDIR/skins/test_skin/) &"
     QMAKE_POST_LINK += "cp -f $$system_path(assets/skins/test_skin/launcher_back.png) $$system_path($$DESTDIR/skins/test_skin/) &"
+    QMAKE_POST_LINK += "cp -f $$system_path(assets/default.cllaun_conf) $$system_path($$DESTDIR/) &"
 }
