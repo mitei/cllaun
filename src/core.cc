@@ -17,3 +17,20 @@ cllaun::Core::Core() {
 cllaun::Core::~Core() {
     self = nullptr;
 }
+
+bool cllaun::Core::AppendPluginDirs(const QString& path) {
+    QDir dir(path);
+    if (dir.exists()) {
+        self->plugin_dirs.append(path);
+        return true;
+    }
+    return false;
+}
+bool cllaun::Core::AppendSkinDirs(const QString& path) {
+    QDir dir(path);
+    if (dir.exists()) {
+        self->skin_dirs.append(path);
+        return true;
+    }
+    return false;
+}

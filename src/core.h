@@ -17,6 +17,9 @@ namespace cllaun {
         static inline const QVector<QString>& ConfigDirs() { return self->config_dirs; }
         static inline QScriptEngine* Engine() { return &(self->engine); }
 
+        static bool AppendPluginDirs(const QString& path);
+        static bool AppendSkinDirs(const QString& path);
+
     private:
         QVector<QString> plugin_dirs;
         QVector<QString> skin_dirs;

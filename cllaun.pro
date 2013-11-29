@@ -20,13 +20,14 @@ DESTDIR = build/bin
 
 QT += core gui widgets qml script
 
-QMAKE_CXXFLAGS += "-std=c++11"
+unix:QMAKE_CXXFLAGS += "-std=c++11"
 INCLUDEPATH += src
 
 # Input
 HEADERS += \
     src/core.h \
     src/skin.h \
+    src/plugin.h \
     src/config.h \
     src/main_window.h \
     src/launcher.h \
@@ -43,6 +44,7 @@ SOURCES += \
     src/main.cc \
     src/core.cc \
     src/skin.cc \
+    src/plugin.cc \
     src/config.cc \
     src/main_window.cc \
     src/launcher.cc \

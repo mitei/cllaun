@@ -6,6 +6,7 @@
 
 #include "core.h"
 #include "config.h"
+#include "plugin.h"
 #include "main_window.h"
 #include "api_common.h"
 #include "api_file.h"
@@ -32,6 +33,8 @@ int main(int argc, char** argv) {
 
     // read config
     cllaun::Config::ReadAll();
+    cllaun::Plugin::Initialize();
+    cllaun::Plugin::ReadAll();
     //cllaun::Config::Read("default");
 
     // QSS の設定。暫定
