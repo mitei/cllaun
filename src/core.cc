@@ -4,7 +4,7 @@
 
 cllaun::Core* cllaun::Core::self = nullptr;
 
-cllaun::Core::Core() {
+cllaun::Core::Core(int argc, char** argv): app(argc, argv) {
     if (self != nullptr) self->~Core();
     self = this;
 

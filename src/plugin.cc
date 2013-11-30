@@ -21,9 +21,9 @@ void cllaun::Plugin::Initialize() {
 void cllaun::Plugin::Read(const QString& name) {
     auto dirs = Core::PluginDirs();
 
-    for (auto iter = dirs.begin(); iter != dirs.end(); ++iter) {
-        QDir dir(*iter + QDir::separator() + name);
-        if (dir.exists(name + ".js")) {
+    foreach (auto dir_path, dirs) {
+        QDir dir(dir_path + QDir::separator() + name);
+        if (dir.exists() && dir.exists(name + ".js")) {
             RunScriptFile(dir.filePath(name + ".js"));
         }
     }
@@ -35,12 +35,12 @@ void cllaun::Plugin::Read(const QString& name) {
 void cllaun::Plugin::ReadAll() {
     auto dirs = Core::PluginDirs();
 
-    for (auto iter = dirs.begin(); iter != dirs.end(); ++iter) {
-        QDir dir(*iter);
+    foreach (auto dir_path, dirs) {
+        QDir dir(dir_path);
         QStringList pdir_list = dir.entryList(QDir::Dirs|QDir::NoDotAndDotDot, QDir::Name);
 
-        for (auto iter2 = pdir_list.begin(); iter2 != pdir_list.end(); ++iter2) {
-            QDir pdir(dir.dirName() + QDir::separator() + (*iter2));
+        foreach (auto pdir_path, pdir_list) {
+            QDir pdir(dir.dirName() + QDir::separator() + (pdir_path));
             if (pdir.exists(pdir.dirName() + ".js")) {
                 RunScriptFile(pdir.filePath(pdir.dirName() + ".js"));
             }

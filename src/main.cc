@@ -1,12 +1,13 @@
 #include <QApplication>
-#include <QDebug>
-#include <QDir>
 #include <QFile>
 #include <QMainWindow>
+
+#include <QDebug>
 
 #include "core.h"
 #include "config.h"
 #include "plugin.h"
+#include "skin.h"
 #include "main_window.h"
 #include "api_common.h"
 #include "api_file.h"
@@ -20,13 +21,12 @@ QScriptValue Print(QScriptContext* context, QScriptEngine* engine) {
 }
 
 int main(int argc, char** argv) {
-    QApplication app(argc, argv);
-
-    cllaun::Core core;
+    cllaun::Core core(argc, argv);
 
     // スクリプトエンジンの初期化
     QScriptEngine* engine = core.Engine();
     engine->globalObject().setProperty("global", engine->globalObject());
+    // Test用
     engine->globalObject().setProperty("print", engine->newFunction(Print));
     cllaun::InitCommon();
     cllaun::InitFile();
@@ -38,11 +38,7 @@ int main(int argc, char** argv) {
     //cllaun::Config::Read("default");
 
     // QSS の設定。暫定
-    QFile main_style_file("skins/test_skin/style.qss");
-    main_style_file.open(QFile::ReadOnly);
-    QString str_style = QString::fromUtf8(main_style_file.readAll());
-    main_style_file.close();
-    app.setStyleSheet(str_style);
+    cllaun::Skin::Read("test_skin");
 
     // メインウィンドウ
     QMainWindow main_window;
@@ -50,5 +46,5 @@ int main(int argc, char** argv) {
     mymain_window.move(400, 300);
     mymain_window.show();
 
-    return app.exec();
+    return core.App()->exec();
 }
