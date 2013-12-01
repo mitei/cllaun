@@ -1,4 +1,4 @@
-#ifndef CORE_PARSER_H
+﻿#ifndef CORE_PARSER_H
 #define CORE_PARSER_H
 
 struct Command;

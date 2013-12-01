@@ -1,4 +1,4 @@
-#ifndef CORE_COMMAND_H
+﻿#ifndef CORE_COMMAND_H
 #define CORE_COMMAND_H
 
 #include <vector>
@@ -35,10 +35,13 @@ public:
     Command(Type type, const QString& name)
         : type_(type), name_(name)
     {}
+    Command()
+        : type_(INVALID)
+    {}
 public:
     Type                 type_  ;
     QString              name_  ; /*!< コマンド名(コロンは含まない)またはパス名 */
-    std::vector<QString> parmas_; /*!< パラメータ(オプショナル) */
+    std::vector<QString> params_; /*!< パラメータ(オプショナル) */
 };
 
 #endif // CORE_COMMAND_H
