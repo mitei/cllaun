@@ -2,7 +2,8 @@
 
 #include <QHash>
 #include <QString>
-#include <QLibrary>
+
+class QLibrary;
 
 namespace cllaun {
 
@@ -12,10 +13,13 @@ public:
     ~PluginManager();
     QLibrary* Load(const QString& path);
     bool Unload(const QString& path);
+
 private:
     typedef QHash<QString, QLibrary*> Plugins;
+
 private:
     inline void Unload(Plugins::iterator);
+
 private:
     Plugins plugins;
 };

@@ -1,9 +1,10 @@
-#include "launcher.h"
+#include <Windows.h>
+
 #include <QString>
 #include <QDir>
 #include <QFileInfo>
 
-#include <Windows.h>
+#include "launcher.h"
 
 int cllaun::Execute(const QString& path, const QString& args) {
     SHELLEXECUTEINFO sh_info;

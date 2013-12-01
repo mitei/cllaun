@@ -1,7 +1,7 @@
-#include "plugin_manager.h"
-#include "plugin.h"
-
+#include <QLibrary>
 #include <QScriptEngine>
+
+#include "plugin_manager.h"
 
 cllaun::PluginManager::PluginManager() {
 }
@@ -12,7 +12,7 @@ cllaun::PluginManager::PluginManager() {
  * ロードされたすべての DLL をアンロード
  */
 cllaun::PluginManager::~PluginManager() {
-    for (Plugins::iterator itr = plugins.begin(); itr != plugins.end(); ++itr) {
+    for (auto itr = plugins.begin(); itr != plugins.end(); ++itr) {
         Unload(itr);
     }
 }

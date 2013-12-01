@@ -1,12 +1,16 @@
-#include "config.h"
-#include "core.h"
-#include "api.h"
-
-#include <QString>
 #include <QVector>
+#include <QString>
+#include <QStringList>
 #include <QDir>
-#include <QFile>
 
+#include "api.h"
+#include "core.h"
+
+#include "config.h"
+
+/*!
+ * @brief 設定ファイルの拡張子
+ */
 const char* cllaun::Config::extension = ".cllaun_conf";
 
 /*!
@@ -15,30 +19,9 @@ const char* cllaun::Config::extension = ".cllaun_conf";
  * @param conf_name 設定ファイルの名前（{conf_name}.cllaun_conf）
  */
 void cllaun::Config::Read(const QString& conf_name) {
-    const QVector<QDir> dirs = Core::ConfigDirs();
-    QString conf_file_name = conf_name + extension;
-    foreach (auto dir, dirs) {
-        if (dir.exists(conf_file_name)) {
-            RunScriptFile(dir.filePath(conf_file_name));
-            break;
-        }
-    }
-}
-
-/*!
- * @brief すべての設定ファイルを読み込む
- */
-void cllaun::Config::ReadAll() {
-    const QVector<QDir> dirs = Core::ConfigDirs();
-    QStringList name_filter;
-        name_filter << QString("*") + extension;
-    QDir::Filters filters = QDir::Files|QDir::Hidden;
-    QDir::SortFlag sort_flag = QDir::Name;
-
-    foreach (auto dir, dirs) {
-        QStringList conf_list = dir.entryList(name_filter, filters, sort_flag);
-        foreach (auto conf_name, conf_list) {
-            RunScriptFile(dir.filePath(conf_name));
-        }
+    const Dirs dirs = Core::ConfigDirs();
+    QString conf_file_path = dirs.FilePath(conf_name + extension);
+    if (!conf_file_path.isEmpty()) {
+        RunScriptFile(conf_file_path);
     }
 }

@@ -1,5 +1,8 @@
-#include "main_window.h"
+#include <QString>
+
 #include "launcher.h"
+
+#include "main_window.h"
 
 /*!
  * @brief コンストラクタ

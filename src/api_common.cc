@@ -1,8 +1,10 @@
-#include "api.h"
-#include "api_common.h"
-#include <QScriptEngine>
-#include <QCoreApplication>
 #include <stdlib.h>
+
+#include <QCoreApplication>
+
+#include "api.h"
+
+#include "api_common.h"
 
 // アプリケーションを終了する
 static QScriptValue Exit(QScriptContext* context, QScriptEngine* engine) {

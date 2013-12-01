@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QStringList>
+
 class QString;
 
 namespace cllaun {
@@ -12,8 +14,17 @@ public:
     static void Read(const QString& name);
     // すべてのプラグインを読み込む
     static void ReadAll();
+    // TODO: comment
+    static inline const QStringList& LoadedPlugin() { return loaded_plugin; }
+
 private:
+    // TODO: comment
+    static void Load(const QString& path);
+
+private:
+    // プラグインの拡張子
     static const char* extension;
+    static QStringList loaded_plugin;
     Plugin();
 };
 

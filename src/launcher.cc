@@ -1,8 +1,9 @@
-#include "launcher.h"
-
-#include <QProcess>
 #include <QCoreApplication>
+#include <QProcess>
+#include <QString>
 #include <QDebug>
+
+#include "launcher.h"
 
 int cllaun::Run(const QString& command) {
     qDebug() << "cllaun::Run():" << command;

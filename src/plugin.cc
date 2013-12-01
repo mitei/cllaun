@@ -1,12 +1,21 @@
-#include "plugin.h"
-#include "api.h"
-#include "core.h"
+#include <QVector>
+#include <QStringList>
 #include <QString>
 #include <QDir>
 
+#include "api.h"
+#include "core.h"
+
+#include "plugin.h"
+
+
 #define c_engine cllaun::Core::Engine()
 
+/*!
+ * @brief プラグインの拡張子
+ */
 const char* cllaun::Plugin::extension = ".js";
+QStringList cllaun::Plugin::loaded_plugin;
 
 /*!
  * @brief プラグイン機能の初期化
@@ -21,12 +30,13 @@ void cllaun::Plugin::Initialize() {
  * @param name プラグイン名。plugins/（{プラグイン名}/{プラグイン名}.js）
  */
 void cllaun::Plugin::Read(const QString& name) {
-    const QVector<QDir> dirs = Core::PluginDirs();
-    QString fname = name + extension;
-
-    foreach (auto dir, dirs) {
-        if (dir.cd(name) && dir.exists(fname)) {
-            RunScriptFile(dir.filePath(fname));
+    const Dirs dirs = Core::PluginDirs();
+    const QString plugin_dir_path = dirs.DirPath(name);
+    if (!plugin_dir_path.isEmpty()) {
+        QDir plugin_dir(plugin_dir_path);
+        const QString plugin_file_name = name + extension;
+        if (plugin_dir.exists(plugin_file_name)) {
+            Load(plugin_dir.filePath(plugin_file_name));
         }
     }
 }
@@ -35,22 +45,23 @@ void cllaun::Plugin::Read(const QString& name) {
  * @brief すべてのプラグインを読み込む
  */
 void cllaun::Plugin::ReadAll() {
-    const QVector<QDir> dirs = Core::PluginDirs();
+    const Dirs dirs = Core::PluginDirs();
+    QDir::Filters filters = QDir::Dirs|QDir::NoDotAndDotDot;
+    QDir::SortFlags sort_flags = QDir::Name;
 
-    foreach (auto dir, dirs) {
-        QDir::Filters filters = QDir::Dirs|QDir::NoDotAndDotDot;
-        QDir::SortFlags sort_flags = QDir::Name;
-
-        QStringList plugin_dir_list = dir.entryList(filters, sort_flags);
-        foreach (auto plugin_dir_name, plugin_dir_list) {
-            QDir plugin_dir(dir);
-            plugin_dir.cd(plugin_dir_name);
-            QString plugin_file_name = plugin_dir.dirName() + extension;
-            if (plugin_dir.exists(plugin_file_name)) {
-                RunScriptFile(plugin_dir.filePath(plugin_file_name));
-            }
-        }
+    QStringList plugin_dir_list = dirs.EntryList(filters, sort_flags);
+    foreach (QString plugin_dir_path, plugin_dir_list) {
+        QDir plugin_dir(plugin_dir_path);
+        const QString plugin_file_name = plugin_dir.dirName() + extension;
+        if (plugin_dir.exists(plugin_file_name))
+            Load(plugin_dir.filePath(plugin_file_name));
     }
+}
+
+// TODO: comment
+inline void cllaun::Plugin::Load(const QString &path) {
+    RunScriptFile(path);
+    loaded_plugin << path;
 }
 
 #undef c_engine

@@ -1,7 +1,6 @@
 #include <QApplication>
 #include <QFile>
 #include <QMainWindow>
-
 #include <QDebug>
 
 #include "core.h"
@@ -9,6 +8,7 @@
 #include "plugin.h"
 #include "skin.h"
 #include "main_window.h"
+
 #include "api_common.h"
 #include "api_file.h"
 
@@ -32,7 +32,7 @@ int main(int argc, char** argv) {
     cllaun::InitFile();
 
     // read config
-    cllaun::Config::ReadAll();
+    cllaun::Config::Read("default");
     // read plugin
     cllaun::Plugin::Initialize();
     cllaun::Plugin::ReadAll();

@@ -1,8 +1,13 @@
 #pragma once
 
 #include "core.h"
+
 #include <QFile>
 #include <QFileInfo>
+#include <QScriptEngine>
+#include <QScriptContext>
+#include <QScriptValue>
+
 #define c_engine cllaun::Core::Engine()
 
 /*

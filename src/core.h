@@ -1,11 +1,11 @@
 #pragma once
 
-#include <QDir>
-#include <QVector>
 #include <QApplication>
+#include <QVector>
+#include <QDir>
 #include <QScriptEngine>
 
-class QScriptEngine;
+#include "dirs.h"
 
 namespace cllaun {
     class Core {
@@ -13,16 +13,16 @@ namespace cllaun {
         Core(int argc, char **argv);
         ~Core();
         Core* Instance() { return self; }
-        static inline const QVector<QDir>& PluginDirs() { return self->plugin_dirs; }
-        static inline const QVector<QDir>& SkinDirs() { return self->skin_dirs; }
-        static inline const QVector<QDir>& ConfigDirs() { return self->config_dirs; }
+        static inline const Dirs& PluginDirs() { return self->plugin_dirs; }
+        static inline const Dirs& SkinDirs() { return self->skin_dirs; }
+        static inline const Dirs& ConfigDirs() { return self->config_dirs; }
         static inline QApplication* App() { return &(self->app); }
         static inline QScriptEngine* Engine() { return &(self->engine); }
 
     private:
-        QVector<QDir> plugin_dirs;
-        QVector<QDir> skin_dirs;
-        QVector<QDir> config_dirs;
+        Dirs plugin_dirs;
+        Dirs skin_dirs;
+        Dirs config_dirs;
         QApplication app;
         QScriptEngine engine;
 
