@@ -1,6 +1,6 @@
 #include "parser_util.h"
 
-std::vector<QString> ParserUtil::Split(const QString& words)
+std::vector<QString> ParserUtil::Tokenize(const QString& words)
 {
     words;
     std::vector<QString> ret;

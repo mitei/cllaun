@@ -1,5 +1,6 @@
-﻿#ifndef CORE_PARSER_H
-#define CORE_PARSER_H
+﻿#pragma once
+
+#include <vector>
 
 struct Command;
 class QString;
@@ -12,11 +13,11 @@ class Parser
 public:
     /*! パース実行(唯一の公開メソッド) 
      *  @param[in] src パース対象文字列(ランチャに入力される生テキスト)
-     *  @return コマンドオブジェクト
+     *  @return コマンド候補リスト
      *  @note
-     *      単純にユーザの入力テキストを受け取り、Commandオブジェクトを受け取る。
+     *      単純にユーザの入力テキストを受け取り、候補となるCommandリストを返す。
      *      Commandには詳細なエラー情報を保持する能力は無いので、パースエラーが発生した
-     *      場合には、単に無効なコマンドとして表現する。
+     *      場合には、単に空リストを返す。
      *
      *      エラーとして想定しているのは次のようなもの。
      *      - 空文字列
@@ -27,10 +28,8 @@ public:
      *      - 存在しないパス
      *
     */
-    static Command Run(const QString& src);
+    static std::vector<Command> Run(const QString& src);
 private:
     // utilities for parsing
 };
-
-#endif // CORE_PARSER_H
 

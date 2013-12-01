@@ -6,7 +6,7 @@
 class ParserUtil
 {
 public:
-    static std::vector<QString> Split(const QString& words);
+    static std::vector<QString> Tokenize(const QString& words);
 private:
     ParserUtil();
 };

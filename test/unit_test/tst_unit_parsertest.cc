@@ -22,8 +22,8 @@ public:
 private Q_SLOTS:
     void testParsePluginCmd_data();
     void testParsePluginCmd();
-    void testSplitWords_data();
-    void testSplitWords();
+    void testTokenize_data();
+    void testTokenize();
 };
 
 // パース：プラグインコマンド
@@ -57,20 +57,21 @@ void Unit_parserTest::testParsePluginCmd()
     QFETCH(QString             , result_name  );
     QFETCH(std::vector<QString>, result_params);
 
-    const Command result = Parser::Run(target);
+    const std::vector<Command> result = Parser::Run(target);
 
-    QCOMPARE(result.type_, result_type);
-    QCOMPARE(result.name_, result_name);
-    QCOMPARE(result.params_.size(), result_params.size());
-    if (result.params_.size() != result_params.size()) { return; }
+    QCOMPARE(result.size(), (size_t)1);
+    QCOMPARE(result[0].type_, result_type);
+    QCOMPARE(result[0].name_, result_name);
+    QCOMPARE(result[0].params_.size(), result_params.size());
+    if (result[0].params_.size() != result_params.size()) { return; }
     for(size_t i = 0; i < result_params.size(); ++i)
     {
-        QCOMPARE(result.params_[i], result_params[i]);
+        QCOMPARE(result[0].params_[i], result_params[i]);
     }
 }
 
 // 文字列分割
-void Unit_parserTest::testSplitWords_data()
+void Unit_parserTest::testTokenize_data()
 {
     QTest::addColumn<QString>("target" );
     QTest::addColumn<std::vector<QString>>("require");
@@ -84,12 +85,12 @@ void Unit_parserTest::testSplitWords_data()
     const auto res2 = make_vector<QString>("hoge")("fuga")();
     QTest::newRow("simple-multi-elms") << "hoge fuga" << res2;
 }
-void Unit_parserTest::testSplitWords()
+void Unit_parserTest::testTokenize()
 {
     QFETCH(QString, target );
     QFETCH(std::vector<QString>, require);
 
-    const auto result = ParserUtil::Split(target);
+    const auto result = ParserUtil::Tokenize(target);
 
     QCOMPARE(result.size(), require.size());
     if (result.size() != require.size()) { return; }
