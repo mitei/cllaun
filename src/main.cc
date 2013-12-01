@@ -33,11 +33,11 @@ int main(int argc, char** argv) {
 
     // read config
     cllaun::Config::ReadAll();
+    // read plugin
     cllaun::Plugin::Initialize();
     cllaun::Plugin::ReadAll();
     //cllaun::Config::Read("default");
-
-    // QSS の設定。暫定
+    // read skin
     cllaun::Skin::Read("test_skin");
 
     // メインウィンドウ

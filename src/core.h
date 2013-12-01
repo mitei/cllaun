@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QString>
+#include <QDir>
 #include <QVector>
 #include <QApplication>
 #include <QScriptEngine>
@@ -13,19 +13,16 @@ namespace cllaun {
         Core(int argc, char **argv);
         ~Core();
         Core* Instance() { return self; }
-        static inline const QVector<QString>& PluginDirs() { return self->plugin_dirs; }
-        static inline const QVector<QString>& SkinDirs() { return self->skin_dirs; }
-        static inline const QVector<QString>& ConfigDirs() { return self->config_dirs; }
+        static inline const QVector<QDir>& PluginDirs() { return self->plugin_dirs; }
+        static inline const QVector<QDir>& SkinDirs() { return self->skin_dirs; }
+        static inline const QVector<QDir>& ConfigDirs() { return self->config_dirs; }
         static inline QApplication* App() { return &(self->app); }
         static inline QScriptEngine* Engine() { return &(self->engine); }
 
-        static bool AppendPluginDirs(const QString& path);
-        static bool AppendSkinDirs(const QString& path);
-
     private:
-        QVector<QString> plugin_dirs;
-        QVector<QString> skin_dirs;
-        QVector<QString> config_dirs;
+        QVector<QDir> plugin_dirs;
+        QVector<QDir> skin_dirs;
+        QVector<QDir> config_dirs;
         QApplication app;
         QScriptEngine engine;
 

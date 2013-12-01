@@ -38,6 +38,8 @@ HEADERS += \
     src/api_clipboard.h \
     src/api_http.h \
     src/api_socket.h \
+    src/api_plugin.h \
+    src/api_skin.h \
     src/api_window.h \
 
 SOURCES += \
@@ -54,6 +56,8 @@ SOURCES += \
     src/api_clipboard.cc \
     src/api_http.cc \
     src/api_socket.cc \
+    src/api_plugin.cc \
+    src/api_skin.cc \
     src/api_window.cc \
 
 win:SOURCES += src/launcher_win.cc

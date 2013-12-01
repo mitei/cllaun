@@ -13,6 +13,7 @@ public:
     // すべてのプラグインを読み込む
     static void ReadAll();
 private:
+    static const char* extension;
     Plugin();
 };
 
