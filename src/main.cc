@@ -21,7 +21,8 @@ QScriptValue Print(QScriptContext* context, QScriptEngine* engine) {
 }
 
 int main(int argc, char** argv) {
-    cllaun::Core core(argc, argv);
+    QApplication app(argc, argv);
+    cllaun::Core core(&app);
 
     // スクリプトエンジンの初期化
     QScriptEngine* engine = core.Engine();
@@ -46,5 +47,5 @@ int main(int argc, char** argv) {
     mymain_window.move(400, 300);
     mymain_window.show();
 
-    return core.App()->exec();
+    return app.exec();
 }

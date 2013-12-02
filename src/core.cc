@@ -14,7 +14,7 @@ cllaun::Core* cllaun::Core::self = nullptr;
  * @param argc QApplication の初期化に必要。
  * @param argv QApplication の初期化に必要。
  */
-cllaun::Core::Core(int argc, char** argv): app(argc, argv) {
+cllaun::Core::Core(QApplication* _app): app(_app) {
     if (self != nullptr) self->~Core();
     self = this;
 

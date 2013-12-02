@@ -1,5 +1,6 @@
 #include "api.h"
 #include "plugin.h"
+#include "plugin_manager.h"
 
 #include "api_plugin.h"
 

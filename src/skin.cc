@@ -2,6 +2,7 @@
 #include <QString>
 #include <QDir>
 #include <QFile>
+#include <QApplication>
 
 #include "core.h"
 
