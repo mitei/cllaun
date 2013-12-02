@@ -1,5 +1,7 @@
 #pragma once
 
+#include "dirs.h"
+
 class QString;
 
 namespace cllaun {
@@ -7,13 +9,15 @@ namespace cllaun {
 class Config {
 public:
     // 指定された設定ファイルを読み込む
-    static void Read(const QString& conf_name);
-    // すべての設定ファイルを読み込む
-    static void ReadAll();
+    void Read(const QString& conf_name);
+    // TODO: comment
+    inline void AddSearchPath(const QDir& dir) { search_paths << dir; }
+
+public:
     // 設定ファイルの拡張子
     static const char* extension;
 private:
-    Config();
+    Dirs search_paths;
 };
 
 }

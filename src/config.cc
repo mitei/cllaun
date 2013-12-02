@@ -4,7 +4,6 @@
 #include <QDir>
 
 #include "api.h"
-#include "core.h"
 
 #include "config.h"
 
@@ -19,8 +18,7 @@ const char* cllaun::Config::extension = ".cllaun_conf";
  * @param conf_name 設定ファイルの名前（{conf_name}.cllaun_conf）
  */
 void cllaun::Config::Read(const QString& conf_name) {
-    const Dirs dirs = Core::ConfigDirs();
-    QString conf_file_path = dirs.FilePath(conf_name + extension);
+    QString conf_file_path = search_paths.FilePath(conf_name + extension);
     if (!conf_file_path.isEmpty()) {
         RunScriptFile(conf_file_path);
     }

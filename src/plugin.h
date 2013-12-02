@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QStringList>
+#include "dirs.h"
 
 class QString;
 
@@ -8,24 +9,27 @@ namespace cllaun {
 
 class Plugin {
 public:
-    // プラグイン機能の初期化
-    static void Initialize();
+    Plugin();
     // 指定されたプラグインを読み込む
-    static void Read(const QString& name);
+    void Read(const QString& name);
     // すべてのプラグインを読み込む
-    static void ReadAll();
+    void ReadAll();
     // TODO: comment
-    static inline const QStringList& LoadedPlugin() { return loaded_plugin; }
+    inline const QStringList& LoadedPlugin() { return loaded_plugin; }
+    // TODO: comment
+    inline void AddSearchPath(const QDir& dir) { search_paths << dir; }
 
 private:
     // TODO: comment
-    static void Load(const QString& path);
+    void Load(const QString& path);
 
 private:
     // プラグインの拡張子
     static const char* extension;
-    static QStringList loaded_plugin;
-    Plugin();
+    // TODO: comment
+    QStringList loaded_plugin;
+    // TODO: comment
+    Dirs search_paths;
 };
 
 }

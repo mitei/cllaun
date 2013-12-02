@@ -15,12 +15,8 @@
  * @brief プラグインの拡張子
  */
 const char* cllaun::Plugin::extension = ".js";
-QStringList cllaun::Plugin::loaded_plugin;
 
-/*!
- * @brief プラグイン機能の初期化
- */
-void cllaun::Plugin::Initialize() {
+cllaun::Plugin::Plugin() {
     c_engine->globalObject().setProperty("plugin", c_engine->newObject());
 }
 
@@ -30,8 +26,7 @@ void cllaun::Plugin::Initialize() {
  * @param name プラグイン名。plugins/（{プラグイン名}/{プラグイン名}.js）
  */
 void cllaun::Plugin::Read(const QString& name) {
-    const Dirs dirs = Core::PluginDirs();
-    const QString plugin_dir_path = dirs.DirPath(name);
+    const QString plugin_dir_path = search_paths.DirPath(name);
     if (!plugin_dir_path.isEmpty()) {
         QDir plugin_dir(plugin_dir_path);
         const QString plugin_file_name = name + extension;
@@ -45,11 +40,10 @@ void cllaun::Plugin::Read(const QString& name) {
  * @brief すべてのプラグインを読み込む
  */
 void cllaun::Plugin::ReadAll() {
-    const Dirs dirs = Core::PluginDirs();
     QDir::Filters filters = QDir::Dirs|QDir::NoDotAndDotDot;
     QDir::SortFlags sort_flags = QDir::Name;
 
-    QStringList plugin_dir_list = dirs.EntryList(filters, sort_flags);
+    QStringList plugin_dir_list = search_paths.EntryList(filters, sort_flags);
     foreach (QString plugin_dir_path, plugin_dir_list) {
         QDir plugin_dir(plugin_dir_path);
         const QString plugin_file_name = plugin_dir.dirName() + extension;

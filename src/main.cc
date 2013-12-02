@@ -22,7 +22,7 @@ QScriptValue Print(QScriptContext* context, QScriptEngine* engine) {
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
-    cllaun::Core core(&app);
+    cllaun::Core core;
 
     // スクリプトエンジンの初期化
     QScriptEngine* engine = core.Engine();
@@ -32,14 +32,25 @@ int main(int argc, char** argv) {
     cllaun::InitCommon();
     cllaun::InitFile();
 
+    // Init Config
+    cllaun::Config config;
+    config.AddSearchPath(QDir(app.applicationDirPath()));
+    config.AddSearchPath(QDir::home());
+
+    // Init Plugin
+    cllaun::Plugin plugin;
+    plugin.AddSearchPath(QDir(app.applicationDirPath() + QDir::separator() + "plugins"));
+
+    // Init Skin
+    cllaun::Skin skin(&app);
+    skin.AddSearchPath(QDir(app.applicationDirPath() + QDir::separator() + "skins"));
+
     // read config
-    cllaun::Config::Read("default");
+    config.Read("default");
     // read plugin
-    cllaun::Plugin::Initialize();
-    cllaun::Plugin::ReadAll();
-    //cllaun::Config::Read("default");
+    plugin.ReadAll();
     // read skin
-    cllaun::Skin::Read("test_skin");
+    skin.Read("test_skin");
 
     // メインウィンドウ
     QMainWindow main_window;
