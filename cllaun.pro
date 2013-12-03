@@ -30,9 +30,9 @@ HEADERS += \
     src/skin.h \
     src/plugin.h \
     src/config.h \
+    src/native_plugin.h \
     src/main_window.h \
     src/launcher.h \
-    src/plugin_manager.h \
     src/api.h \
     src/api_common.h \
     src/api_file.h \
@@ -41,7 +41,7 @@ HEADERS += \
     src/api_socket.h \
     src/api_plugin.h \
     src/api_skin.h \
-    src/api_window.h \
+    src/api_window.h
 
 SOURCES += \
     src/main.cc \
@@ -50,9 +50,9 @@ SOURCES += \
     src/skin.cc \
     src/plugin.cc \
     src/config.cc \
+    src/native_plugin.cc \
     src/main_window.cc \
     src/launcher.cc \
-    src/plugin_manager.cc \
     src/api_common.cc \
     src/api_file.cc \
     src/api_clipboard.cc \
@@ -60,7 +60,7 @@ SOURCES += \
     src/api_socket.cc \
     src/api_plugin.cc \
     src/api_skin.cc \
-    src/api_window.cc \
+    src/api_window.cc
 
 win:SOURCES += src/launcher_win.cc
 

@@ -1,9 +1,9 @@
 #include <QLibrary>
 #include <QScriptEngine>
 
-#include "plugin_manager.h"
+#include "native_plugin.h"
 
-cllaun::PluginManager::PluginManager() {
+cllaun::NativePlugin::NativePlugin() {
 }
 
 /*!
@@ -11,7 +11,7 @@ cllaun::PluginManager::PluginManager() {
  *
  * ロードされたすべての DLL をアンロード
  */
-cllaun::PluginManager::~PluginManager() {
+cllaun::NativePlugin::~NativePlugin() {
     for (auto itr = plugins.begin(); itr != plugins.end(); ++itr) {
         Unload(itr);
     }
@@ -24,18 +24,24 @@ cllaun::PluginManager::~PluginManager() {
  *
  * @return 読み込んだ DLL のポインタ
  */
-QLibrary* cllaun::PluginManager::Load(const QString& path) {
+QLibrary* cllaun::NativePlugin::Load(const QString& name) {
     typedef void (*Initializer)(QScriptEngine*);
 
-    QLibrary* lib = new QLibrary(path);
-    if (!lib->load()) return nullptr;
+    QString plugin_dir_path = search_paths.DirPath(name);
+    if (plugin_dir_path.isEmpty())
+        return nullptr;
+
+    QLibrary* lib = new QLibrary(plugin_dir_path);
+    if (!lib->load())
+        return nullptr;
     Initializer initializer = (Initializer)lib->resolve("Initializer");
-    if (initializer == nullptr) return nullptr;
-    plugins.insert(path, lib);
+    if (initializer == nullptr)
+        return nullptr;
+    plugins.insert(name, lib);
     return lib;
 }
 
-void cllaun::PluginManager::Unload(Plugins::iterator itr) {
+void cllaun::NativePlugin::Unload(Plugins::iterator itr) {
     (*itr)->unload();
     delete (*itr);
     plugins.erase(itr);
@@ -48,8 +54,8 @@ void cllaun::PluginManager::Unload(Plugins::iterator itr) {
  *
  * @return アンロードに成功したら true
  */
-bool cllaun::PluginManager::Unload(const QString &path) {
-    Plugins::iterator itr = plugins.find(path);
+bool cllaun::NativePlugin::Unload(const QString& name) {
+    Plugins::iterator itr = plugins.find(name);
     if (itr == plugins.end())
         return false;
     Unload(itr);

@@ -1,4 +1,3 @@
-#include <QVector>
 #include <QStringList>
 #include <QString>
 #include <QDir>

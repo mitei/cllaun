@@ -1,7 +1,4 @@
-#include <QVector>
 #include <QString>
-#include <QStringList>
-#include <QDir>
 
 #include "api.h"
 
