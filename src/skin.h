@@ -12,19 +12,18 @@ public:
     Skin(QApplication* _app);
     // 指定されたスキンを読み込む
     void Read(const QString& name);
-    // TODO: comment
+    // スキンの検索パスを追加する
     void AddSearchPath(const QDir& dir) { search_paths << dir; }
 
 public:
-    // スキン本体の QSS の名前
-    static const char* skin_file_name;
+    static const char* skin_file_name; /*!< スキンファイルの名前 */
 
 private:
     Skin();
 
 private:
-    QApplication* app;
-    Dirs search_paths;
+    QApplication* app; /*!< スタイルシートを適用する対象となる QApplication */
+    Dirs search_paths; /*!< スキン検索ディレクトリ一覧 */
 };
 
 }

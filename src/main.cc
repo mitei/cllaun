@@ -13,13 +13,14 @@
 #include "api_common.h"
 #include "api_file.h"
 
-// for JavaScript-Test
+// <-- テスト用
 QScriptValue Print(QScriptContext* context, QScriptEngine* engine) {
     for (int i = 0; i < context->argumentCount(); i++) {
         qDebug() << context->argument(i).toString();
     }
     return QScriptValue::UndefinedValue;
 }
+// テスト用 -->
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
@@ -28,8 +29,9 @@ int main(int argc, char** argv) {
     // スクリプトエンジンの初期化
     QScriptEngine* engine = core.Engine();
     engine->globalObject().setProperty("global", engine->globalObject());
-    // Test用
+    // <-- テスト用
     engine->globalObject().setProperty("print", engine->newFunction(Print));
+    //  テスト用 -->
     cllaun::InitPlugin();
     cllaun::InitCommon();
     cllaun::InitFile();
@@ -47,11 +49,11 @@ int main(int argc, char** argv) {
     cllaun::Skin skin(&app);
     skin.AddSearchPath(QDir(app.applicationDirPath() + QDir::separator() + "skins"));
 
-    // read config
+    // 設定ファイルの読み込み
     config.Read("default");
-    // read plugin
+    // プラグインの読み込み
     plugin.ReadAll();
-    // read skin
+    // スキンの読み込み
     skin.Read("test_skin");
 
     // メインウィンドウ

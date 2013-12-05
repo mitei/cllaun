@@ -47,7 +47,11 @@ void cllaun::Plugin::ReadAll() {
     }
 }
 
-// TODO: comment
+/*!
+ * @brief 内部用、プラグインを読み込んで、読み込み済みプラグインの一覧に追加
+ *
+ * @param path 実行するスクリプトファイルのパス
+ */
 inline void cllaun::Plugin::Load(const QString &path) {
     RunScriptFile(path);
     loaded_plugin << path;

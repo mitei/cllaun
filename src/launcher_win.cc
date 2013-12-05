@@ -6,6 +6,14 @@
 
 #include "launcher.h"
 
+/*!
+ * @brief Windows 用 `ファイルを開く`
+ *
+ * @param path ファイルまたはディレクトリのパス
+ * @param args 引数文字列
+ *
+ * @return 実行結果
+ */
 int cllaun::Execute(const QString& path, const QString& args) {
     SHELLEXECUTEINFO sh_info;
 

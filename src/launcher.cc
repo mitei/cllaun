@@ -5,6 +5,13 @@
 
 #include "launcher.h"
 
+/*!
+ * @brief コマンドを実行する
+ *
+ * @param command コマンド文字列
+ *
+ * @return 実行結果
+ */
 int cllaun::Run(const QString& command) {
     qDebug() << "cllaun::Run():" << command;
 

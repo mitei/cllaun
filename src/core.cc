@@ -4,7 +4,7 @@
 #include "core.h"
 
 /*!
- * @brief static-member-function から扱うために必要。cllaun::Core のインスタンスへのポインタ
+ * @brief cllaun::Core のインスタンスへのポインタ
  */
 cllaun::Core* cllaun::Core::self = nullptr;
 

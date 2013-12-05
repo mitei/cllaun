@@ -7,12 +7,22 @@
 
 #define c_engine cllaun::Core::Engine()
 
+/*!
+ * @brief ファイルの存在チェック
+ *
+ * @return 存在すれば true, 存在しなければ false
+ */
 static QScriptValue Exists(QScriptContext* context, QScriptEngine* engine) {
     QFile* file = cllaun::GetThis<QFile>(context);
 
     return file->exists() ? QScriptValue(true) : QScriptValue(false);
 }
 
+/*!
+ * @brief File コンストラクタ
+ *
+ * @return 生成した File オブジェクト
+ */
 static QScriptValue New(QScriptContext* context, QScriptEngine* engine) {
     QFile* file = context->argumentCount() >= 1 && context->argument(0).isString() ?
                 new QFile(context->argument(0).toString()) :
@@ -25,6 +35,9 @@ static QScriptValue New(QScriptContext* context, QScriptEngine* engine) {
     return file_obj;
 }
 
+/*!
+ * @brief File 関連 API の初期化
+ */
 void cllaun::InitFile() {
     QScriptValue file_class = c_engine->newFunction(New);
     QScriptValue proto = c_engine->newObject();

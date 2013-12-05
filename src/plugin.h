@@ -13,22 +13,19 @@ public:
     void Read(const QString& name);
     // すべてのプラグインを読み込む
     void ReadAll();
-    // TODO: comment
+    // 読み込み済みプラグインの一覧
     inline const QStringList& LoadedPlugin() { return loaded_plugin; }
-    // TODO: comment
+    // プラグインを検索するディレクトリを追加
     inline void AddSearchPath(const QDir& dir) { search_paths << dir; }
 
 private:
-    // TODO: comment
+    // 内部用、プラグイン読み込み
     void Load(const QString& path);
 
 private:
-    // プラグインの拡張子
-    static const char* extension;
-    // TODO: comment
-    QStringList loaded_plugin;
-    // TODO: comment
-    Dirs search_paths;
+    static const char* extension;   /*!< プラグインの拡張子 */
+    QStringList loaded_plugin;      /*!< 読み込み済みのプラグイン一覧 */
+    Dirs search_paths;              /*!< プラグイン検索ディレクトリの一覧 */
 };
 
 }
