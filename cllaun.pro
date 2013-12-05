@@ -18,9 +18,10 @@ TEMPLATE = app
 TARGET = cllaun$${suffix}
 DESTDIR = build/bin
 
-QT += core gui widgets qml script
+QT += core gui widgets script
 
 unix:QMAKE_CXXFLAGS += "-std=c++11"
+
 INCLUDEPATH += src
 
 # Input

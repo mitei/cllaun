@@ -9,6 +9,7 @@
 #include "skin.h"
 #include "main_window.h"
 
+#include "api_plugin.h"
 #include "api_common.h"
 #include "api_file.h"
 
@@ -29,6 +30,7 @@ int main(int argc, char** argv) {
     engine->globalObject().setProperty("global", engine->globalObject());
     // Test用
     engine->globalObject().setProperty("print", engine->newFunction(Print));
+    cllaun::InitPlugin();
     cllaun::InitCommon();
     cllaun::InitFile();
 

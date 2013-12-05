@@ -9,7 +9,6 @@ namespace cllaun {
 
 class Plugin {
 public:
-    Plugin();
     // 指定されたプラグインを読み込む
     void Read(const QString& name);
     // すべてのプラグインを読み込む

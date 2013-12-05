@@ -15,10 +15,6 @@
  */
 const char* cllaun::Plugin::extension = ".js";
 
-cllaun::Plugin::Plugin() {
-    c_engine->globalObject().setProperty("plugin", c_engine->newObject());
-}
-
 /*!
  * @brief 指定されたプラグインを読み込む
  *
