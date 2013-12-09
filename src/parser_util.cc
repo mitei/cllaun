@@ -1,10 +1,17 @@
-#include "parser_util.h"
+﻿#include "parser_util.h"
 
-std::vector<QString> ParserUtil::Tokenize(const QString& words)
+std::vector<QString> ParserUtil::Tokenize(const QString& src)
 {
-    words;
+    QString tmpSrc = src;
+    const QStringList wordsList = tmpSrc.split( QRegExp(" (?=[^\"]*(\"[^\"]*\"[^\"]*)*$)") );
     std::vector<QString> ret;
-    ret.push_back("hoge");
-    ret.push_back("fuga");
+    const QRegExp regexHasNotSpace("\\S+");
+    foreach (const auto& word, wordsList)
+    {
+        if (word.isEmpty()) {
+            continue; //連続空白があると空文字が混ざるので除去
+        }
+        ret.push_back(word);
+    }
     return ret;
 }

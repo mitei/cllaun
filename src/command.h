@@ -1,5 +1,4 @@
-﻿#ifndef CORE_COMMAND_H
-#define CORE_COMMAND_H
+﻿#pragma once
 
 #include <vector>
 #include <QString>
@@ -22,15 +21,17 @@ public:
     */
     enum Type
     {
-        EXECUTABLE  , /*!< Executable(パスの通った実行可能ファイル) */
-        PLUGIN_CMD  , /*!< プラグインコマンド */
-        PATH        , /*!< ファイル・ディレクトリパス(ファイラ) */
-        ALIAS       , /*!< エイリアス */
-        INVALID       /*!< 無効なコマンド */
+        INVALID     = 0x00, /*!< 無効なコマンド */
+        EXECUTABLE  = 0x01, /*!< Executable(パスの通った実行可能ファイル) */
+        PLUGIN      = 0x02, /*!< プラグインコマンド */
+        PATH        = 0x04, /*!< ファイル・ディレクトリパス(ファイラ) */
+        ALIAS       = 0x08, /*!< エイリアス */
+
+        ANY         = EXECUTABLE | PLUGIN | PATH | ALIAS /*!< 不明 */
     };
 public:
-    Command(Type type, const QString& name, const std::vector<QString>& params)
-        : type_(type), name_(name), params_(params)
+    Command(Type type, const QString& name, const std::vector<QString>& args)
+        : type_(type), name_(name), args_(args)
     {}
     Command(Type type, const QString& name)
         : type_(type), name_(name)
@@ -39,10 +40,8 @@ public:
         : type_(INVALID)
     {}
 public:
-    Type                 type_  ;
-    QString              name_  ; /*!< コマンド名(コロンは含まない)またはパス名 */
-    std::vector<QString> params_; /*!< パラメータ(オプショナル) */
+    Type                 type_;
+    QString              name_; /*!< コマンド名(コロンは含まない)またはパス名 */
+    std::vector<QString> args_; /*!< パラメータ(オプショナル) */
 };
-
-#endif // CORE_COMMAND_H
 

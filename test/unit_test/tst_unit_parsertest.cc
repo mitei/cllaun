@@ -8,6 +8,7 @@
 #include "../../src/parser_util.h"
 
 // テストフレームワークで使うための下準備
+Q_DECLARE_METATYPE(Command)
 Q_DECLARE_METATYPE(Command::Type)
 Q_DECLARE_METATYPE(std::vector<QString>)
 
@@ -20,55 +21,11 @@ public:
     Unit_parserTest() {}
 
 private Q_SLOTS:
-    void testParsePluginCmd_data();
-    void testParsePluginCmd();
     void testTokenize_data();
     void testTokenize();
+    void testParse_data();
+    void testParse();
 };
-
-// パース：プラグインコマンド
-void Unit_parserTest::testParsePluginCmd_data()
-{
-    QTest::addColumn<QString>("target" );
-    QTest::addColumn<Command::Type       >("result_type"  );
-    QTest::addColumn<QString             >("result_name"  );
-    QTest::addColumn<std::vector<QString>>("result_params");
-
-    // 引数なし
-//    std::vector<QString> params1;
-//    QTest::newRow("non-args") << ":hoge"
-//        << Command::PLUGIN_CMD << "hoge" << params1;
-
-    // 引数１個
-//    std::vector<QString> params2;
-//    params2.push_back("arg1");
-//    QTest::newRow("single-arg") << ":fuga arg1"
-//        << Command::PLUGIN_CMD << "fuga" << params2;
-
-    // 引数が複数個
-    const auto params3 = make_vector<QString>("arg1")("arg2")();
-    QTest::newRow("multi-arg") << ":hoge arg1 arg2"
-        << Command::PLUGIN_CMD << "hoge" << params3;
-}
-void Unit_parserTest::testParsePluginCmd()
-{
-    QFETCH(QString, target );
-    QFETCH(Command::Type       , result_type  );
-    QFETCH(QString             , result_name  );
-    QFETCH(std::vector<QString>, result_params);
-
-    const std::vector<Command> result = Parser::Run(target);
-
-    QCOMPARE(result.size(), (size_t)1);
-    QCOMPARE(result[0].type_, result_type);
-    QCOMPARE(result[0].name_, result_name);
-    QCOMPARE(result[0].params_.size(), result_params.size());
-    if (result[0].params_.size() != result_params.size()) { return; }
-    for(size_t i = 0; i < result_params.size(); ++i)
-    {
-        QCOMPARE(result[0].params_[i], result_params[i]);
-    }
-}
 
 // 文字列分割
 void Unit_parserTest::testTokenize_data()
@@ -77,13 +34,21 @@ void Unit_parserTest::testTokenize_data()
     QTest::addColumn<std::vector<QString>>("require");
 
     // シンプル１要素
-//    std::vector<QString> res1;
-//    res1.push_back("hoge");
-//    QTest::newRow("simple-one-elm") << "hoge" << res1;
+    std::vector<QString> resSimple;
+    resSimple.push_back("hoge");
+    QTest::newRow("シンプル１要素") << "hoge" << resSimple;
 
     // シンプル複数要素
-    const auto res2 = make_vector<QString>("hoge")("fuga")();
-    QTest::newRow("simple-multi-elms") << "hoge fuga" << res2;
+    const auto resMultiElem = make_vector<QString>("hoge")("fuga")();
+    QTest::newRow("シンプル複数要素") << "hoge fuga" << resMultiElem;
+
+    // 連続空白
+    const auto resMultiSpace = make_vector<QString>("hoge")("fuga")();
+    QTest::newRow("連続空白") << "hoge     fuga" << resMultiSpace;
+
+    // ダブルクォーテーション中のスペース
+    const auto resDoubleQuote = make_vector<QString>("hoge")("\"fuga hogera\"")();
+    QTest::newRow("ダブルクォーテーション中のスペース") << "hoge \"fuga hogera\"" << resDoubleQuote;
 }
 void Unit_parserTest::testTokenize()
 {
@@ -97,6 +62,99 @@ void Unit_parserTest::testTokenize()
     for(size_t i = 0; i < result.size(); ++i)
     {
         QCOMPARE(result[i], require[i]);
+    }
+}
+
+// パース
+void Unit_parserTest::testParse_data()
+{
+    QTest::addColumn<QString>("target" );
+    QTest::addColumn<Command>("expect"  );
+
+    //-----------------------------
+    // プラグインコマンド
+    //-----------------------------
+    {
+        const std::vector<QString> args;
+        QTest::newRow("プラグイン：引数なし") << ":hoge" << Command(Command::PLUGIN, "hoge", args);
+    }
+    {
+        const std::vector<QString> args = make_vector<QString>("arg1")();
+        QTest::newRow("プラグイン：引数1個") << ":fuga arg1" << Command(Command::PLUGIN, "fuga", args);
+    }
+    {
+        const std::vector<QString> args = make_vector<QString>("arg1")("arg2")();
+        QTest::newRow("プラグイン：引数が複数個") << ":hoge arg1 arg2" << Command(Command::PLUGIN, "hoge", args);
+    }
+
+    //-----------------------------
+    // パス(コロン付き)
+    //-----------------------------
+    {
+        const std::vector<QString> args;
+        QTest::newRow("パス(コロン付き)：引数なし") << "D:/mydir" << Command(Command::PATH, "D:/mydir", args);
+    }
+    {
+        const auto args = make_vector<QString>("arg1")("arg2")();
+        QTest::newRow("パス(コロン付き)：引数があり") << "D:/mydir arg1 arg2" << Command(Command::PATH, "D:/mydir", args);
+    }
+
+    //-----------------------------
+    // パス(ダブルクォート)
+    //-----------------------------
+    {
+        const std::vector<QString> args;
+        QTest::newRow("パス(ダブルクォート)：引数なし") << "\"file_on_cd\"" << Command(Command::PATH, "file_on_cd", args);
+    }
+    {
+        const auto args = make_vector<QString>("arg1")("arg2")();
+        QTest::newRow("パス(ダブルクォート)：引数があり") << "\"file_on_cd\" arg1 arg2" << Command(Command::PATH, "file_on_cd", args);
+    }
+
+    //-----------------------------
+    // エイリアス
+    //-----------------------------
+    {
+        const std::vector<QString> args;
+        QTest::newRow("エイリアス：引数なし") << "?hoge" << Command(Command::ALIAS, "hoge", args);
+    }
+    {
+        const std::vector<QString> args = make_vector<QString>("arg1")();
+        QTest::newRow("エイリアス：引数1個") << "?fuga  arg1" << Command(Command::ALIAS, "fuga", args);
+    }
+    {
+        const std::vector<QString> args = make_vector<QString>("arg1")("arg2")();
+        QTest::newRow("エイリアス：引数が複数個") << "?hoge arg1 arg2" << Command(Command::ALIAS, "hoge", args);
+    }
+    
+    //-----------------------------
+    // 特定できない
+    //-----------------------------
+    {
+        const std::vector<QString> args;
+        QTest::newRow("特定できない：引数なし") << "hoge" << Command(Command::ANY, "hoge", args);;
+    }
+    {
+        const std::vector<QString> args = make_vector<QString>("arg1")("arg2")();
+        QTest::newRow("特定できない：引数あり") << "hoge arg1 arg2" << Command(Command::ANY, "hoge", args);;
+    }
+
+
+}
+
+void Unit_parserTest::testParse()
+{
+    QFETCH(QString, target );
+    QFETCH(Command, expect );
+
+    const Command result = Parser::Run(target);
+
+    QCOMPARE(expect.type_, result.type_);
+    QCOMPARE(expect.name_, result.name_);
+    QCOMPARE(expect.args_.size(), result.args_.size());
+    for (size_t i = 0; i < expect.args_.size(); ++i)
+    {
+        QCOMPARE(expect.args_[i], result.args_[i]);
     }
 }
 

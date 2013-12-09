@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 #include <vector>
+#include "command.h"
 
 struct Command;
 class QString;
@@ -15,9 +16,9 @@ public:
      *  @param[in] src パース対象文字列(ランチャに入力される生テキスト)
      *  @return コマンド候補リスト
      *  @note
-     *      単純にユーザの入力テキストを受け取り、候補となるCommandリストを返す。
+     *      単純にユーザの入力テキストを受け取り、Command候補リストを返す。
      *      Commandには詳細なエラー情報を保持する能力は無いので、パースエラーが発生した
-     *      場合には、単に空リストを返す。
+     *      場合には、単に空のリストを返す。
      *
      *      エラーとして想定しているのは次のようなもの。
      *      - 空文字列
@@ -28,7 +29,7 @@ public:
      *      - 存在しないパス
      *
     */
-    static std::vector<Command> Run(const QString& src);
+    static Command Run(const QString& src);
 private:
     // utilities for parsing
 };
