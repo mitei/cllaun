@@ -13,6 +13,7 @@
 #include "api_common.h"
 #include "api_file.h"
 
+
 // <-- テスト用
 QScriptValue Print(QScriptContext* context, QScriptEngine* engine) {
     for (int i = 0; i < context->argumentCount(); i++) {
@@ -61,6 +62,8 @@ int main(int argc, char** argv) {
     cllaun::MainWindow mymain_window(&main_window);
     mymain_window.move(400, 300);
     mymain_window.show();
+
+    engine->evaluate("print(command_line);");
 
     return app.exec();
 }

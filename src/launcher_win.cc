@@ -1,10 +1,11 @@
+#include "launcher.h"
+
 #include <Windows.h>
 
 #include <QString>
 #include <QDir>
 #include <QFileInfo>
 
-#include "launcher.h"
 
 /*!
  * @brief Windows 用 `ファイルを開く`

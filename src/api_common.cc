@@ -1,10 +1,11 @@
+#include "api_common.h"
+
 #include <stdlib.h>
 
 #include <QCoreApplication>
 
 #include "api.h"
 
-#include "api_common.h"
 
 /*!
  * @brief アプリケーションを終了する

@@ -1,7 +1,8 @@
+#include "native_plugin.h"
+
 #include <QLibrary>
 #include <QScriptEngine>
 
-#include "native_plugin.h"
 
 cllaun::NativePlugin::NativePlugin() {
 }

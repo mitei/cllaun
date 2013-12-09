@@ -1,8 +1,9 @@
+#include "api_plugin.h"
+
 #include "api.h"
 #include "plugin.h"
 #include "native_plugin.h"
 
-#include "api_plugin.h"
 
 /*!
  * @brief 他の JavaScript ファイルを読み込む

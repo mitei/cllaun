@@ -1,8 +1,9 @@
+#include "config.h"
+
 #include <QString>
 
 #include "api.h"
 
-#include "config.h"
 
 /*!
  * @brief 設定ファイルの拡張子

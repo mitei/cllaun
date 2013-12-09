@@ -1,11 +1,11 @@
+#include "plugin.h"
+
 #include <QStringList>
 #include <QString>
 #include <QDir>
 
 #include "api.h"
 #include "core.h"
-
-#include "plugin.h"
 
 
 #define c_engine cllaun::Core::Engine()

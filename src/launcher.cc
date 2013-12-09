@@ -1,9 +1,10 @@
+#include "launcher.h"
+
 #include <QCoreApplication>
 #include <QProcess>
 #include <QString>
 #include <QDebug>
 
-#include "launcher.h"
 
 /*!
  * @brief コマンドを実行する

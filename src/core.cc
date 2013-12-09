@@ -1,7 +1,8 @@
+#include "core.h"
+
 #include <QCoreApplication>
 #include <QDir>
 
-#include "core.h"
 
 /*!
  * @brief cllaun::Core のインスタンスへのポインタ

@@ -1,7 +1,8 @@
+#include "dirs.h"
+
 #include <QString>
 #include <QStringList>
 
-#include "dirs.h"
 
 cllaun::Dirs::Dirs() {
 }

@@ -1,9 +1,10 @@
+#include "skin.h"
+
 #include <QString>
 #include <QDir>
 #include <QFile>
 #include <QApplication>
 
-#include "skin.h"
 
 /*!
  * @brief スキン本体の QSS ファイルの名前
