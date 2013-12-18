@@ -31,7 +31,6 @@ HEADERS += \
     src/skin.h \
     src/plugin.h \
     src/config.h \
-    src/native_plugin.h \
     src/main_window.h \
     src/launcher.h \
     src/api.h \
@@ -40,7 +39,6 @@ HEADERS += \
     src/api_clipboard.h \
     src/api_http.h \
     src/api_socket.h \
-    src/api_plugin.h \
     src/api_skin.h \
     src/api_window.h
 
@@ -51,7 +49,6 @@ SOURCES += \
     src/skin.cc \
     src/plugin.cc \
     src/config.cc \
-    src/native_plugin.cc \
     src/main_window.cc \
     src/launcher.cc \
     src/api_common.cc \
@@ -59,7 +56,6 @@ SOURCES += \
     src/api_clipboard.cc \
     src/api_http.cc \
     src/api_socket.cc \
-    src/api_plugin.cc \
     src/api_skin.cc \
     src/api_window.cc
 

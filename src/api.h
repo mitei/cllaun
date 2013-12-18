@@ -23,7 +23,7 @@ namespace cllaun {
      * @param func   公開したい C++ 関数
      */
     static inline void SetMethod(const char* name,
-                          QScriptEngine::FunctionSignature func) {
+                                 QScriptEngine::FunctionSignature func) {
         c_engine->globalObject().setProperty(name, c_engine->newFunction(func));
     }
 
@@ -36,8 +36,8 @@ namespace cllaun {
      * @param arg    func に渡す引数
      */
     static inline void SetMethod(const char* name,
-                          QScriptEngine::FunctionWithArgSignature func,
-                          void* arg) {
+                                 QScriptEngine::FunctionWithArgSignature func,
+                                 void* arg) {
         c_engine->globalObject().setProperty(name, c_engine->newFunction(func, arg));
     }
 

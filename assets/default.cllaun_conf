@@ -1,1 +1,3 @@
 print("default.cllaun_conf");
+var f = new File();
+print(f);

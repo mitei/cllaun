@@ -9,14 +9,14 @@ namespace cllaun {
 
 class Skin {
 public:
+    static const char* skin_file_name; /*!< スキンファイルの名前 */
+
+public:
     Skin(QApplication* _app);
     // 指定されたスキンを読み込む
     void Read(const QString& name);
     // スキンの検索パスを追加する
     void AddSearchPath(const QDir& dir) { search_paths << dir; }
-
-public:
-    static const char* skin_file_name; /*!< スキンファイルの名前 */
 
 private:
     Skin();
