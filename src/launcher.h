@@ -5,8 +5,8 @@ class QString;
 namespace cllaun {
 
 // コマンドを実行
-int Run(const QString& command);
+int run(const QString& command);
 // ファイルを開く
-int Execute(const QString& path, const QString& args);
+int execute(const QString& path, const QString& args);
 
 }

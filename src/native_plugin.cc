@@ -28,7 +28,7 @@ cllaun::NativePlugin::~NativePlugin() {
 QLibrary* cllaun::NativePlugin::Load(const QString& name) {
     typedef void (*Initializer)(QScriptEngine*);
 
-    QString plugin_dir_path = search_paths.DirPath(name);
+    QString plugin_dir_path = search_paths.dirPath(name);
     if (plugin_dir_path.isEmpty())
         return nullptr;
 

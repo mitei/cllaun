@@ -1,22 +1,27 @@
 #pragma once
 
 #include <QStringList>
+#include <QObject>
 
-class QString;
 class QApplication;
 
 namespace cllaun {
 
-class Skin {
+class Skin : public QObject {
+    Q_OBJECT
+    Q_PROPERTY(QStringList dirs READ dirs WRITE setDirs)
 public:
     static const char* skin_file_name; /*!< スキンファイルの名前 */
 
 public:
-    Skin(QApplication* _app);
+    Skin(QApplication* _app, QObject* parent = nullptr);
     // 指定されたスキンを読み込む
-    void Read(const QString& name);
+    void read(const QString& name);
     // スキンの検索パスを追加する
-    void AddSearchPath(const QString& dir_path) { search_paths << dir_path; }
+    void addSearchPath(const QString& dir_path) { search_paths << dir_path; }
+
+    QStringList& dirs();
+    void setDirs(const QStringList& paths);
 
 private:
     Skin();

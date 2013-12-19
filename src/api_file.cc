@@ -6,14 +6,14 @@
 #include "core.h"
 
 
-#define c_engine cllaun::Core::Engine()
+#define c_engine cllaun::Core::engine()
 
 Q_SCRIPT_DECLARE_QMETAOBJECT(QFile, QObject*)
 
 /*!
  * @brief File 関連 API の初期化
  */
-void cllaun::InitFile() {
+void cllaun::initFile() {
     QScriptValue file_class = c_engine->scriptValueFromQMetaObject<QFile>();
     /*
     QScriptValue file_class = c_engine->newFunction(New);

@@ -13,7 +13,7 @@
  *
  * @return 実行結果
  */
-int cllaun::Run(const QString& command) {
+int cllaun::run(const QString& command) {
     qDebug() << "cllaun::Run():" << command;
 
     if (command == "exit") {

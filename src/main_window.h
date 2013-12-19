@@ -18,7 +18,7 @@ private:
     //QSystemTrayIcon tray_icon;
 
 public slots:
-    void Run();
+    void run();
 };
 
 }

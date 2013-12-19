@@ -15,7 +15,7 @@
  *
  * @return 
  */
-static QScriptValue Exit(QScriptContext* context, QScriptEngine* engine) {
+static QScriptValue exit(QScriptContext* context, QScriptEngine* engine) {
     qint32 exit_code = context->argument(0).toInt32();
 
     // QCoreApplication::exec() を実行中でなければ意味が無い。
@@ -27,7 +27,7 @@ static QScriptValue Exit(QScriptContext* context, QScriptEngine* engine) {
     return QScriptValue::UndefinedValue;
 }
 
-void cllaun::InitCommon() {
-    SetMethod("exit", Exit);
+void cllaun::initCommon() {
+    setMethod("exit", Exit);
 }
 

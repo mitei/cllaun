@@ -11,11 +11,11 @@ class Core {
 public:
     Core();
     ~Core();
-    Core* Instance() { return self; }
-    static inline QScriptEngine* Engine() { return &(self->engine); }
+    Core* insntance() { return self; }
+    static inline QScriptEngine* engine() { return &(self->_engine); }
 
 private:
-    QScriptEngine engine;
+    QScriptEngine _engine;
 
 private:
     Core(const Core&);

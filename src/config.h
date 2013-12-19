@@ -6,14 +6,15 @@
 namespace cllaun {
 
 class Config : public QObject{
+    Q_OBJECT
 public:
-    Config(QObject* parent = 0);
+    Config(QObject* parent = nullptr);
 
 public slots:
     // 指定された設定ファイルを読み込む
-    void Read(const QString& conf_name);
+    void read(const QString& conf_name);
     //TODO: comment
-    void AddSearchPath(const QString& dir_path);
+    void addSearchPath(const QString& dir_path);
 
 private:
     static const char* extension;

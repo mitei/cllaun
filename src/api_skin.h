@@ -2,6 +2,6 @@
 
 namespace cllaun {
 
-void InitSkin();
+void initSkin();
 
 }

@@ -28,14 +28,14 @@ cllaun::MainWindow::MainWindow(QWidget* parent)
     this->setLayout(&layout);
 
     connect(&command_line, SIGNAL(returnPressed()),
-            this, SLOT(Run()));
+            this, SLOT(run()));
 }
 
 /*!
  * @brief 入力されたコマンドを実行
  */
-void cllaun::MainWindow::Run() {
+void cllaun::MainWindow::run() {
     QString command = command_line.text();
     if (command == "") /* Error! */ return;
-    cllaun::Run(command);
+    cllaun::run(command);
 }

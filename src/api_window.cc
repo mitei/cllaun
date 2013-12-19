@@ -6,5 +6,5 @@
 /*!
  * @brief Window 関連 API の初期化
  */
-void cllaun::InitWindow() {
+void cllaun::initWindow() {
 }

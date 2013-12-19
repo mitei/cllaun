@@ -2,7 +2,7 @@
 
 namespace cllaun {
 
-void InitClipboard();
+void initClipboard();
 
 }
 

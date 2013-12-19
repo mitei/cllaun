@@ -7,8 +7,8 @@
 #include "core.h"
 
 
-void cllaun::InitClipboard() {
+void cllaun::initClipboard() {
     QClipboard* cb = QApplication::clipboard();
-    QScriptValue cb_obj = cllaun::Core::Engine()->newQObject(cb);
+    QScriptValue cb_obj = cllaun::Core::engine()->newQObject(cb);
 }
 

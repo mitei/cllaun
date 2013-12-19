@@ -13,16 +13,16 @@
  */
 const char* cllaun::Skin::skin_file_name = "style.qss";
 
-cllaun::Skin::Skin(QApplication* _app): app(_app) { }
+cllaun::Skin::Skin(QApplication* _app, QObject* parent): QObject(parent), app(_app) { }
 
 /*!
  * @brief 指定されたスキンを読み込む
  *
  * @param name スキン名
  */
-void cllaun::Skin::Read(const QString& name) {
+void cllaun::Skin::read(const QString& name) {
     const Dirs search_dirs(search_paths);
-    const QString skin_dir_path = search_dirs.DirPath(name);
+    const QString skin_dir_path = search_dirs.dirPath(name);
     if (!skin_dir_path.isEmpty()) {
         QDir skin_dir(skin_dir_path);
         if (skin_dir.exists(skin_file_name)) {
@@ -33,4 +33,12 @@ void cllaun::Skin::Read(const QString& name) {
             app->setStyleSheet(str_style);
         }
     }
+}
+
+QStringList& cllaun::Skin::dirs() {
+    return search_paths;
+}
+
+void cllaun::Skin::setDirs(const QStringList &paths) {
+    search_paths = paths;
 }

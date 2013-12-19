@@ -31,6 +31,6 @@ void cllaun::InitPlugin() {
     QScriptEngine* engine = cllaun::Core::Engine();
     engine->globalObject().setProperty("plugin", engine->newObject());
     */
-    SetMethod("require", Require);
-    SetMethod("include", Include);
+    setMethod("require", Require);
+    setMethod("include", Include);
 }

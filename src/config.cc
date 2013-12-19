@@ -17,14 +17,14 @@ cllaun::Config::Config(QObject *parent) : QObject(parent) {
  *
  * @param conf_name 設定ファイルの名前（{conf_name}.cllaun_conf）
  */
-void cllaun::Config::Read(const QString& conf_name) {
+void cllaun::Config::read(const QString& conf_name) {
     const Dirs search_dirs(search_paths);
-    const QString conf_file_path = search_dirs.FilePath(conf_name + extension);
+    const QString conf_file_path = search_dirs.filePath(conf_name + extension);
     if (!conf_file_path.isEmpty()) {
-        RunScriptFile(conf_file_path);
+        runScriptFile(conf_file_path);
     }
 }
 
-void cllaun::Config::AddSearchPath(const QString& dir_path) {
+void cllaun::Config::addSearchPath(const QString& dir_path) {
     search_paths << dir_path;
 }

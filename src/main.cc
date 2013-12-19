@@ -14,22 +14,22 @@ int main(int argc, char** argv) {
     cllaun::Core core;
 
     // スクリプトエンジンの初期化
-    QScriptEngine* engine = core.Engine();
+    QScriptEngine* engine = core.engine();
     engine->globalObject().setProperty("global", engine->globalObject());
 
     // Init Config
     cllaun::Config config;
-    config.AddSearchPath(app.applicationDirPath());
-    config.AddSearchPath(QDir::homePath());
+    config.addSearchPath(app.applicationDirPath());
+    config.addSearchPath(QDir::homePath());
 
     // Init Skin
     cllaun::Skin skin(&app);
-    skin.AddSearchPath(app.applicationDirPath() + QDir::separator() + "skins");
+    skin.addSearchPath(app.applicationDirPath() + QDir::separator() + "skins");
 
     // 設定ファイルの読み込み
-    config.Read("default");
+    config.read("default");
     // スキンの読み込み
-    skin.Read("test_skin");
+    skin.read("test_skin");
 
     // メインウィンドウ
     QMainWindow main_window;

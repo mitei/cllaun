@@ -8,7 +8,7 @@
 #include <QScriptContext>
 #include <QScriptValue>
 
-#define c_engine cllaun::Core::Engine()
+#define c_engine cllaun::Core::engine()
 
 /*
  * API 公開に便利な関数など
@@ -22,7 +22,7 @@ namespace cllaun {
      * @param name   JavaScript プロパティ名
      * @param func   公開したい C++ 関数
      */
-    static inline void SetMethod(const char* name,
+    static inline void setMethod(const char* name,
                                  QScriptEngine::FunctionSignature func) {
         c_engine->globalObject().setProperty(name, c_engine->newFunction(func));
     }
@@ -35,7 +35,7 @@ namespace cllaun {
      * @param func   公開したい C++ 関数
      * @param arg    func に渡す引数
      */
-    static inline void SetMethod(const char* name,
+    static inline void setMethod(const char* name,
                                  QScriptEngine::FunctionWithArgSignature func,
                                  void* arg) {
         c_engine->globalObject().setProperty(name, c_engine->newFunction(func, arg));
@@ -50,7 +50,7 @@ namespace cllaun {
      * @return        元のオブジェクト
      */
     template <typename T>
-    static inline T* GetThis(QScriptContext* context) {
+    static inline T* getThis(QScriptContext* context) {
         return dynamic_cast<T*>(context->thisObject().toQObject());
     }
 
@@ -59,7 +59,7 @@ namespace cllaun {
      * @param path
      * @return
      */
-    static inline QScriptValue RunScriptFile(const QString& path) {
+    static inline QScriptValue runScriptFile(const QString& path) {
         QFile script_file(path);
         script_file.open(QFile::ReadOnly);
         QString str_script = QString::fromUtf8(script_file.readAll());

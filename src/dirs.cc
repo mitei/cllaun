@@ -20,7 +20,7 @@ cllaun::Dirs::Dirs(const QStringList& _dirs): dirs(_dirs) {
  *
  * @return 存在すれば true, 存在しなければ false
  */
-bool cllaun::Dirs::Exists(const QString& name) const {
+bool cllaun::Dirs::exists(const QString& name) const {
     foreach (const QString& dir_path, dirs) {
         QDir dir(dir_path);
         if (dir.exists(name)) return true;
@@ -39,12 +39,12 @@ bool cllaun::Dirs::Exists(const QString& name) const {
  *
  * @return 最初に見つかったファイルの絶対パスまたは空文字列。
  */
-QString cllaun::Dirs::FilePath(const QString& name) const {
+QString cllaun::Dirs::filePath(const QString& name) const {
     QStringList name_filters(name);
     QDir::Filters filters = QDir::Files|QDir::Hidden;
     QDir::SortFlags sort_flags = QDir::Name;
 
-    QStringList entry_list = EntryList(name_filters, filters, sort_flags);
+    QStringList entry_list = entryList(name_filters, filters, sort_flags);
     return (entry_list.isEmpty() ? QString() : entry_list.at(0) );
 }
 
@@ -59,12 +59,12 @@ QString cllaun::Dirs::FilePath(const QString& name) const {
  *
  * @return 最初に見つかったディレクトリの絶対パスまたは空文字列。
  */
-QString cllaun::Dirs::DirPath(const QString& name) const {
+QString cllaun::Dirs::dirPath(const QString& name) const {
     QStringList name_filters(name);
     QDir::Filters filters = QDir::Dirs|QDir::NoDotAndDotDot;
     QDir::SortFlags sort_flags = QDir::Name;
 
-    QStringList entry_list = EntryList(name_filters, filters, sort_flags);
+    QStringList entry_list = entryList(name_filters, filters, sort_flags);
     return (entry_list.isEmpty() ? QString() : entry_list.at(0) );
 }
 
@@ -79,7 +79,7 @@ QString cllaun::Dirs::DirPath(const QString& name) const {
  *
  * @return 最初に見つかったファイルまたはディレクトリの絶対パスまたは空文字列。
  */
-QString cllaun::Dirs::Path(const QString& name) const {
+QString cllaun::Dirs::path(const QString& name) const {
     foreach (const QString& dir_path, dirs) {
         QDir dir(dir_path);
         if (dir.exists(name))
@@ -97,7 +97,7 @@ QString cllaun::Dirs::Path(const QString& name) const {
  *
  * @return マッチしたエントリのリスト
  */
-QStringList cllaun::Dirs::EntryList(const QStringList& name_filters, QDir::Filters filters, QDir::SortFlags sort) const {
+QStringList cllaun::Dirs::entryList(const QStringList& name_filters, QDir::Filters filters, QDir::SortFlags sort) const {
     QStringList all_entry_list;
     foreach (QDir dir, dirs) {
         // TODO: ディレクトリがソートされていない
@@ -118,7 +118,7 @@ QStringList cllaun::Dirs::EntryList(const QStringList& name_filters, QDir::Filte
  *
  * @return マッチしたエントリのリスト
  */
-QStringList cllaun::Dirs::EntryList(QDir::Filters filters, QDir::SortFlags sort) const {
+QStringList cllaun::Dirs::entryList(QDir::Filters filters, QDir::SortFlags sort) const {
     QStringList all_entry_list;
     foreach (const QString& dir_path, dirs) {
         QDir dir(dir_path);
