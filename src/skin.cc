@@ -5,6 +5,8 @@
 #include <QFile>
 #include <QApplication>
 
+#include "dirs.h"
+
 
 /*!
  * @brief スキン本体の QSS ファイルの名前
@@ -19,7 +21,8 @@ cllaun::Skin::Skin(QApplication* _app): app(_app) { }
  * @param name スキン名
  */
 void cllaun::Skin::Read(const QString& name) {
-    const QString skin_dir_path = search_paths.DirPath(name);
+    const Dirs search_dirs(search_paths);
+    const QString skin_dir_path = search_dirs.DirPath(name);
     if (!skin_dir_path.isEmpty()) {
         QDir skin_dir(skin_dir_path);
         if (skin_dir.exists(skin_file_name)) {

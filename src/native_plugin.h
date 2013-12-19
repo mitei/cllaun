@@ -15,7 +15,7 @@ public:
     ~NativePlugin();
     QLibrary* Load(const QString& name);
     bool Unload(const QString& name);
-    inline void AddSearchPath(const QDir& dir) { search_paths << dir; }
+    inline void AddSearchPath(const QString& dir_path) { search_paths << dir_path; }
 
 private:
     typedef QHash<QString, QLibrary*> Plugins;

@@ -6,6 +6,7 @@
 
 #include "api.h"
 #include "core.h"
+#include "dirs.h"
 
 
 #define c_engine cllaun::Core::Engine()
@@ -21,9 +22,11 @@ const char* cllaun::Plugin::extension = ".js";
  * @param name プラグイン名。plugins/（{プラグイン名}/{プラグイン名}.js）
  */
 void cllaun::Plugin::Read(const QString& name) {
-    const QString plugin_dir_path = search_paths.DirPath(name);
+    const Dirs search_dirs(search_paths);
+
+    const QString plugin_dir_path = search_dirs.DirPath(name);
     if (!plugin_dir_path.isEmpty()) {
-        QDir plugin_dir(plugin_dir_path);
+        const QDir plugin_dir(plugin_dir_path);
         const QString plugin_file_name = name + extension;
         if (plugin_dir.exists(plugin_file_name)) {
             Load(plugin_dir.filePath(plugin_file_name));
@@ -38,9 +41,10 @@ void cllaun::Plugin::ReadAll() {
     QDir::Filters filters = QDir::Dirs|QDir::NoDotAndDotDot;
     QDir::SortFlags sort_flags = QDir::Name;
 
-    QStringList plugin_dir_list = search_paths.EntryList(filters, sort_flags);
+    Dirs search_dirs(search_paths);
+    QStringList plugin_dir_list = search_dirs.EntryList(filters, sort_flags);
     foreach (QString plugin_dir_path, plugin_dir_list) {
-        QDir plugin_dir(plugin_dir_path);
+        const QDir plugin_dir(plugin_dir_path);
         const QString plugin_file_name = plugin_dir.dirName() + extension;
         if (plugin_dir.exists(plugin_file_name))
             Load(plugin_dir.filePath(plugin_file_name));

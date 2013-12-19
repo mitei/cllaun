@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QStringList>
-#include "dirs.h"
 
 class QString;
 
@@ -16,7 +15,7 @@ public:
     // 読み込み済みプラグインの一覧
     inline const QStringList& LoadedPlugin() { return loaded_plugin; }
     // プラグインを検索するディレクトリを追加
-    inline void AddSearchPath(const QDir& dir) { search_paths << dir; }
+    inline void AddSearchPath(const QString& dir_path) { search_paths << dir_path; }
 
 private:
     // 内部用、プラグイン読み込み
@@ -25,7 +24,7 @@ private:
 private:
     static const char* extension;   /*!< プラグインの拡張子 */
     QStringList loaded_plugin;      /*!< 読み込み済みのプラグイン一覧 */
-    Dirs search_paths;              /*!< プラグイン検索ディレクトリの一覧 */
+    QStringList search_paths;              /*!< プラグイン検索ディレクトリの一覧 */
 };
 
 }

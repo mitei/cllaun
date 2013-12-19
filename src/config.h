@@ -1,24 +1,23 @@
 #pragma once
 
-#include "dirs.h"
-
-class QString;
+#include <QObject>
+#include <QStringList>
 
 namespace cllaun {
 
-class Config {
+class Config : public QObject{
 public:
-    // 設定ファイルの拡張子
-    static const char* extension;
+    Config(QObject* parent = 0);
 
-public:
+public slots:
     // 指定された設定ファイルを読み込む
     void Read(const QString& conf_name);
-    // TODO: comment
-    inline void AddSearchPath(const QDir& dir) { search_paths << dir; }
+    //TODO: comment
+    void AddSearchPath(const QString& dir_path);
 
 private:
-    Dirs search_paths;
+    static const char* extension;
+    QStringList search_paths;
 };
 
 }

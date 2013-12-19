@@ -1,7 +1,7 @@
 #include <QApplication>
 #include <QFile>
+#include <QDir>
 #include <QMainWindow>
-#include <QDebug>
 
 #include "core.h"
 #include "config.h"
@@ -19,12 +19,12 @@ int main(int argc, char** argv) {
 
     // Init Config
     cllaun::Config config;
-    config.AddSearchPath(QDir(app.applicationDirPath()));
-    config.AddSearchPath(QDir::home());
+    config.AddSearchPath(app.applicationDirPath());
+    config.AddSearchPath(QDir::homePath());
 
     // Init Skin
     cllaun::Skin skin(&app);
-    skin.AddSearchPath(QDir(app.applicationDirPath() + QDir::separator() + "skins"));
+    skin.AddSearchPath(app.applicationDirPath() + QDir::separator() + "skins");
 
     // 設定ファイルの読み込み
     config.Read("default");

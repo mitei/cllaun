@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QList>
+#include <QStringList>
 #include <QDir>
 
 class QString;
@@ -13,7 +13,7 @@ namespace cllaun {
 class Dirs {
 public:
     Dirs();
-    Dirs(const QList<QDir>& _dirs);
+    Dirs(const QStringList& _dirs);
 
     // ファイルの存在チェック
     bool Exists(const QString& name) const;
@@ -34,11 +34,11 @@ public:
             QDir::SortFlags sort = QDir::NoSort) const;
 
     // ディレクトリの一覧に追加
-    void Append(const QDir& value) { dirs << value; }
+    void Append(const QString& value) { dirs << value; }
     // ディレクトリの一覧に追加
-    Dirs& operator<<(const QDir& value) { dirs << value; return *this; }
+    Dirs& operator<<(const QString& value) { dirs << value; return *this; }
 private:
-    QList<QDir> dirs;
+    QStringList dirs;
 };
 
 }
