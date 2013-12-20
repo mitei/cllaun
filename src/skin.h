@@ -15,13 +15,13 @@ public:
 
 public:
     Skin(QApplication* _app, QObject* parent = nullptr);
-    // 指定されたスキンを読み込む
-    void read(const QString& name);
-    // スキンの検索パスを追加する
-    void addSearchPath(const QString& dir_path) { search_paths << dir_path; }
 
     QStringList& dirs();
     void setDirs(const QStringList& paths);
+
+public slots:
+    // 指定されたスキンを読み込む
+    void read(const QString& name);
 
 private:
     Skin();

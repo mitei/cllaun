@@ -1,3 +1,5 @@
-print("default.cllaun_conf");
-var f = new File();
-print(f);
+print("--- Config: default.cllaun_conf");
+
+skin.read("test_skin");
+
+print("--- /Config: default.cllaun_conf");

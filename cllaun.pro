@@ -29,7 +29,6 @@ HEADERS += \
     src/core.h \
     src/dirs.h \
     src/skin.h \
-    src/plugin.h \
     src/config.h \
     src/main_window.h \
     src/launcher.h \
@@ -47,7 +46,6 @@ SOURCES += \
     src/core.cc \
     src/dirs.cc \
     src/skin.cc \
-    src/plugin.cc \
     src/config.cc \
     src/main_window.cc \
     src/launcher.cc \

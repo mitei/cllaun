@@ -12,6 +12,13 @@ const char* cllaun::Config::extension = ".cllaun_conf";
 cllaun::Config::Config(QObject *parent) : QObject(parent) {
 }
 
+QStringList& cllaun::Config::dirs() {
+    return search_paths;
+}
+void cllaun::Config::setdirs(const QStringList& dirs) {
+    search_paths = dirs;
+}
+
 /*!
  * @brief 指定された設定ファイルを読み込む
  *
@@ -23,8 +30,4 @@ void cllaun::Config::read(const QString& conf_name) {
     if (!conf_file_path.isEmpty()) {
         runScriptFile(conf_file_path);
     }
-}
-
-void cllaun::Config::addSearchPath(const QString& dir_path) {
-    search_paths << dir_path;
 }

@@ -28,6 +28,6 @@ static QScriptValue exit(QScriptContext* context, QScriptEngine* engine) {
 }
 
 void cllaun::initCommon() {
-    setMethod("exit", Exit);
+    setMethod("exit", exit);
 }
 
