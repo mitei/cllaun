@@ -34,6 +34,8 @@ HEADERS += \
     src/launcher.h \
     src/api.h \
     src/api_common.h \
+    src/api_config.h \
+    src/api_skin.h \
     src/api_file.h \
     src/api_clipboard.h \
     src/api_http.h \
@@ -47,6 +49,8 @@ SOURCES += \
     src/dirs.cc \
     src/skin.cc \
     src/config.cc \
+    src/api_config.cc \
+    src/api_skin.cc \
     src/main_window.cc \
     src/launcher.cc \
     src/api_common.cc \
@@ -59,7 +63,7 @@ SOURCES += \
 
 win:SOURCES += src/launcher_win.cc
 
-OTHER_FILES += assets_copy.bat assets_copy.sh assets/default.cllaun_conf
+OTHER_FILES += assets/default.cllaun_conf
 
 # Assets auto copy
 mkpath($$DESTDIR/plugins)

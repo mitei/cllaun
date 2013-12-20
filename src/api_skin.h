@@ -1,7 +1,9 @@
 #pragma once
 
+class QApplication;
+
 namespace cllaun {
 
-void initSkin();
+void initSkin(QApplication* app);
 
 }
