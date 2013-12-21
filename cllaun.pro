@@ -26,7 +26,6 @@ INCLUDEPATH += src
 
 # Input
 HEADERS += \
-    #src/core.h \
     src/dirs.h \
     src/skin.h \
     src/config.h \
@@ -45,7 +44,6 @@ HEADERS += \
 
 SOURCES += \
     src/main.cc \
-    #src/core.cc \
     src/dirs.cc \
     src/skin.cc \
     src/config.cc \
