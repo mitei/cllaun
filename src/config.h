@@ -3,13 +3,16 @@
 #include <QObject>
 #include <QStringList>
 
+class QScriptEngine;
+
 namespace cllaun {
 
 class Config : public QObject{
     Q_OBJECT
     Q_PROPERTY(QStringList dirs READ dirs WRITE setdirs)
+
 public:
-    Config(QObject* parent = nullptr);
+    Config(QScriptEngine* _engine, QObject* parent = nullptr);
 
     QStringList& dirs();
     void setdirs(const QStringList& dirs);
@@ -19,7 +22,9 @@ public slots:
     void read(const QString& conf_name);
 
 private:
+    Config();
     static const char* extension;
+    QScriptEngine* engine;
     QStringList search_paths;
 };
 

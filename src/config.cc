@@ -9,7 +9,8 @@
  */
 const char* cllaun::Config::extension = ".cllaun_conf";
 
-cllaun::Config::Config(QObject *parent) : QObject(parent) {
+cllaun::Config::Config(QScriptEngine* _engine, QObject *parent)
+    : engine(_engine), QObject(parent) {
 }
 
 QStringList& cllaun::Config::dirs() {
@@ -28,6 +29,6 @@ void cllaun::Config::read(const QString& conf_name) {
     const Dirs search_dirs(search_paths);
     const QString conf_file_path = search_dirs.filePath(conf_name + extension);
     if (!conf_file_path.isEmpty()) {
-        runScriptFile(conf_file_path);
+        runScriptFile(engine, conf_file_path);
     }
 }

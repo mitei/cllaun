@@ -1,14 +1,10 @@
 #pragma once
 
-#include "core.h"
-
 #include <QFile>
 #include <QFileInfo>
 #include <QScriptEngine>
 #include <QScriptContext>
 #include <QScriptValue>
-
-#define c_engine cllaun::Core::engine()
 
 /*
  * API 公開に便利な関数など
@@ -22,9 +18,10 @@ namespace cllaun {
      * @param name   JavaScript プロパティ名
      * @param func   公開したい C++ 関数
      */
-    static inline void setMethod(const char* name,
+    static inline void setMethod(QScriptEngine* engine,
+                                 const char* name,
                                  QScriptEngine::FunctionSignature func) {
-        c_engine->globalObject().setProperty(name, c_engine->newFunction(func));
+        engine->globalObject().setProperty(name, engine->newFunction(func));
     }
 
     /*!
@@ -35,10 +32,11 @@ namespace cllaun {
      * @param func   公開したい C++ 関数
      * @param arg    func に渡す引数
      */
-    static inline void setMethod(const char* name,
+    static inline void setMethod(QScriptEngine* engine,
+                                 const char* name,
                                  QScriptEngine::FunctionWithArgSignature func,
                                  void* arg) {
-        c_engine->globalObject().setProperty(name, c_engine->newFunction(func, arg));
+        engine->globalObject().setProperty(name, engine->newFunction(func, arg));
     }
 
     /*!
@@ -59,16 +57,14 @@ namespace cllaun {
      * @param path
      * @return
      */
-    static inline QScriptValue runScriptFile(const QString& path) {
+    static inline QScriptValue runScriptFile(QScriptEngine* engine, const QString& path) {
         QFile script_file(path);
         script_file.open(QFile::ReadOnly);
         QString str_script = QString::fromUtf8(script_file.readAll());
         QFileInfo script_info(script_file);
-        c_engine->pushContext();
-        QScriptValue retv = c_engine->evaluate(str_script, script_info.fileName());
-        c_engine->popContext();
+        engine->pushContext();
+        QScriptValue retv = engine->evaluate(str_script, script_info.fileName());
+        engine->popContext();
         return retv;
     }
 }
-
-#undef c_engine

@@ -1,7 +1,9 @@
 #pragma once
 
+class QScriptEngine;
+
 namespace cllaun {
 
-void initConfig();
+void initConfig(QScriptEngine* engine);
 
 }

@@ -1,9 +1,10 @@
 #pragma once
 
 class QApplication;
+class QScriptEngine;
 
 namespace cllaun {
 
-void initSkin(QApplication* app);
+void initSkin(QScriptEngine* engine, QApplication* app);
 
 }
