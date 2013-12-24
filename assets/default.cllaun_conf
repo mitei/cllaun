@@ -1,5 +1,7 @@
 print("--- Config: default.cllaun_conf");
 
 skin.read("test_skin");
+commandLine.returnPressed.connect(commandLine, function() { if (this.text == 'exit') { exit(); } });
+window.show();
 
 print("--- /Config: default.cllaun_conf");

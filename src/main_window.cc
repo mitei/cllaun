@@ -1,6 +1,7 @@
 #include "main_window.h"
 
 #include <QString>
+#include <QMainWindow>
 
 #include "launcher.h"
 
@@ -14,22 +15,21 @@
  *       Qt::FramelessWindowHint - デフォルトのウィンドウ枠を持たない
  *       Qt::WindowStaysOnTopHint - 常に最前面表示
  */
-cllaun::MainWindow::MainWindow(QWidget* parent)
-        : QWidget(parent, Qt::Dialog|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint),
-          command_line(this)//, tray_icon(this)
+cllaun::MainWindow::MainWindow()
+        : QWidget(nullptr),
+          command_line(this),
+          parent_window(new QMainWindow)
 {
+    setParent(parent_window, Qt::Dialog|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
     setAttribute(Qt::WA_TranslucentBackground, true);
 
-    // QSS で ID 名のように使える
     this->setObjectName("window");
     command_line.setObjectName("command_line");
-
-    layout.addWidget(&command_line);
-    this->setLayout(&layout);
 
     connect(&command_line, SIGNAL(returnPressed()),
             this, SLOT(run()));
 }
+
 
 /*!
  * @brief 入力されたコマンドを実行

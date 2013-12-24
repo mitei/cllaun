@@ -7,7 +7,7 @@
 #include "api.h"
 #include "config.h"
 
-void cllaun::initConfig(QScriptEngine* engine) {
+cllaun::API_Config::API_Config(QScriptEngine* engine) {
     Config* config = new Config(engine);
     config->dirs() << QCoreApplication::applicationDirPath()
                   << QDir::homePath();

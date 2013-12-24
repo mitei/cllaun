@@ -29,7 +29,7 @@ HEADERS += \
     src/dirs.h \
     src/skin.h \
     src/config.h \
-    src/main_window.h \
+    #src/main_window.h \
     src/launcher.h \
     src/api.h \
     #src/api_common.h \
@@ -39,15 +39,14 @@ HEADERS += \
     #src/api_clipboard.h \
     #src/api_http.h \
     #src/api_socket.h \
-    src/api_skin.h \
-    #src/api_window.h
+    src/api_widgets.h
 
 SOURCES += \
     src/main.cc \
     src/dirs.cc \
     src/skin.cc \
     src/config.cc \
-    src/main_window.cc \
+    #src/main_window.cc \
     src/launcher.cc \
     #src/api_common.cc \
     src/api_config.cc \
@@ -56,8 +55,7 @@ SOURCES += \
     #src/api_clipboard.cc \
     #src/api_http.cc \
     #src/api_socket.cc \
-    src/api_skin.cc \
-    #src/api_window.cc
+    src/api_widgets.cc
 
 win:SOURCES += src/launcher_win.cc
 

@@ -1,4 +1,4 @@
-#command_line {
+#commandLine {
     min-width: 389px;/*432*/
     min-height: 45px;/*72*/
     font-size: 18pt;

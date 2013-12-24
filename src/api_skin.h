@@ -5,6 +5,11 @@ class QScriptEngine;
 
 namespace cllaun {
 
-void initSkin(QScriptEngine* engine, QApplication* app);
+class API_Skin {
+public:
+    API_Skin(QScriptEngine* engine, QApplication* app);
+private:
+    API_Skin();
+};
 
 }

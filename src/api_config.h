@@ -4,6 +4,11 @@ class QScriptEngine;
 
 namespace cllaun {
 
-void initConfig(QScriptEngine* engine);
+class API_Config {
+public:
+    API_Config(QScriptEngine* engine);
+private:
+    API_Config();
+};
 
 }
