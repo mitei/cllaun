@@ -32,7 +32,7 @@ HEADERS += \
     #src/main_window.h \
     src/launcher.h \
     src/api.h \
-    #src/api_common.h \
+    src/api_common.h \
     src/api_config.h \
     src/api_skin.h \
     #src/api_file.h \
@@ -48,7 +48,7 @@ SOURCES += \
     src/config.cc \
     #src/main_window.cc \
     src/launcher.cc \
-    #src/api_common.cc \
+    src/api_common.cc \
     src/api_config.cc \
     src/api_skin.cc \
     #src/api_file.cc \

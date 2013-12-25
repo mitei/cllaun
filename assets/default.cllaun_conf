@@ -2,6 +2,9 @@ print("--- Config: default.cllaun_conf");
 
 skin.read("test_skin");
 commandLine.returnPressed.connect(commandLine, function() { if (this.text == 'exit') { exit(); } });
+window.move(300, 300);
 window.show();
-
+for(var p in window) {
+print(p);
+}
 print("--- /Config: default.cllaun_conf");
