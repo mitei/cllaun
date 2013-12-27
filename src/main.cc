@@ -20,7 +20,7 @@ int main(int argc, char** argv) {
 
     // 設定ファイルの読み込み
     engine.evaluate(
-        "config.read('default');"
+        "config.read();"
     );
 
     return app.exec();

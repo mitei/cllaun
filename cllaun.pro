@@ -59,7 +59,8 @@ SOURCES += \
 
 win:SOURCES += src/launcher_win.cc
 
-OTHER_FILES += assets/default.cllaun_conf
+OTHER_FILES += \
+    assets/.cllaun
 
 # Assets auto copy
 mkpath($$DESTDIR/plugins)
@@ -70,10 +71,10 @@ mkpath($$DESTDIR/skins/test_skin)
 win32 {
     QMAKE_POST_LINK += "copy /y $$system_path(assets/skins/test_skin/style.qss) $$system_path($$DESTDIR/skins/test_skin/) &"
     QMAKE_POST_LINK += "copy /y $$system_path(assets/skins/test_skin/launcher_back.png) $$system_path($$DESTDIR/skins/test_skin/) &"
-    QMAKE_POST_LINK += "copy /y $$system_path(assets/default.cllaun_conf) $$system_path($$DESTDIR/) &"
+    QMAKE_POST_LINK += "copy /y $$system_path(assets/.cllaun) $$system_path($$DESTDIR/) &"
 }
 else {
     QMAKE_POST_LINK += "cp -f $$system_path(assets/skins/test_skin/style.qss) $$system_path($$DESTDIR/skins/test_skin/) &"
     QMAKE_POST_LINK += "cp -f $$system_path(assets/skins/test_skin/launcher_back.png) $$system_path($$DESTDIR/skins/test_skin/) &"
-    QMAKE_POST_LINK += "cp -f $$system_path(assets/default.cllaun_conf) $$system_path($$DESTDIR/) &"
+    QMAKE_POST_LINK += "cp -f $$system_path(assets/.cllaun) $$system_path($$DESTDIR/) &"
 }

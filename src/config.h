@@ -19,11 +19,11 @@ public:
 
 public slots:
     // 指定された設定ファイルを読み込む
-    void read(const QString& conf_name);
+    void read();
 
 private:
     Config();
-    static const char* extension;
+    static QStringList file_list;
     QScriptEngine* engine;
     QStringList search_paths;
 };

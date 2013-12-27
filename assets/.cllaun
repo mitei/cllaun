@@ -1,5 +1,8 @@
 print("--- Config: default.cllaun_conf");
 
+print(config.dirs);
+print(skin.dirs);
+
 skin.read("test_skin");
 commandLine.returnPressed.connect(commandLine, function() { if (this.text == 'exit') { exit(); } });
 window.move(300, 300);
