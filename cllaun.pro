@@ -16,7 +16,7 @@ UI_DIR = ui/$${base_dir}
 
 TEMPLATE = app
 TARGET = cllaun$${suffix}
-DESTDIR = build/bin
+DESTDIR = dest/cllaun
 
 QT += core gui widgets script
 
@@ -33,6 +33,7 @@ HEADERS += \
     src/launcher.h \
     src/api.h \
     src/api_common.h \
+    #src/api_module.h \
     src/api_config.h \
     src/api_skin.h \
     #src/api_file.h \
@@ -49,6 +50,7 @@ SOURCES += \
     #src/main_window.cc \
     src/launcher.cc \
     src/api_common.cc \
+    #src/api_module.cc \
     src/api_config.cc \
     src/api_skin.cc \
     #src/api_file.cc \

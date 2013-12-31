@@ -1,8 +1,7 @@
 Makefile*
+dest/
 debug/
 release/
 *.pro.user
 *.bat
-!assets_copy.bat
-build*/
 *.pdb
