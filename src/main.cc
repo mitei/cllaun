@@ -6,6 +6,7 @@
 #include "api_widgets.h"
 #include "api_common.h"
 #include "api_console.h"
+#include "api_parser.h"
 
 
 int main(int argc, char** argv) {
@@ -19,6 +20,7 @@ int main(int argc, char** argv) {
     cllaun::API_Widgets    api_widgets(&engine);
     cllaun::API_Common     api_common(&engine);
     cllaun::API_Console    api_console(&engine);
+    cllaun::API_Parser     api_parser(&engine);
 
     // 設定ファイルの読み込み
     engine.evaluate(

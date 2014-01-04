@@ -12,5 +12,5 @@ cllaun::API_Skin::API_Skin(QScriptEngine *engine, QApplication *app) {
     skin->dirs() << app->applicationDirPath() + "/skins";
 
     QScriptValue skin_obj = engine->newQObject(skin, QScriptEngine::AutoOwnership);
-    engine->globalObject().setProperty("skin", skin_obj);
+    engine->globalObject().setProperty("skin", skin_obj, QScriptValue::Undeletable|QScriptValue::ReadOnly);
 }

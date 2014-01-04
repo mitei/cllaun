@@ -1,9 +1,9 @@
 ﻿#pragma once
 
-#include <vector>
+#include <QStringList>
 #include <QString>
 
-/*! @struct Command
+/*! @class Command
     @brief 
         コマンドを表現するための構造体。
         パーサはユーザの入力したテキストを解析し、この構造体のオブジェクトを返す。
@@ -13,8 +13,15 @@
         - パースの時点では、プラグインコマンドがシステム提供かユーザ提供か
           区別しない。
 */
-struct Command
-{
+
+namespace cllaun {
+
+class Command : public QObject {
+    Q_OBJECT
+    Q_PROPERTY(QString type READ getType)
+    Q_PROPERTY(QString name READ getName)
+    Q_PROPERTY(QStringList args READ getArgs)
+
 public:
     /*! @enum Type
         @brief コマンド種類
@@ -29,19 +36,29 @@ public:
 
         ANY         = EXECUTABLE | PLUGIN | PATH | ALIAS /*!< 不明 */
     };
+
 public:
-    Command(Type type, const QString& name, const std::vector<QString>& args)
-        : type_(type), name_(name), args_(args)
-    {}
-    Command(Type type, const QString& name)
-        : type_(type), name_(name)
-    {}
     Command()
-        : type_(INVALID)
+        : QObject(nullptr), type(INVALID)
     {}
-public:
-    Type                 type_;
-    QString              name_; /*!< コマンド名(コロンは含まない)またはパス名 */
-    std::vector<QString> args_; /*!< パラメータ(オプショナル) */
+    Command(Type _type, const QString& _name)
+        : QObject(nullptr), type(_type), name(_name)
+    {}
+    Command(Type _type, const QString& _name, const QStringList& _args)
+        : QObject(nullptr), type(_type), name(_name), args(_args)
+    {}
+    Command(const Command& rhs)
+        : QObject(nullptr), type(rhs.type), name(rhs.name), args(rhs.args)
+    {}
+
+    const QString getType() const;
+    const QString& getName() const { return name; }
+    const QStringList& getArgs() const { return args; }
+
+private:
+    const Type         type;
+    const QString      name; /*!< コマンド名(コロンは含まない)またはパス名 */
+    const QStringList  args; /*!< パラメータ(オプショナル) */
 };
 
+}

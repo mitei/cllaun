@@ -1,14 +1,16 @@
 ﻿#pragma once
 
-#include <vector>
-#include "command.h"
-
-struct Command;
 class QString;
+class QStringList;
 
-/*! @struct Parser
+/*! @class Parser
     @brief 
 */
+
+namespace cllaun {
+
+class Command;
+
 class Parser
 {
 public:
@@ -29,8 +31,12 @@ public:
      *      - 存在しないパス
      *
     */
-    static Command Run(const QString& src);
+    static Command parse(const QString& src);
+    static QStringList split(QString src);
+
 private:
+    Parser();
     // utilities for parsing
 };
 
+}
