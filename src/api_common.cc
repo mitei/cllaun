@@ -29,9 +29,20 @@ QScriptValue exitFunc(QScriptContext* context, QScriptEngine* engine) {
     return QScriptValue::UndefinedValue;
 }
 
+QScriptValue evalFunc(QScriptContext* context, QScriptEngine* engine) {
+    if (!context->argument(0).isString()) {
+        //TODO: Error
+        context->throwError("Argument Error:");
+    }
+
+    const QString script_str = context->argument(0).toString();
+    return engine->evaluate(script_str);
+}
+
 }
 
 cllaun::API_Common::API_Common(QScriptEngine *engine) {
     setMethod(engine, "exit", exitFunc);
+    setMethod(engine, "eval", evalFunc);
 }
 

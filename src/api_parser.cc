@@ -18,7 +18,7 @@ QScriptValue parserParse(QScriptContext* context, QScriptEngine* engine) {
 
     Command* command = new Command(Parser::parse(context->argument(0).toString()));
 
-    return engine->newQObject(command, QScriptEngine::ScriptOwnership);
+    return engine->newQObject(command, QScriptEngine::AutoOwnership);
 }
 
 QScriptValue parserSplit(QScriptContext* context, QScriptEngine* engine) {
