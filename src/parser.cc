@@ -4,51 +4,82 @@
 #include <QStringList>
 #include <QRegExp>
 
-#include "command.h"
 
-/*! パース実行(唯一の公開メソッド) */
+/* コマンド文字列をトークン単位で取り出す正規表現文字列
+ *   \" :     ダブルクォートで始まり、
+ *   \\\\\" : C++ 文字列のエスケープと正規表現のエスケープでややこしいが、
+ *            入力値としての \"
+ *   | :      または
+ *   [^\"] :  ダブルクォート以外の文字
+ *   * :      の 0回以上の連続
+ *   | :      または
+ *   [^ \"] : 半角スペースとダブルクォート以外の文字
+ *   + :      の 1回以上の連続
+ */
+#define COMMAND_TOKEN_REGEXP "(\"(\\\\\"|[^\"])*\")|([^ \"]+)"
+
+
+/*!
+ * @brief コマンド文字列を受け取り、パース結果を Command オブジェクトとして返す。
+ *
+ * @param src コマンド文字列
+ *
+ * @return パース結果の Command オブジェクト
+ */
 cllaun::Command cllaun::Parser::parse(const QString& src) {
     QStringList tokens = split(src);
     QString name = (tokens.size() > 0) ? tokens.at(0)
                                        : QString("");
-    Command::Type type = Command::INVALID;
-
-    // case INVALID:
-    if (tokens.empty()) {
-        return Command();
-    }
-    // case PLUGIN:
-    if (name.startsWith(":")) {
-        type = Command::PLUGIN;
-        name = name.mid(1);
-    // case PATH:
-    } else if (name.startsWith("\"") && name.endsWith("\"")) {
-        type = Command::PATH;
-        name = name.mid(1,name.length() - 2);
-    } else if (name.indexOf(":") != -1) {
-        type = Command::PATH;
-    // case ALIAS:
-    } else if (name.startsWith("?")) {
-        type = Command::ALIAS;
-        name = name.mid(1);
-    // default:
-    } else {
-        type = Command::ANY;
-    }
-
+    Command::Type type = Parser::type(name);
     tokens.pop_front();
     return Command(type, name, tokens);
 }
 
+/*!
+ * @brief コマンド文字列を受け取り、トークン単位で区切った文字列リストを返す。
+ *
+ * @param src コマンド文字列
+ *
+ * @return トークン単位で区切った文字列リスト
+ */
 QStringList cllaun::Parser::split(QString src) {
     QStringList tokens;
-    QRegExp regex("(\"(\\\\\"|[^\"])*\")|([^ \"]+)");
+    QRegExp regex(COMMAND_TOKEN_REGEXP);
 
     int pos = 0;
     while ((pos = regex.indexIn(src, pos)) != -1) {
-        tokens << regex.cap(0);
+        QString token = regex.cap(0);
+        token.replace("\\\"", "\"");
+        tokens << token;
         pos += regex.matchedLength();
     }
 
     return tokens;
+}
+
+/*!
+ * @brief トークンの Command::Type を返す。
+ *
+ * @param src トークン文字列
+ *
+ * @return 引数のトークンタイプ
+ */
+cllaun::Command::Type cllaun::Parser::type(const QString& src) {
+    // case INVALID:
+    if (src.isEmpty()) {
+        return Command::INVALID;
+    // case PLUGIN:
+    } else if (src.startsWith(":")) {
+        return Command::PLUGIN;
+    // case PATH:
+    } else if ((src.startsWith("\"") && src.endsWith("\"")) ||
+               (src.indexOf(":") != -1)) {
+        return Command::PATH;
+    // case ALIAS:
+    } else if (src.startsWith("?")) {
+        return Command::ALIAS;
+    // default:
+    } else {
+        return Command::ANY;
+    }
 }
