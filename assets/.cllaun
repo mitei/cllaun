@@ -6,6 +6,7 @@ print(skin.dirs);
 
 skin.read("test_skin");
 commandLine.returnPressed.connect(commandLine, function() {
+    this.selectAll();
     var cmd = Parser.parse(this.text);
     print("type: " + cmd.type + "\nname: " + cmd.name);
     print("args:");

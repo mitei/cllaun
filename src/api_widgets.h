@@ -23,10 +23,10 @@ public:
     virtual ~Widget();
     QWidget* getQWidget();
 
-    int getX();         void setX(int x);
-    int getY();         void setY(int y);
-    int getWidth();     void setWidth(int w);
-    int getHeight();    void setHeight(int h);
+    int getX() const;         void setX(int x);
+    int getY() const;         void setY(int y);
+    int getWidth() const;     void setWidth(int w);
+    int getHeight() const;    void setHeight(int h);
 
 public slots:
     void move(int x, int y);
@@ -47,10 +47,13 @@ public:
     LineEdit(QWidget* parent = nullptr);
     virtual ~LineEdit();
 
-    QString getText();  void setText(const QString& text);
+    QString getText() const;  void setText(const QString& text);
 
 signals:
     void returnPressed();
+
+public slots:
+    void selectAll();
 
 private slots:
     void emitReturnPressed();

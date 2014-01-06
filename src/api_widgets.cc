@@ -24,7 +24,7 @@ QWidget* cllaun::Widget::getQWidget() {
     return self;
 }
 
-int cllaun::Widget::getX() {
+int cllaun::Widget::getX() const {
     return self->x();
 }
 
@@ -32,7 +32,7 @@ void cllaun::Widget::setX(int x) {
     self->move(x, self->y());
 }
 
-int cllaun::Widget::getY() {
+int cllaun::Widget::getY() const {
     return self->y();
 }
 
@@ -40,7 +40,7 @@ void cllaun::Widget::setY(int y) {
     self->move(self->x(), y);
 }
 
-int cllaun::Widget::getWidth() {
+int cllaun::Widget::getWidth() const {
     return self->width();
 }
 
@@ -48,7 +48,7 @@ void cllaun::Widget::setWidth(int w) {
     self->resize(w, self->height());
 }
 
-int cllaun::Widget::getHeight() {
+int cllaun::Widget::getHeight() const {
     return self->height();
 }
 
@@ -83,7 +83,7 @@ cllaun::LineEdit::LineEdit(QWidget* parent)
 cllaun::LineEdit::~LineEdit() {
 }
 
-QString cllaun::LineEdit::getText() {
+QString cllaun::LineEdit::getText() const {
     return dynamic_cast<QLineEdit*>(self)->text();
 }
 
@@ -93,6 +93,10 @@ void cllaun::LineEdit::setText(const QString& text) {
 
 void cllaun::LineEdit::emitReturnPressed() {
     emit returnPressed();
+}
+
+void cllaun::LineEdit::selectAll() {
+    dynamic_cast<QLineEdit*>(self)->selectAll();
 }
 
 cllaun::API_Widgets::API_Widgets(QScriptEngine *engine)
