@@ -7,6 +7,7 @@
 #include "api_common.h"
 #include "api_console.h"
 #include "api_parser.h"
+#include "config.h"
 
 
 int main(int argc, char** argv) {
@@ -23,9 +24,7 @@ int main(int argc, char** argv) {
     cllaun::API_Parser     api_parser(&engine);
 
     // 設定ファイルの読み込み
-    engine.evaluate(
-        "config.read();"
-    );
+    api_config.globalConfig()->read();
 
     return app.exec();
 }

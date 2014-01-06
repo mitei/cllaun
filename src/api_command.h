@@ -4,12 +4,11 @@ class QScriptEngine;
 
 namespace cllaun {
 
-class API_Alias {
+class API_Command {
 public:
-    API_Alias(QScriptEngine* engine);
-
+    API_Command(QScriptEngine* engine);
 private:
-    API_Alias();
+    API_Command();
 };
 
 }

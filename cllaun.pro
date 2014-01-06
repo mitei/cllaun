@@ -31,7 +31,6 @@ HEADERS += \
     src/config.h \
     src/command.h \
     src/parser.h \
-    #src/commands.h \
     #src/main_window.h \
     src/launcher.h \
     src/api.h \
@@ -41,8 +40,7 @@ HEADERS += \
     src/api_config.h \
     src/api_skin.h \
     src/api_parser.h \
-    #src/api_commands.h \
-    #src/api_alias.h \
+    src/api_command.h \
     #src/api_file.h \
     #src/api_clipboard.h \
     #src/api_http.h \
@@ -56,7 +54,6 @@ SOURCES += \
     src/config.cc \
     src/command.cc \
     src/parser.cc \
-    #src/commands.cc \
     #src/main_window.cc \
     src/launcher.cc \
     src/api_common.cc \
@@ -65,8 +62,7 @@ SOURCES += \
     src/api_config.cc \
     src/api_skin.cc \
     src/api_parser.cc \
-    #src/api_commands.cc \
-    #src/api_alias.cc \
+    src/api_command.cc \
     #src/api_file.cc \
     #src/api_clipboard.cc \
     #src/api_http.cc \
