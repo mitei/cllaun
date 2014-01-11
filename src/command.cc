@@ -1,6 +1,6 @@
 #include "command.h"
 
-const QString cllaun::Command::getType() const {
+const QString cllaun::Command::getTypeString() const {
     switch (this->type) {
     case INVALID:
         return QString("invalid");

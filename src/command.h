@@ -18,7 +18,7 @@ namespace cllaun {
 
 class Command : public QObject {
     Q_OBJECT
-    Q_PROPERTY(QString type READ getType)
+    Q_PROPERTY(QString type READ getTypeString)
     Q_PROPERTY(QString name READ getName)
     Q_PROPERTY(QStringList args READ getArgs)
 
@@ -51,7 +51,8 @@ public:
         : QObject(nullptr), type(rhs.type), name(rhs.name), args(rhs.args)
     {}
 
-    const QString getType() const;
+    const QString getTypeString() const;
+    const Type getType() const { return type; }
     const QString& getName() const { return name; }
     const QStringList& getArgs() const { return args; }
 

@@ -5,17 +5,30 @@ print(config.dirs);
 print(skin.dirs);
 
 skin.read("test_skin");
+
+launcher.commands['exit'] = function() {
+    exit();
+};
+launcher.commands['eval'] = function(script_str) {
+    eval(script_str);
+};
+
+launcher.aliases['quit'] = ':exit';
+
 commandLine.returnPressed.connect(commandLine, function() {
     this.selectAll();
     var cmd = Parser.parse(this.text);
     print("type: " + cmd.type + "\nname: " + cmd.name);
     print("args:");
     print(cmd.args);
+    launcher.run(cmd);
+    /*
     if (cmd.name == 'exit') {
         exit();
     } else if (cmd.name == 'eval') {
         eval(cmd.args[0]);
     }
+    */
 });
 window.move(300, 300);
 window.show();

@@ -15,7 +15,7 @@
  *
  * @return 実行結果
  */
-int cllaun::execute(const QString& path, const QString& args) {
+int cllaun::Launcher::execute(const QString& path, const QString& args) {
     SHELLEXECUTEINFO sh_info;
 
     /*

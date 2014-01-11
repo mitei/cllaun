@@ -73,7 +73,8 @@ cllaun::Command::Type cllaun::Parser::type(const QString& src) {
         return Command::PLUGIN;
     // case PATH:
     } else if ((src.startsWith("\"") && src.endsWith("\"")) ||
-               (src.indexOf(":") != -1)) {
+               (src.indexOf(":") != -1) ||
+               (src.indexOf("/") != -1)) {
         return Command::PATH;
     // case ALIAS:
     } else if (src.startsWith("?")) {

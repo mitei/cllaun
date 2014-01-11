@@ -23,6 +23,7 @@ QT += core gui widgets script
 unix:QMAKE_CXXFLAGS += "-std=c++11"
 
 INCLUDEPATH += src
+win32:LIBS += shell32.lib
 
 # Input
 HEADERS += \
@@ -40,7 +41,7 @@ HEADERS += \
     src/api_config.h \
     src/api_skin.h \
     src/api_parser.h \
-    src/api_command.h \
+    src/api_launcher.h \
     #src/api_file.h \
     #src/api_clipboard.h \
     #src/api_http.h \
@@ -62,14 +63,14 @@ SOURCES += \
     src/api_config.cc \
     src/api_skin.cc \
     src/api_parser.cc \
-    src/api_command.cc \
+    src/api_launcher.cc \
     #src/api_file.cc \
     #src/api_clipboard.cc \
     #src/api_http.cc \
     #src/api_socket.cc \
     src/api_widgets.cc
 
-win:SOURCES += src/launcher_win.cc
+#win:SOURCES += src/launcher_win.cc
 
 OTHER_FILES += \
     assets/.cllaun

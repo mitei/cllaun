@@ -28,12 +28,7 @@ QScriptValue parserSplit(QScriptContext* context, QScriptEngine* engine) {
         return QScriptValue(QScriptValue::UndefinedValue);
     }
 
-    QStringList tokens = Parser::split(context->argument(0).toString());
-    QScriptValue tokens_array = engine->newArray(tokens.length());
-    for (int i = 0; i < tokens.size(); ++i) {
-        tokens_array.setProperty(i, tokens.at(i));
-    }
-    return tokens_array;
+    return engine->toScriptValue(Parser::split(context->argument(0).toString()));
 }
 
 }
