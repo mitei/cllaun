@@ -2,6 +2,7 @@
 
 #include <QObject>
 #include <QScriptable>
+#include <QStringList>
 
 namespace cllaun {
 

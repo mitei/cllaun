@@ -5,10 +5,12 @@
 #include <QFileInfo>
 #include <QDir>
 #include <QScriptEngine>
+#include <QScriptValueIterator>
 #include <QDebug>
 
 #include "parser.h"
 #include "command.h"
+#include "dirs.h"
 
 #ifdef WIN32
 #include <Windows.h>
@@ -46,6 +48,7 @@ QScriptValue cllaun::Launcher::newQObject(QScriptEngine* engine) {
     QScriptValue launcher_obj = engine->newQObject(new Launcher, QScriptEngine::ScriptOwnership);
     launcher_obj.setProperty("aliases", engine->newObject(), QScriptValue::Undeletable);
     launcher_obj.setProperty("commands", engine->newObject(), QScriptValue::Undeletable);
+    launcher_obj.setProperty("paths", engine->newArray(), QScriptValue::Undeletable);
     return launcher_obj;
 }
 
@@ -79,10 +82,18 @@ int cllaun::Launcher::run(QObject* command_obj) {
     switch(command->getType()) {
     case Command::ANY:
 
-    case Command::EXECUTABLE:
-        // TODO: implement
-        if (command->getType() == Command::EXECUTABLE)
-            return -1;
+    case Command::EXECUTABLE: {
+        QStringList paths = qscriptvalue_cast<QStringList>(context()->thisObject().property("paths"));
+        Dirs dirs(paths);
+        QStringList name_filter;
+        name_filter << (name + ".*");
+        QStringList entry_list = dirs.entryList(name_filter, QDir::Files|QDir::Executable);
+        if (!entry_list.isEmpty()) {
+            return execute(entry_list.at(0), command->getArgs().join(' '));
+        } else if (command->getType() == Command::EXECUTABLE) {
+            return -1; // Error
+        }
+    }
 
     case Command::ALIAS: {
         QScriptValue alias_obj = thisObject().property("aliases").property(name);
@@ -148,15 +159,16 @@ QString cllaun::Launcher::normalize(const Command& command) {
  * @return 実行結果
  */
 int cllaun::Launcher::execute(const QString& path, const QString& args) {
+    qDebug() << "execute:" << path << args;
     SHELLEXECUTEINFO sh_info;
 
+    QFileInfo info(path);
+    if (!info.exists()) return -1; // Error: path not exists.
     /*
      * set directory that contains path-file, as working-directory.
      */
     QDir dir(path);
-    QFileInfo info(path);
-    if (!info.isDir() && info.isFile())
-        dir.cdUp();
+    if (info.isFile()) dir.cdUp();
     QString directory = QDir::toNativeSeparators(dir.absolutePath());
 
     /*

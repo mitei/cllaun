@@ -99,12 +99,12 @@ QString cllaun::Dirs::path(const QString& name) const {
  */
 QStringList cllaun::Dirs::entryList(const QStringList& name_filters, QDir::Filters filters, QDir::SortFlags sort) const {
     QStringList all_entry_list;
-    foreach (QDir dir, dirs) {
+    foreach (const QString& dir_path, dirs) {
+        QDir dir(dir_path);
         // TODO: ディレクトリがソートされていない
         QStringList entry_list =  dir.entryList(name_filters, filters, sort);
-        QString dirpath = dir.absolutePath();
         foreach (const QString& name, entry_list) {
-            all_entry_list << (dirpath + QDir::separator() + name);
+            all_entry_list << (QDir::toNativeSeparators(dir.absolutePath() + '/' + name));
         }
     }
     return all_entry_list;
@@ -125,7 +125,7 @@ QStringList cllaun::Dirs::entryList(QDir::Filters filters, QDir::SortFlags sort)
         // TODO: ディレクトリがソートされていない
         QStringList entry_list =  dir.entryList(filters, sort);
         foreach (const QString& name, entry_list) {
-            all_entry_list << (dir.absolutePath() + QDir::separator() + name);
+            all_entry_list << (QDir::toNativeSeparators(dir.absolutePath() + '/' + name));
         }
     }
     return all_entry_list;
