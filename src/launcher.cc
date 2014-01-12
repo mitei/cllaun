@@ -196,6 +196,14 @@ int cllaun::Launcher::execute(const QString& path, const QString& args) {
 #endif
 
 #ifdef __unix
+/*!
+ * @brief UNIX 用 execute
+ *
+ * @param path ファイルまたはディレクトリのパス
+ * @param args 引数文字列
+ *
+ * @return 実行結果
+ */
 int cllaun::Launcher::execute(cosnt QString& path, const QString& args) {
     return 0;
 }

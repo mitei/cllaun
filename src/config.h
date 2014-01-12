@@ -12,6 +12,7 @@ class Config : public QObject, public QScriptable {
     Q_OBJECT
 
 public:
+    // Config スクリプトオブジェクトを生成
     static QScriptValue newQObject(QScriptEngine* engine);
 
 public slots:

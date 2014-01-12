@@ -11,6 +11,7 @@ class Command;
 class Launcher : public QObject, public QScriptable {
     Q_OBJECT
 public:
+    // Launcher スクリプトオブジェクトを生成
     static QScriptValue newQObject(QScriptEngine* engine);
 
 public slots:

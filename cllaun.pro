@@ -53,7 +53,6 @@ SOURCES += \
     src/dirs.cc \
     src/skin.cc \
     src/config.cc \
-    src/command.cc \
     src/parser.cc \
     #src/main_window.cc \
     src/launcher.cc \

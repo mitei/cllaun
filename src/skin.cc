@@ -14,6 +14,13 @@
  */
 const char* cllaun::Skin::skin_file_name = "style.qss";
 
+/*!
+ * @brief Skin スクリプトオブジェクトの生成
+ *
+ * @param engine   オブジェクトの生成に使用するスクリプトエンジン
+ *
+ * @return 生成した Skin スクリプトオブジェクト
+ */
 QScriptValue cllaun::Skin::newQObject(QScriptEngine* engine, QApplication* _app) {
     QScriptValue skin_obj = engine->newQObject(new Skin(_app), QScriptEngine::ScriptOwnership);
     skin_obj.setProperty("dirs", engine->newArray(), QScriptValue::Undeletable);

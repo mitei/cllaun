@@ -13,6 +13,7 @@ class Skin : public QObject, public QScriptable {
 public:
     static const char* skin_file_name; /*!< スキンファイルの名前 */
 
+    // Skin スクリプトオブジェクトを生成
     static QScriptValue newQObject(QScriptEngine* engine, QApplication* _app);
 
 public slots:

@@ -10,8 +10,7 @@ namespace cllaun {
 /*!
  * @brief パーサ。
  */
-class Parser
-{
+class Parser {
 public:
     // コマンド文字列を受け取り、パースして Command オブジェクトとして返す。
     static Command parse(const QString& src);
@@ -19,10 +18,6 @@ public:
     static QStringList split(QString src);
     // トークンの Command::Type を返す。
     static Command::Type type(const QString& src);
-
-private:
-    Parser();
-    // utilities for parsing
 };
 
 }

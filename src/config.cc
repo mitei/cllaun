@@ -9,12 +9,22 @@
  */
 QStringList cllaun::Config::file_list;
 
+/*!
+ * @brief Config スクリプトオブジェクトの生成
+ *
+ * @param engine   オブジェクトの生成に使用するスクリプトエンジン
+ *
+ * @return 生成した Config スクリプトオブジェクト
+ */
 QScriptValue cllaun::Config::newQObject(QScriptEngine* engine) {
     QScriptValue config_obj = engine->newQObject(new Config, QScriptEngine::ScriptOwnership);
     config_obj.setProperty("dirs", engine->newArray(), QScriptValue::Undeletable);
     return config_obj;
 }
 
+/*!
+ * @brief コンストラクタ
+ */
 cllaun::Config::Config() {
     if (file_list.isEmpty()) {
         file_list << ".cllaun"

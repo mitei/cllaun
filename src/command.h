@@ -3,6 +3,9 @@
 #include <QStringList>
 #include <QString>
 
+class QScriptValue;
+class QScriptEngine;
+
 /*! @class Command
     @brief 
         コマンドを表現するための構造体。
@@ -18,7 +21,7 @@ namespace cllaun {
 
 class Command : public QObject {
     Q_OBJECT
-    Q_PROPERTY(QString type READ getTypeString)
+    Q_PROPERTY(Type type READ getType)
     Q_PROPERTY(QString name READ getName)
     Q_PROPERTY(QStringList args READ getArgs)
 
@@ -39,27 +42,35 @@ public:
 
 public:
     Command()
-        : QObject(nullptr), type(INVALID)
+        : type(INVALID)
     {}
     Command(Type _type, const QString& _name)
-        : QObject(nullptr), type(_type), name(_name)
+        : type(_type), name(_name)
     {}
     Command(Type _type, const QString& _name, const QStringList& _args)
-        : QObject(nullptr), type(_type), name(_name), args(_args)
+        : type(_type), name(_name), args(_args)
     {}
     Command(const Command& rhs)
-        : QObject(nullptr), type(rhs.type), name(rhs.name), args(rhs.args)
+        : type(rhs.type), name(rhs.name), args(rhs.args)
     {}
+    Command& operator=(const Command& rhs) {
+        this->type = rhs.type;
+        this->name = rhs.name;
+        this->args = rhs.args;
+        return *this;
+    }
 
-    const QString getTypeString() const;
+    /*
+     * アクセサ
+     */
     const Type getType() const { return type; }
     const QString& getName() const { return name; }
     const QStringList& getArgs() const { return args; }
 
 private:
-    const Type         type;
-    const QString      name; /*!< コマンド名(コロンは含まない)またはパス名 */
-    const QStringList  args; /*!< パラメータ(オプショナル) */
+    Type         type; /*!< コマンドの種類 */
+    QString      name; /*!< コマンド名(コロンは含まない)またはパス名 */
+    QStringList  args; /*!< パラメータ(オプショナル) */
 };
 
 }
