@@ -18,18 +18,10 @@ launcher.aliases['quit'] = ':exit';
 commandLine.returnPressed.connect(commandLine, function() {
     this.selectAll();
     var cmd = Parser.parse(this.text);
-    print("type: " + cmd.type + "\nname: " + cmd.name);
-    print("args:");
-    print(cmd.args);
     launcher.run(cmd);
-    /*
-    if (cmd.name == 'exit') {
-        exit();
-    } else if (cmd.name == 'eval') {
-        eval(cmd.args[0]);
-    }
-    */
 });
+
 window.move(300, 300);
 window.show();
+
 print("--- /Config: default.cllaun_conf");

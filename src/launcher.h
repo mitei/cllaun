@@ -20,6 +20,8 @@ public slots:
 
 private:
     Launcher() { }
+    // normalize command name
+    QString normalize(const Command& command);
 };
 
 }

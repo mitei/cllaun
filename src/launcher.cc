@@ -14,6 +14,34 @@
 #include <Windows.h>
 #endif
 
+
+namespace {
+
+/*!
+ * @brief QStringList から QScriptValueList への変換
+ *
+ * @param src 変換元の QStringList
+ *
+ * @return 返還後の QScriptValueList
+ */
+QScriptValueList fromStringList(const QStringList& src) {
+    QScriptValueList dest;
+    foreach (const QString str, src) {
+        dest << QScriptValue(str);
+    }
+    return dest;
+}
+
+}
+
+
+/*!
+ * @brief Launcher スクリプトオブジェクトの生成
+ *
+ * @param engine   オブジェクトの生成に使用するスクリプトエンジン
+ *
+ * @return 生成した Launcher スクリプトオブジェクト
+ */
 QScriptValue cllaun::Launcher::newQObject(QScriptEngine* engine) {
     QScriptValue launcher_obj = engine->newQObject(new Launcher, QScriptEngine::ScriptOwnership);
     launcher_obj.setProperty("aliases", engine->newObject(), QScriptValue::Undeletable);
@@ -32,79 +60,81 @@ int cllaun::Launcher::run(QObject* command_obj) {
     using cllaun::Command;
 
     Command* command = qobject_cast<Command*>(command_obj);
+
+    // When argument 0 is not a Command object, throw Error.
     if (command == nullptr) {
-        // TODO: Error
-        context()->throwError("Argument Error:");
+        context()->throwError("Argument Error: argument 0 must be instance of Command.");
+        return -1;
+    }
+    // When Command Type is INVALID, throw Error.
+    if (command->getType() == Command::INVALID) {
+        context()->throwError("Error: Command Type is INVALID.");
         return -1;
     }
 
-    QString name;
-    switch(command->getType()) {
-    case Command::INVALID:
-    case Command::ANY:
-    case Command::EXECUTABLE:
-        name = command->getName();
-        break;
-    case Command::ALIAS:
-    case Command::PLUGIN:
-        name = command->getName().mid(1);
-        break;
-    case Command::PATH:
-        if (command->getName().startsWith('"') &&
-            command->getName().endsWith('"')) {
-            name = command->getName().mid(1, command->getName().size() - 2);
-        } else {
-            name = command->getName();
-        }
-        break;
-    default:
-        name = command->getName();
-    }
+    // get normalized command-name.
+    QString name = normalize(*command);
 
+    // run command.
     switch(command->getType()) {
-    case Command::INVALID:
-        return -1;
-
     case Command::ANY:
 
     case Command::EXECUTABLE:
-        // TODO: implementation
+        // TODO: implement
         if (command->getType() == Command::EXECUTABLE)
             return -1;
 
     case Command::ALIAS: {
-        // TODO: commenting
         QScriptValue alias_obj = thisObject().property("aliases").property(name);
         if (alias_obj.isValid()) {
             QString alias = alias_obj.toString();
             Command new_command = Command(cllaun::Parser::type(alias), alias, command->getArgs());
             return run(&new_command);
         } else if (command->getType() == Command::ALIAS) {
-            // Error
-            return -1;
+            return -1; // Error
         }
     }
 
     case Command::PLUGIN: {
-        // TODO: commenting
-        // TODO: implementation
         QScriptValue command_obj = thisObject().property("commands").property(name);
         if (command_obj.isFunction()) {
-            QScriptValueList args;
-            foreach(QString arg, command->getArgs()) {
-                args << QScriptValue(arg);
-            }
+            QScriptValueList args = fromStringList(command->getArgs());
             command_obj.call(QScriptValue(), args);
         } else if (command->getType() == Command::PLUGIN) {
-            // Error
-            return -1;
+            return -1; // Error
         }
     }
 
     case Command::PATH:
-        // TODO: implementation
+        return execute(name, command->getArgs().join(' '));
+
     default:
         return -1;
+    }
+}
+
+/*!
+ * @brief コマンドタイプに応じてコマンド名を修正して返す
+ *
+ * @param command 正規化するコマンドオブジェクト
+ *
+ * @return 修正後のコマンド名
+ */
+QString cllaun::Launcher::normalize(const Command& command) {
+    switch(command.getType()) {
+    // ALIAS または PLUGIN の場合、接頭辞を取り除く
+    case Command::ALIAS:
+    case Command::PLUGIN:
+        return command.getName().mid(1);
+
+    // PATH かつ、ダブルクォートで囲まれている場合、ダブルクォートを取り除く
+    case Command::PATH:
+        if (command.getName().startsWith('"') &&
+            command.getName().endsWith('"')) {
+            return command.getName().mid(1, command.getName().size() - 2);
+        }
+    default:
+        return command.getName();
     }
 }
 
