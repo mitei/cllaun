@@ -2,22 +2,18 @@
 
 #include <QStringList>
 #include <QObject>
+#include <QScriptable>
 
 class QApplication;
 
 namespace cllaun {
 
-class Skin : public QObject {
+class Skin : public QObject, public QScriptable {
     Q_OBJECT
-    Q_PROPERTY(QStringList dirs READ dirs WRITE setDirs)
 public:
     static const char* skin_file_name; /*!< スキンファイルの名前 */
 
-public:
-    Skin(QApplication* _app, QObject* parent = nullptr);
-
-    QStringList& dirs();
-    void setDirs(const QStringList& paths);
+    static QScriptValue newQObject(QScriptEngine* engine, QApplication* _app);
 
 public slots:
     // 指定されたスキンを読み込む
@@ -25,10 +21,10 @@ public slots:
 
 private:
     Skin();
+    Skin(QApplication* _app);
 
 private:
     QApplication* app; /*!< スタイルシートを適用する対象となる QApplication */
-    QStringList search_paths; /*!< スキン検索ディレクトリ一覧 */
 };
 
 }

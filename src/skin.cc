@@ -4,6 +4,7 @@
 #include <QDir>
 #include <QFile>
 #include <QApplication>
+#include <QScriptEngine>
 
 #include "dirs.h"
 
@@ -13,7 +14,16 @@
  */
 const char* cllaun::Skin::skin_file_name = "style.qss";
 
-cllaun::Skin::Skin(QApplication* _app, QObject* parent): QObject(parent), app(_app) { }
+QScriptValue cllaun::Skin::newQObject(QScriptEngine* engine, QApplication* _app) {
+    QScriptValue skin_obj = engine->newQObject(new Skin(_app), QScriptEngine::ScriptOwnership);
+    skin_obj.setProperty("dirs", engine->newArray(), QScriptValue::Undeletable);
+    return skin_obj;
+}
+
+cllaun::Skin::Skin(QApplication* _app)
+    : app(_app)
+{
+}
 
 /*!
  * @brief 指定されたスキンを読み込む
@@ -21,7 +31,8 @@ cllaun::Skin::Skin(QApplication* _app, QObject* parent): QObject(parent), app(_a
  * @param name スキン名
  */
 void cllaun::Skin::read(const QString& name) {
-    const Dirs search_dirs(search_paths);
+    QStringList dirs = qscriptvalue_cast<QStringList>(thisObject().property("dirs"));
+    const Dirs search_dirs(dirs);
     const QString skin_dir_path = search_dirs.dirPath(name);
     if (!skin_dir_path.isEmpty()) {
         QDir skin_dir(skin_dir_path);
@@ -33,12 +44,4 @@ void cllaun::Skin::read(const QString& name) {
             app->setStyleSheet(str_style);
         }
     }
-}
-
-QStringList& cllaun::Skin::dirs() {
-    return search_paths;
-}
-
-void cllaun::Skin::setDirs(const QStringList &paths) {
-    search_paths = paths;
 }

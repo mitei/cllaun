@@ -9,20 +9,17 @@
  */
 QStringList cllaun::Config::file_list;
 
-cllaun::Config::Config(QScriptEngine* _engine, QObject *parent)
-    : engine(_engine), QObject(parent)
-{
+QScriptValue cllaun::Config::newQObject(QScriptEngine* engine) {
+    QScriptValue config_obj = engine->newQObject(new Config, QScriptEngine::ScriptOwnership);
+    config_obj.setProperty("dirs", engine->newArray(), QScriptValue::Undeletable);
+    return config_obj;
+}
+
+cllaun::Config::Config() {
     if (file_list.isEmpty()) {
         file_list << ".cllaun"
                   << "_cllaun";
     }
-}
-
-QStringList& cllaun::Config::dirs() {
-    return search_paths;
-}
-void cllaun::Config::setdirs(const QStringList& dirs) {
-    search_paths = dirs;
 }
 
 /*!
@@ -31,11 +28,12 @@ void cllaun::Config::setdirs(const QStringList& dirs) {
  * @param conf_name 設定ファイルの名前（{conf_name}.cllaun_conf）
  */
 void cllaun::Config::read() {
-    const Dirs search_dirs(search_paths);
+    QStringList dirs = qscriptvalue_cast<QStringList>(thisObject().property("dirs"));
+    const Dirs search_dirs(dirs);
     foreach (const QString file_name, file_list) {
         const QString conf_file_path = search_dirs.filePath(file_name);
         if (!conf_file_path.isEmpty()) {
-            runScriptFile(engine, conf_file_path);
+            runScriptFile(engine(), conf_file_path);
         }
     }
 

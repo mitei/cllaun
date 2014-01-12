@@ -4,27 +4,22 @@
 #include <QScriptEngine>
 #include <QDir>
 
-#include "api.h"
 #include "config.h"
 
 
 cllaun::Config* cllaun::API_Config::global_config = nullptr;
 
 cllaun::API_Config::API_Config(QScriptEngine* engine) {
-    if (global_config == nullptr) {
-        global_config = new Config(engine);
-        global_config->dirs() << QCoreApplication::applicationDirPath()
-                      << QDir::homePath();
-    }
+    QScriptValue config_obj = Config::newQObject(engine);
+    global_config = qobject_cast<Config*>(config_obj.toQObject());
 
-    QScriptValue config_obj = engine->newQObject(global_config);
-    engine->globalObject().setProperty("config", config_obj,
-                                       QScriptValue::Undeletable|QScriptValue::ReadOnly);
-}
+    QStringList default_dirs;
+    default_dirs << QCoreApplication::applicationDirPath()
+                 << QDir::homePath();
+    config_obj.setProperty("dirs", qScriptValueFromSequence(engine, default_dirs));
 
-cllaun::API_Config::~API_Config() {
-    delete global_config;
-    global_config = nullptr;
+    engine->globalObject().setProperty(
+                "config", config_obj, QScriptValue::Undeletable|QScriptValue::ReadOnly);
 }
 
 cllaun::Config* cllaun::API_Config::globalConfig() {
