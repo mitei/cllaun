@@ -53,12 +53,14 @@ public:
     Command(const Command& rhs)
         : type(rhs.type), name(rhs.name), args(rhs.args)
     {}
+    /*
     Command& operator=(const Command& rhs) {
         this->type = rhs.type;
         this->name = rhs.name;
         this->args = rhs.args;
         return *this;
     }
+    */
 
     /*
      * アクセサ

@@ -30,44 +30,50 @@ HEADERS += \
     src/dirs.h \
     src/skin.h \
     src/config.h \
+    src/shortcut.h \
     src/command.h \
     src/parser.h \
     #src/main_window.h \
     src/launcher.h \
     src/api.h \
-    src/api_common.h \
-    src/api_console.h \
-    #src/api_module.h \
-    src/api_config.h \
-    src/api_skin.h \
-    src/api_parser.h \
-    src/api_launcher.h \
-    #src/api_file.h \
-    #src/api_clipboard.h \
-    #src/api_http.h \
-    #src/api_socket.h \
-    src/api_widgets.h
+    src/api/api_common.h \
+    src/api/api_console.h \
+    #src/api/api_module.h \
+    src/api/api_config.h \
+    src/api/api_skin.h \
+    src/api/api_parser.h \
+    src/api/api_launcher.h \
+    #src/api/api_file.h \
+    #src/api/api_clipboard.h \
+    #src/api/api_http.h \
+    #src/api/api_socket.h \
+    src/api/api_widgets.h \
+    src/widget/widget.h \
+    src/widget/line_edit.h
 
 SOURCES += \
     src/main.cc \
     src/dirs.cc \
     src/skin.cc \
     src/config.cc \
+    src/shortcut.cc \
     src/parser.cc \
     #src/main_window.cc \
     src/launcher.cc \
-    src/api_common.cc \
-    src/api_console.cc \
-    #src/api_module.cc \
-    src/api_config.cc \
-    src/api_skin.cc \
-    src/api_parser.cc \
-    src/api_launcher.cc \
-    #src/api_file.cc \
-    #src/api_clipboard.cc \
-    #src/api_http.cc \
-    #src/api_socket.cc \
-    src/api_widgets.cc
+    src/api/api_common.cc \
+    src/api/api_console.cc \
+    #src/api/api_module.cc \
+    src/api/api_config.cc \
+    src/api/api_skin.cc \
+    src/api/api_parser.cc \
+    src/api/api_launcher.cc \
+    #src/api/api_file.cc \
+    #src/api/api_clipboard.cc \
+    #src/api/api_http.cc \
+    #src/api/api_socket.cc \
+    src/api/api_widgets.cc \
+    src/widget/widget.cc \
+    src/widget/line_edit.cc
 
 #win:SOURCES += src/launcher_win.cc
 

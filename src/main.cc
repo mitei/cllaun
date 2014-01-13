@@ -1,13 +1,13 @@
 #include <QApplication>
 #include <QScriptEngine>
 
-#include "api_config.h"
-#include "api_skin.h"
-#include "api_widgets.h"
-#include "api_common.h"
-#include "api_console.h"
-#include "api_parser.h"
-#include "api_launcher.h"
+#include "api/api_config.h"
+#include "api/api_skin.h"
+#include "api/api_widgets.h"
+#include "api/api_common.h"
+#include "api/api_console.h"
+#include "api/api_parser.h"
+#include "api/api_launcher.h"
 
 
 int main(int argc, char** argv) {
