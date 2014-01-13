@@ -4,60 +4,14 @@
 
 class QScriptEngine;
 class QMainWindow;
-class QWidget;
-class QLineEdit;
-class QString;
 
 namespace cllaun {
 
-class Widget : public QObject {
-    Q_OBJECT
+namespace widget {
+class Widget;
+class LineEdit;
+}
 
-    Q_PROPERTY(int x READ getX WRITE setX)
-    Q_PROPERTY(int y READ getY WRITE setY)
-    Q_PROPERTY(int width READ getWidth WRITE setWidth)
-    Q_PROPERTY(int height READ getHeight WRITE setHeight)
-
-public:
-    Widget(QWidget* _self, QWidget* parent = nullptr);
-    virtual ~Widget();
-    QWidget* getQWidget();
-
-    int getX() const;         void setX(int x);
-    int getY() const;         void setY(int y);
-    int getWidth() const;     void setWidth(int w);
-    int getHeight() const;    void setHeight(int h);
-
-public slots:
-    void move(int x, int y);
-    void resize(int w, int h);
-    void show();
-    void hide();
-
-protected:
-    QWidget* self;
-};
-
-class LineEdit : public Widget {
-    Q_OBJECT
-
-    Q_PROPERTY(QString text READ getText WRITE setText)
-
-public:
-    LineEdit(QWidget* parent = nullptr);
-    virtual ~LineEdit();
-
-    QString getText() const;  void setText(const QString& text);
-
-signals:
-    void returnPressed();
-
-public slots:
-    void selectAll();
-
-private slots:
-    void emitReturnPressed();
-};
 
 class API_Widgets {
 public:
@@ -66,8 +20,8 @@ public:
 
 private:
     QMainWindow* parent_window;
-    Widget* window;
-    LineEdit* command_line;
+    widget::Widget* window;
+    widget::LineEdit* command_line;
 
 private:
     API_Widgets();
