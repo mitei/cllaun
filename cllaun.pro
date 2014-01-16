@@ -30,8 +30,9 @@ HEADERS += \
     src/dirs.h \
     src/skin.h \
     src/config.h \
-    src/shortcut.h \
+    src/shortcut_class.h \
     src/command.h \
+    src/api/api_shortcut.h \
     src/parser.h \
     #src/main_window.h \
     src/launcher.h \
@@ -56,7 +57,7 @@ SOURCES += \
     src/dirs.cc \
     src/skin.cc \
     src/config.cc \
-    src/shortcut.cc \
+    src/shortcut_class.cc \
     src/parser.cc \
     #src/main_window.cc \
     src/launcher.cc \
@@ -65,6 +66,7 @@ SOURCES += \
     #src/api/api_module.cc \
     src/api/api_config.cc \
     src/api/api_skin.cc \
+    src/api/api_shortcut.cc \
     src/api/api_parser.cc \
     src/api/api_launcher.cc \
     #src/api/api_file.cc \

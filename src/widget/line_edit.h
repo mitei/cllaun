@@ -18,6 +18,9 @@ public:
 
     QString getText() const;  void setText(const QString& text);
 
+protected:
+    //bool eventFilter(QObject* obj, QEvent* event);
+
 signals:
     void returnPressed();
 

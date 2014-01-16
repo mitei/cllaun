@@ -111,6 +111,7 @@ int cllaun::Launcher::run(QObject* command_obj) {
         if (command_obj.isFunction()) {
             QScriptValueList args = fromStringList(command->getArgs());
             command_obj.call(QScriptValue(), args);
+            return 0;
         } else if (command->getType() == Command::PLUGIN) {
             return -1; // Error
         }

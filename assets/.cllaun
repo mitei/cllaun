@@ -1,6 +1,10 @@
 print("--- Config: default.cllaun_conf");
 
 skin.read("test_skin");
+commandLine.shortcut = new Shortcut(commandLine);
+commandLine.shortcut['Ctrl+G'] = function() {
+    commandLine.text = "";
+};
 
 launcher.commands['exit'] = function() {
     exit();
