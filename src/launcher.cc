@@ -205,7 +205,7 @@ int cllaun::Launcher::execute(const QString& path, const QString& args) {
  *
  * @return 実行結果
  */
-int cllaun::Launcher::execute(cosnt QString& path, const QString& args) {
+int cllaun::Launcher::execute(const QString& path, const QString& args) {
     return 0;
 }
 #endif
