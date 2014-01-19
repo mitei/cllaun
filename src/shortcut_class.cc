@@ -1,24 +1,81 @@
 #include "shortcut_class.h"
 #include <QScriptEngine>
 #include <QShortcut>
+#include <QDebug>
 #include "widget/widget.h"
 
+Q_DECLARE_METATYPE(QKeySequence)
 
-cllaun::Shortcuts::~Shortcuts() {
+/*
+ * -----
+ * Class Shortcut
+ * -----
+ */
+cllaun::Shortcut::Shortcut(QWidget* parent, const QScriptValue& _callback)
+    : QObject(parent), shortcut(parent), callback(_callback)
+{
+    qScriptConnect(&shortcut, SIGNAL(activated()), QScriptValue(), callback);
 }
 
-void cllaun::Shortcuts::newShortcut(
-        const QString &key, const QScriptValue& callback) {
-    QShortcut* shortcut = new QShortcut(parent);
-    shortcut->setKey(QKeySequence(key));
-    qScriptConnect(shortcut, SIGNAL(activated()) ,QScriptValue(), callback);
+void cllaun::Shortcut::setKey(const QKeySequence& key) {
+    shortcut.setKey(key);
+}
+
+QKeySequence cllaun::Shortcut::getKeySequence() const {
+    return shortcut.key();
+}
+
+const QScriptValue& cllaun::Shortcut::getCallback() const {
+    return callback;
+}
+
+
+/*
+ * -----
+ * Class Shortcuts
+ * -----
+ */
+cllaun::Shortcuts::~Shortcuts() {
+    foreach (Shortcut* s, shortcuts) {
+        delete s;
+    }
+}
+
+void cllaun::Shortcuts::setShortcut(const QKeySequence& key, const QScriptValue& callback) {
+    Shortcut* shortcut = new Shortcut(parent, callback);
+    shortcut->setKey(key);
     shortcuts.push_back(shortcut);
 }
 
+cllaun::Shortcut* cllaun::Shortcuts::getShortcut(const QKeySequence& key) {
+    foreach (Shortcut* s, shortcuts) {
+        if (s->getKeySequence() == key) return s;
+    }
+    return nullptr;
+}
+
+void cllaun::Shortcuts::remove(const QKeySequence& key) {
+    for (auto iter = shortcuts.begin(); iter != shortcuts.end(); ++iter) {
+        Shortcut* s = (*iter);
+        if (s->getKeySequence() == key) {
+            delete s;
+            shortcuts.erase(iter);
+            return;
+        }
+    }
+}
+
+
+/*
+ * -----
+ * Class ShortcutClass
+ * -----
+ */
 
 cllaun::ShortcutClass::ShortcutClass(QScriptEngine* engine)
     : QObject(engine), QScriptClass(engine)
 {
+    qScriptRegisterMetaType(engine, keySequenceToScriptValue, keySequenceFromScriptValue);
 }
 
 QScriptValue::PropertyFlags cllaun::ShortcutClass::propertyFlags(
@@ -27,7 +84,7 @@ QScriptValue::PropertyFlags cllaun::ShortcutClass::propertyFlags(
         uint id)
 {
     QKeySequence key(name.toString());
-    // if `key == ""`, name is invalid key-sequence-string.
+    // if `key == ""`, name is invalid key-sequence string.
     if (key.toString() == "") {
         return QScriptValue::SkipInEnumeration;
     }
@@ -41,7 +98,7 @@ QScriptClass::QueryFlags cllaun::ShortcutClass::queryProperty(
         uint* id)
 {
     QKeySequence key(name.toString());
-    // if `key == ""`, name is invalid key-sequence-string.
+    // if `key == ""`, name is invalid key-sequence string.
     if (key.toString() == "") {
         return 0;
     }
@@ -54,7 +111,13 @@ QScriptValue cllaun::ShortcutClass::property(
         uint id)
 {
     // TODO
-    return QScriptValue();
+    Shortcuts* shortcuts = qobject_cast<Shortcuts*>(object.data().toQObject());
+    Shortcut* shortcut = shortcuts->getShortcut(QKeySequence(name.toString()));
+    if (shortcut == nullptr) {
+        return QScriptValue();
+    } else {
+        return engine()->newQObject(shortcut, QScriptEngine::QtOwnership);
+    }
 }
 
 void cllaun::ShortcutClass::setProperty(
@@ -63,15 +126,22 @@ void cllaun::ShortcutClass::setProperty(
         uint id,
         const QScriptValue& value)
 {
-    if (!value.isFunction()) {
-        object.engine()->currentContext()->throwError(
-                    "Argument Error: Right-hand value must be a function.");
+    if (!value.isNull() && !value.isFunction()) {
+        object.engine()->currentContext()
+                ->throwError("Argument Error: Right-hand value must be a function or null.");
         return;
     }
+
     Shortcuts* shortcuts = qobject_cast<Shortcuts*>(object.data().toQObject());
-    shortcuts->newShortcut(name, value);
+    QKeySequence key(name);
+    if (value.isNull()) {
+        shortcuts->remove(key);
+    } else {
+        shortcuts->setShortcut(key, value);
+    }
 }
 
+/*
 QScriptValue cllaun::ShortcutClass::constructorFunc(
         QScriptContext* context, QScriptEngine* engine, void* cls)
 {
@@ -89,4 +159,17 @@ QScriptValue cllaun::ShortcutClass::constructorFunc(
     QScriptValue instance = engine->newObject(static_cast<ShortcutClass*>(cls), shortcuts_obj);
 
     return instance;
+}
+*/
+
+QScriptValue cllaun::ShortcutClass::keySequenceToScriptValue(
+        QScriptEngine *engine, const QKeySequence &keyseq)
+{
+    return QScriptValue(keyseq.toString());
+}
+
+void cllaun::ShortcutClass::keySequenceFromScriptValue(
+        const QScriptValue &obj, QKeySequence &keyseq)
+{
+    keyseq = QKeySequence(obj.toString());
 }

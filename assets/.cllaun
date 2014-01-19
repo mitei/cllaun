@@ -1,24 +1,25 @@
 print("--- Config: default.cllaun_conf");
 
 skin.read("test_skin");
-commandLine.shortcut = new Shortcut(commandLine);
+
 commandLine.shortcut['Ctrl+G'] = function() {
-    commandLine.text = "";
+    commandLine.text = "Ctrl+G";
+    commandLine.selectAll();
 };
 
-launcher.commands['exit'] = function() {
+Launcher.commands['exit'] = function() {
     exit();
 };
-launcher.commands['eval'] = function(script_str) {
+Launcher.commands['eval'] = function(script_str) {
     eval(script_str);
 };
 
-launcher.aliases['quit'] = ':exit';
+Launcher.aliases['quit'] = ':exit';
 
 commandLine.returnPressed.connect(commandLine, function() {
     this.selectAll();
     var cmd = Parser.parse(this.text);
-    launcher.run(cmd);
+    Launcher.run(cmd);
 });
 
 window.move(300, 300);
