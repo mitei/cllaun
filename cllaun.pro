@@ -3,12 +3,16 @@ CONFIG += debug_and_releae
 CONFIG(debug, debug|release) {
     suffix = _debug
     base_dir = debug
+# Qxt
     win32:LIBS += $$(QXT_DIR)/lib/QxtWidgetsd.lib
+    unix:LIBS += -lQxtWidgetsd
 }
 CONFIG(release, debug|release) {
     suffix = ""
     base_dir = release
+# Qxt
     win32:LIBS += $$(QXT_DIR)/lib/QxtWidgets.lib
+    unix:LIBS += -lQxtWidgets
 }
 
 OBJECTS_DIR = obj/$${base_dir}
@@ -36,6 +40,8 @@ QXT += core gui
 win32:LIBS += \
     #$$(QXT_DIR)/lib/QxtCore.lib \
     $$(QXT_DIR)/lib/QxtWidgetsd.lib
+unix:LIBS += -L$$(QXT_DIR)/lib
+unix:QT += x11extras
 
 # Input
 HEADERS += \
