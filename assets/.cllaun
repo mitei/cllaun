@@ -2,6 +2,8 @@ print("--- Config: default.cllaun_conf");
 
 skin.read("test_skin");
 
+shortcut['Ctrl+Alt+Space'] = window.show;
+
 commandLine.shortcut['Ctrl+G'] = function() {
     commandLine.text = "Ctrl+G";
     commandLine.selectAll();
@@ -18,6 +20,7 @@ Launcher.aliases['quit'] = ':exit';
 
 commandLine.returnPressed.connect(commandLine, function() {
     this.selectAll();
+    window.hide();
     var cmd = Parser.parse(this.text);
     Launcher.run(cmd);
 });

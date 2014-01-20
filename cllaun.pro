@@ -1,12 +1,14 @@
-CONFIG += debug_and_release
+CONFIG += debug_and_releae
 
 CONFIG(debug, debug|release) {
     suffix = _debug
     base_dir = debug
+    win32:LIBS += $$(QXT_DIR)/lib/QxtWidgetsd.lib
 }
 CONFIG(release, debug|release) {
     suffix = ""
     base_dir = release
+    win32:LIBS += $$(QXT_DIR)/lib/QxtWidgets.lib
 }
 
 OBJECTS_DIR = obj/$${base_dir}
@@ -25,16 +27,26 @@ unix:QMAKE_CXXFLAGS += "-std=c++11"
 INCLUDEPATH += src
 win32:LIBS += shell32.lib
 
+# Qxt
+CONFIG += qxt
+INCLUDEPATH += \
+    $$(QXT_DIR)/include \
+    $$(QXT_DIR)/include/QxtCore
+QXT += core gui
+win32:LIBS += \
+    #$$(QXT_DIR)/lib/QxtCore.lib \
+    $$(QXT_DIR)/lib/QxtWidgetsd.lib
+
 # Input
 HEADERS += \
     src/dirs.h \
     src/skin.h \
     src/config.h \
     src/shortcut_class.h \
+    src/global_shortcut_class.h \
     src/command.h \
     src/api/api_shortcut.h \
     src/parser.h \
-    #src/main_window.h \
     src/launcher.h \
     src/api.h \
     src/api/api_common.h \
@@ -58,8 +70,8 @@ SOURCES += \
     src/skin.cc \
     src/config.cc \
     src/shortcut_class.cc \
+    src/global_shortcut_class.cc \
     src/parser.cc \
-    #src/main_window.cc \
     src/launcher.cc \
     src/api/api_common.cc \
     src/api/api_console.cc \

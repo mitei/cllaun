@@ -9,6 +9,7 @@ namespace widget {
 class Widget;
 }
 class ShortcutClass;
+class GlobalShortcutClass;
 
 class API_Shortcut {
 public:
@@ -19,6 +20,7 @@ public:
 
 private:
     static ShortcutClass* shortcut_cls;
+    GlobalShortcutClass* global_shortcut_cls;
     API_Shortcut();
 };
 

@@ -110,7 +110,6 @@ QScriptValue cllaun::ShortcutClass::property(
         const QScriptString& name,
         uint id)
 {
-    // TODO
     Shortcuts* shortcuts = qobject_cast<Shortcuts*>(object.data().toQObject());
     Shortcut* shortcut = shortcuts->getShortcut(QKeySequence(name.toString()));
     if (shortcut == nullptr) {
