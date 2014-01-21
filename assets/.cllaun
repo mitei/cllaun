@@ -1,14 +1,18 @@
 print("--- Config: default.cllaun_conf");
 
+// Skin-api test
 skin.read("test_skin");
 
+// Global-Shortcut-api test
 shortcut['Ctrl+Alt+Space'] = window.show;
 
+// (Widget-)Shortcut-api test
 commandLine.shortcut['Ctrl+G'] = function() {
     commandLine.text = "Ctrl+G";
     commandLine.selectAll();
 };
 
+// Plugin-command test
 Launcher.commands['exit'] = function() {
     exit();
 };
@@ -16,8 +20,10 @@ Launcher.commands['eval'] = function(script_str) {
     eval(script_str);
 };
 
+// Alias-api test
 Launcher.aliases['quit'] = ':exit';
 
+// signal-slot test
 commandLine.returnPressed.connect(commandLine, function() {
     this.selectAll();
     window.hide();
@@ -27,5 +33,8 @@ commandLine.returnPressed.connect(commandLine, function() {
 
 window.move(300, 300);
 window.show();
+
+// Plugin-api test
+plugin.importAll();
 
 print("--- /Config: default.cllaun_conf");

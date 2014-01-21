@@ -48,6 +48,7 @@ HEADERS += \
     src/dirs.h \
     src/skin.h \
     src/config.h \
+    src/plugin.h \
     src/shortcut_class.h \
     src/global_shortcut_class.h \
     src/command.h \
@@ -60,6 +61,7 @@ HEADERS += \
     #src/api/api_module.h \
     src/api/api_config.h \
     src/api/api_skin.h \
+    src/api/api_plugin.h \
     src/api/api_parser.h \
     src/api/api_launcher.h \
     #src/api/api_file.h \
@@ -75,6 +77,7 @@ SOURCES += \
     src/dirs.cc \
     src/skin.cc \
     src/config.cc \
+    src/plugin.cc \
     src/shortcut_class.cc \
     src/global_shortcut_class.cc \
     src/parser.cc \
@@ -84,6 +87,7 @@ SOURCES += \
     #src/api/api_module.cc \
     src/api/api_config.cc \
     src/api/api_skin.cc \
+    src/api/api_plugin.cc \
     src/api/api_shortcut.cc \
     src/api/api_parser.cc \
     src/api/api_launcher.cc \
@@ -102,17 +106,28 @@ OTHER_FILES += \
 
 # Assets auto copy
 mkpath($$DESTDIR/plugins)
-mkpath($$DESTDIR/plugins/cllaun)
+mkpath($$DESTDIR/plugins/script)
 mkpath($$DESTDIR/skins)
+# skin-api test
 mkpath($$DESTDIR/skins/test_skin)
+# plugin-api test
+mkpath($$DESTDIR/plugins/script/foo/bar/baz)
 
 win32 {
     QMAKE_POST_LINK += "copy /y $$system_path(assets/skins/test_skin/style.qss) $$system_path($$DESTDIR/skins/test_skin/) &"
     QMAKE_POST_LINK += "copy /y $$system_path(assets/skins/test_skin/launcher_back.png) $$system_path($$DESTDIR/skins/test_skin/) &"
     QMAKE_POST_LINK += "copy /y $$system_path(assets/.cllaun) $$system_path($$DESTDIR/) &"
+# plugin-api test
+    QMAKE_POST_LINK += "copy /y $$system_path(assets/plugins/script/foo/__init__.js) $$system_path($$DESTDIR/plugins/script/foo/) &"
+    QMAKE_POST_LINK += "copy /y $$system_path(assets/plugins/script/foo/bar/__init__.js) $$system_path($$DESTDIR/plugins/script/foo/bar/) &"
+    QMAKE_POST_LINK += "copy /y $$system_path(assets/plugins/script/foo/bar/baz/__init__.js) $$system_path($$DESTDIR/plugins/script/foo/bar/baz/) &"
 }
 else {
     QMAKE_POST_LINK += "cp -f $$system_path(assets/skins/test_skin/style.qss) $$system_path($$DESTDIR/skins/test_skin/) &"
     QMAKE_POST_LINK += "cp -f $$system_path(assets/skins/test_skin/launcher_back.png) $$system_path($$DESTDIR/skins/test_skin/) &"
     QMAKE_POST_LINK += "cp -f $$system_path(assets/.cllaun) $$system_path($$DESTDIR/) &"
+# plugin-api test
+    QMAKE_POST_LINK += "cp -f $$system_path(assets/plugins/script/foo/__init__.js) $$system_path($$DESTDIR/plugins/script/foo/) &"
+    QMAKE_POST_LINK += "cp -f $$system_path(assets/plugins/script/foo/bar/__init__.js) $$system_path($$DESTDIR/plugins/script/foo/bar/) &"
+    QMAKE_POST_LINK += "cp -f $$system_path(assets/plugins/script/foo/bar/baz/__init__.js) $$system_path($$DESTDIR/plugins/script/foo/bar/baz/) &"
 }
