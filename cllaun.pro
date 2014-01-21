@@ -38,7 +38,6 @@ INCLUDEPATH += \
     $$(QXT_DIR)/include/QxtCore
 QXT += core gui
 win32:LIBS += \
-    #$$(QXT_DIR)/lib/QxtCore.lib \
     $$(QXT_DIR)/lib/QxtWidgetsd.lib
 unix:LIBS += -L$$(QXT_DIR)/lib
 unix:QT += x11extras

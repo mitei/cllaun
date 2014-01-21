@@ -28,10 +28,11 @@
  */
 cllaun::Command cllaun::Parser::parse(const QString& src) {
     QStringList tokens = split(src);
-    QString name = (tokens.size() > 0) ? tokens.at(0)
-                                       : QString("");
+    if (tokens.isEmpty()) {
+        return Command();
+    }
+    QString name = tokens.takeFirst();
     Command::Type type = Parser::type(name);
-    tokens.pop_front();
     return Command(type, name, tokens);
 }
 
@@ -52,6 +53,14 @@ QStringList cllaun::Parser::split(QString src) {
         token.replace("\\\"", "\"");
         tokens << token;
         pos += regex.matchedLength();
+    }
+    if (tokens.count() > 1) {
+        for (int i = 1; i < tokens.size(); ++i) {
+            QString arg = tokens.at(i);
+            if (arg.startsWith('"') && arg.endsWith('"')) {
+                tokens.replace(i, arg.mid(1, arg.size() - 2));
+            }
+        }
     }
 
     return tokens;
