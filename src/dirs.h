@@ -2,7 +2,6 @@
 
 #include <QStringList>
 #include <QDir>
-
 class QString;
 
 namespace cllaun {
@@ -38,7 +37,7 @@ public:
     // ディレクトリの一覧に追加
     Dirs& operator<<(const QString& value) { dirs << value; return *this; }
 private:
-    QStringList dirs;
+    QStringList dirs; /*!< ディレクトリ名のリスト */
 };
 
 }

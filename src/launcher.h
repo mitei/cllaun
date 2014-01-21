@@ -22,7 +22,7 @@ public slots:
 
 private:
     Launcher() { }
-    // normalize command name
+    // 指定された Command オブジェクトのコマンド名を正規化
     QString normalize(const Command& command);
 };
 

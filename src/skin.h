@@ -3,7 +3,6 @@
 #include <QStringList>
 #include <QObject>
 #include <QScriptable>
-
 class QApplication;
 
 namespace cllaun {

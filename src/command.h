@@ -2,7 +2,6 @@
 
 #include <QStringList>
 #include <QString>
-
 class QScriptValue;
 class QScriptEngine;
 
@@ -53,26 +52,15 @@ public:
     Command(const Command& rhs)
         : type(rhs.type), name(rhs.name), args(rhs.args)
     {}
-    /*
-    Command& operator=(const Command& rhs) {
-        this->type = rhs.type;
-        this->name = rhs.name;
-        this->args = rhs.args;
-        return *this;
-    }
-    */
-
-    /*
-     * アクセサ
-     */
+    /* property */
     const Type getType() const { return type; }
     const QString& getName() const { return name; }
     const QStringList& getArgs() const { return args; }
 
 private:
     Type         type; /*!< コマンドの種類 */
-    QString      name; /*!< コマンド名(コロンは含まない)またはパス名 */
-    QStringList  args; /*!< パラメータ(オプショナル) */
+    QString      name; /*!< コマンド名 */
+    QStringList  args; /*!< パラメータ */
 };
 
 }

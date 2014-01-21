@@ -1,8 +1,8 @@
 #include "shortcut_class.h"
 #include <QScriptEngine>
 #include <QShortcut>
-#include <QDebug>
 #include "widget/widget.h"
+
 
 Q_DECLARE_METATYPE(QKeySequence)
 
@@ -11,20 +11,53 @@ Q_DECLARE_METATYPE(QKeySequence)
  * Class Shortcut
  * -----
  */
+
+/*!
+ * @brief コンストラクタ
+ *
+ * @param parent     親ウィジェット
+ * @param _callback  ショートカット実行時のコールバック関数
+ */
 cllaun::Shortcut::Shortcut(QWidget* parent, const QScriptValue& _callback)
     : QObject(parent), shortcut(parent), callback(_callback)
 {
     qScriptConnect(&shortcut, SIGNAL(activated()), QScriptValue(), callback);
 }
 
+/*!
+ * @brief ショートカットのキーシーケンスを設定する
+ *
+ * @param key  変更後のキーシーケンス
+ */
 void cllaun::Shortcut::setKey(const QKeySequence& key) {
     shortcut.setKey(key);
 }
 
+/*!
+ * @brief ショートカット実行時のコールバック関数を設定する
+ *
+ * @param _callback  ショートカット実行時のコールバック関数
+ */
+void cllaun::Shortcut::setCallback(const QScriptValue& _callback) {
+    qScriptDisconnect(&shortcut, SIGNAL(activated()), QScriptValue(), callback);
+    callback = _callback;
+    qScriptConnect(&shortcut, SIGNAL(activated()), QScriptValue(), callback);
+}
+
+/*!
+ * @brief 関連付けられたキーシーケンスを取得する
+ *
+ * @return 関連付けられたキーシーケンス
+ */
 QKeySequence cllaun::Shortcut::getKeySequence() const {
     return shortcut.key();
 }
 
+/*!
+ * @brief 関連付けられたコールバック関数を取得する
+ *
+ * @return 関連付けられたコールバック関数
+ */
 const QScriptValue& cllaun::Shortcut::getCallback() const {
     return callback;
 }
@@ -35,18 +68,40 @@ const QScriptValue& cllaun::Shortcut::getCallback() const {
  * Class Shortcuts
  * -----
  */
+
+/*!
+ * @brief デストラクタ
+ */
 cllaun::Shortcuts::~Shortcuts() {
     foreach (Shortcut* s, shortcuts) {
         delete s;
     }
 }
 
+/*!
+ * @brief ショートカットを設定する
+ *
+ * @param key       ショートカットのキーシーケンス
+ * @param callback  ショートカット実行時のコールバック関数
+ */
 void cllaun::Shortcuts::setShortcut(const QKeySequence& key, const QScriptValue& callback) {
-    Shortcut* shortcut = new Shortcut(parent, callback);
-    shortcut->setKey(key);
-    shortcuts.push_back(shortcut);
+    Shortcut* shortcut = getShortcut(key);
+    if (shortcut == nullptr) {
+        shortcut = new Shortcut(dynamic_cast<QWidget*>(parent()), callback);
+        shortcut->setKey(key);
+        shortcuts.push_back(shortcut);
+        return;
+    }
+    shortcut->setCallback(callback);
 }
 
+/*!
+ * @brief 指定されたキーシーケンスに関連付けられたショートカットを取得する
+ *
+ * @param key  取得したいショートカットに関連付けられたキーシーケンス
+ * @return  指定されたキーシーケンスに関連付けられたショートカットまたは、
+ *          それが無い場合 nullptr を返す
+ */
 cllaun::Shortcut* cllaun::Shortcuts::getShortcut(const QKeySequence& key) {
     foreach (Shortcut* s, shortcuts) {
         if (s->getKeySequence() == key) return s;
@@ -54,6 +109,11 @@ cllaun::Shortcut* cllaun::Shortcuts::getShortcut(const QKeySequence& key) {
     return nullptr;
 }
 
+/*!
+ * @brief 指定されたキーシーケンスに関連付けられたショートカットを削除する
+ *
+ * @param key  削除したいショートカットに関連付けられたキーシーケンス
+ */
 void cllaun::Shortcuts::remove(const QKeySequence& key) {
     for (auto iter = shortcuts.begin(); iter != shortcuts.end(); ++iter) {
         Shortcut* s = (*iter);
@@ -84,10 +144,11 @@ QScriptValue::PropertyFlags cllaun::ShortcutClass::propertyFlags(
         uint id)
 {
     QKeySequence key(name.toString());
-    // if `key == ""`, name is invalid key-sequence string.
+    // key が空文字の場合、指定された文字列はキーシーケンスではない。
     if (key.toString() == "") {
         return QScriptValue::SkipInEnumeration;
     }
+    // ショートカットオブジェクトは通常の削除を禁止
     return QScriptValue::Undeletable;
 }
 
@@ -98,7 +159,8 @@ QScriptClass::QueryFlags cllaun::ShortcutClass::queryProperty(
         uint* id)
 {
     QKeySequence key(name.toString());
-    // if `key == ""`, name is invalid key-sequence string.
+    // key が空文字の場合、指定された文字列はキーシーケンスではない。
+    // この場合、QScriptClass で処理せず、Qt Script Object 型の通常のプロパティアクセスを行う。
     if (key.toString() == "") {
         return 0;
     }
@@ -112,6 +174,7 @@ QScriptValue cllaun::ShortcutClass::property(
 {
     Shortcuts* shortcuts = qobject_cast<Shortcuts*>(object.data().toQObject());
     Shortcut* shortcut = shortcuts->getShortcut(QKeySequence(name.toString()));
+    // 指定されたキーシーケンスのショートカットが存在しない場合、undefined を返す
     if (shortcut == nullptr) {
         return QScriptValue();
     } else {
@@ -126,13 +189,14 @@ void cllaun::ShortcutClass::setProperty(
         const QScriptValue& value)
 {
     if (!value.isNull() && !value.isFunction()) {
-        object.engine()->currentContext()
-                ->throwError("Argument Error: Right-hand value must be a function or null.");
+        object.engine()->currentContext()->throwError(
+                QScriptContext::TypeError, "Argument Error: Right-hand value must be a function or null.");
         return;
     }
 
     Shortcuts* shortcuts = qobject_cast<Shortcuts*>(object.data().toQObject());
     QKeySequence key(name);
+    // 右辺値が null の場合、指定されたキーシーケンスのショートカットを削除する。
     if (value.isNull()) {
         shortcuts->remove(key);
     } else {
@@ -140,27 +204,10 @@ void cllaun::ShortcutClass::setProperty(
     }
 }
 
+
 /*
-QScriptValue cllaun::ShortcutClass::constructorFunc(
-        QScriptContext* context, QScriptEngine* engine, void* cls)
-{
-    if (!context->argument(0).isQObject()) {
-        context->throwError("Argument Error: argument 0 must be an parent Widget.");
-        return QScriptValue();
-    }
-    widget::Widget* parent_widget = qobject_cast<widget::Widget*>(context->argument(0).toQObject());
-    if (parent_widget == nullptr) {
-        context->throwError("Argument Error: argument 0 must be an parent Widget.");
-        return QScriptValue();
-    }
-    Shortcuts* shortcuts = new Shortcuts(parent_widget->getQWidget());
-    QScriptValue shortcuts_obj = engine->newQObject(shortcuts, QScriptEngine::AutoOwnership);
-    QScriptValue instance = engine->newObject(static_cast<ShortcutClass*>(cls), shortcuts_obj);
-
-    return instance;
-}
-*/
-
+ * QKeySequence の C++ / Qt Script 間の変換関数
+ */
 QScriptValue cllaun::ShortcutClass::keySequenceToScriptValue(
         QScriptEngine *engine, const QKeySequence &keyseq)
 {

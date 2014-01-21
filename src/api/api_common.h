@@ -1,4 +1,10 @@
 #pragma once
+/*!
+ * @brief 一般的な API の提供
+ *
+ * exit = function() { ...
+ * eval = function(code:String) { ...
+ */
 
 class QScriptEngine;
 

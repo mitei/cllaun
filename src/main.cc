@@ -1,6 +1,5 @@
 #include <QApplication>
 #include <QScriptEngine>
-
 #include "api/api_config.h"
 #include "api/api_skin.h"
 #include "api/api_plugin.h"

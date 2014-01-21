@@ -1,7 +1,6 @@
 ﻿#pragma once
 
 #include "command.h"
-
 class QString;
 class QStringList;
 

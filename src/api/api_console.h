@@ -1,5 +1,14 @@
 #pragma once
 
+/*!
+ * @brief モダンブラウザの console オブジェクトのエミュレート
+ *
+ * console = {
+ *     log : function(str:String) { ...
+ *     dir : function(obj:Object) { ...
+ * };
+ */
+
 class QScriptEngine;
 
 namespace cllaun {

@@ -1,5 +1,12 @@
 #pragma once
 
+/*!
+ * @brief 各種ウィジェットのコンストラクタおよびデフォルトウィジェットの提供
+ *
+ * window = Widget;
+ * commandLine = LineEdit;
+ */
+
 #include <QObject>
 #include "api/api_shortcut.h"
 

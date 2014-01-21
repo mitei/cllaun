@@ -4,6 +4,9 @@
 #include "widget/widget.h"
 #include "widget/line_edit.h"
 
+/*!
+ * @brief Widgets-api の初期化
+ */
 cllaun::API_Widgets::API_Widgets(QScriptEngine *engine)
     : api_shortcut(engine)
 {

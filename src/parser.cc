@@ -1,5 +1,4 @@
 ﻿#include "parser.h"
-
 #include <QString>
 #include <QStringList>
 #include <QRegExp>
@@ -23,7 +22,6 @@
  * @brief コマンド文字列を受け取り、パース結果を Command オブジェクトとして返す。
  *
  * @param src コマンド文字列
- *
  * @return パース結果の Command オブジェクト
  */
 cllaun::Command cllaun::Parser::parse(const QString& src) {
@@ -40,7 +38,6 @@ cllaun::Command cllaun::Parser::parse(const QString& src) {
  * @brief コマンド文字列を受け取り、トークン単位で区切った文字列リストを返す。
  *
  * @param src コマンド文字列
- *
  * @return トークン単位で区切った文字列リスト
  */
 QStringList cllaun::Parser::split(QString src) {
@@ -70,7 +67,6 @@ QStringList cllaun::Parser::split(QString src) {
  * @brief トークンの Command::Type を返す。
  *
  * @param src トークン文字列
- *
  * @return 引数のトークンタイプ
  */
 cllaun::Command::Type cllaun::Parser::type(const QString& src) {

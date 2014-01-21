@@ -1,11 +1,9 @@
 #include "skin.h"
-
 #include <QString>
 #include <QDir>
 #include <QFile>
 #include <QApplication>
 #include <QScriptEngine>
-
 #include "dirs.h"
 
 
@@ -18,7 +16,6 @@ const char* cllaun::Skin::skin_file_name = "style.qss";
  * @brief Skin スクリプトオブジェクトの生成
  *
  * @param engine   オブジェクトの生成に使用するスクリプトエンジン
- *
  * @return 生成した Skin スクリプトオブジェクト
  */
 QScriptValue cllaun::Skin::newQObject(QScriptEngine* engine, QApplication* _app) {

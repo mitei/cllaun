@@ -1,12 +1,8 @@
 #include "api_file.h"
-
 #include <QFile>
-
 #include "api.h"
 #include "core.h"
 
-
-#define c_engine cllaun::Core::engine()
 
 Q_SCRIPT_DECLARE_QMETAOBJECT(QFile, QObject*)
 
@@ -23,5 +19,3 @@ void cllaun::initFile() {
     */
     c_engine->globalObject().setProperty("File", file_class);
 }
-
-#undef c_engine

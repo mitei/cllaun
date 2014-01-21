@@ -1,5 +1,17 @@
 #pragma once
 
+/*!
+ * @brief プラグインの読み込みなどを提供
+ *
+ * plugin = {
+ *     imported : [],
+ *     available : [],
+ *     ignore : [],
+ *     import : function(name:String) { ...
+ *     importAll : function() { ...
+ * };
+ */
+
 class QScriptEngine;
 
 namespace cllaun {

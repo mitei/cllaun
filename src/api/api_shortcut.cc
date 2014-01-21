@@ -6,6 +6,9 @@
 
 cllaun::ShortcutClass* cllaun::API_Shortcut::shortcut_cls = nullptr;
 
+/*!
+ * @brief Shortcut-api の初期化
+ */
 cllaun::API_Shortcut::API_Shortcut(QScriptEngine* engine)
 {
     global_shortcut_cls = new GlobalShortcutClass(engine);
@@ -16,20 +19,25 @@ cllaun::API_Shortcut::API_Shortcut(QScriptEngine* engine)
             engine->newQObject(new GlobalShortcuts(engine), QScriptEngine::QtOwnership);
     QScriptValue global_shortcut_obj = engine->newObject(global_shortcut_cls, global_shortcuts);
     engine->globalObject().setProperty("shortcut", global_shortcut_obj);
-    /*
-    QScriptValue constructor = engine->newFunction(ShortcutClass::constructorFunc, shortcut_cls);
-    constructor.setPrototype(engine->globalObject().property("Object").property("prototype"));
-    engine->globalObject().setProperty("Shortcut", constructor,
-                                       QScriptValue::ReadOnly|QScriptValue::Undeletable);
-    */
 }
 
+/*!
+ * @brief デストラクタ
+ */
 cllaun::API_Shortcut::~API_Shortcut() {
     delete shortcut_cls;
     delete global_shortcut_cls;
 }
 
 
+/*!
+ * @brief ショートカットオブジェクトの生成
+ *
+ * Widget の shortcut プロパティを設定するために必要。
+ *
+ * @param parent  親ウィジェット
+ * @return        Shortcuts オブジェクト
+ */
 QScriptValue cllaun::API_Shortcut::newShortcutObject(widget::Widget* parent) {
     QScriptEngine* engine = shortcut_cls->engine();
     Shortcuts* shortcuts = new Shortcuts(parent->getQWidget());

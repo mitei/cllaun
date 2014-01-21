@@ -1,5 +1,4 @@
 #include "config.h"
-
 #include "dirs.h"
 #include "api.h"
 
@@ -13,8 +12,7 @@ QStringList cllaun::Config::file_list;
  * @brief Config スクリプトオブジェクトの生成
  *
  * @param engine   オブジェクトの生成に使用するスクリプトエンジン
- *
- * @return 生成した Config スクリプトオブジェクト
+ * @return         生成した Config スクリプトオブジェクト
  */
 QScriptValue cllaun::Config::newQObject(QScriptEngine* engine) {
     QScriptValue config_obj = engine->newQObject(new Config, QScriptEngine::ScriptOwnership);
@@ -33,11 +31,9 @@ cllaun::Config::Config() {
 }
 
 /*!
- * @brief 指定された設定ファイルを読み込む
- *
- * @param conf_name 設定ファイルの名前（{conf_name}.cllaun_conf）
+ * @brief 設定ファイルを読み込む
  */
-void cllaun::Config::read() {
+void cllaun::Config::read() const {
     QStringList dirs = qscriptvalue_cast<QStringList>(thisObject().property("dirs"));
     const Dirs search_dirs(dirs);
     foreach (const QString file_name, file_list) {

@@ -1,22 +1,14 @@
 #include "api_common.h"
-
 #include <stdlib.h>
-
 #include <QCoreApplication>
-
 #include "api.h"
 
 
-/*!
- * @brief アプリケーションを終了する
- *
- * @param context
- * @param engine
- *
- * @return 
- */
 namespace {
 
+/*!
+ * @brief アプリケーションを終了する
+ */
 QScriptValue exitFunc(QScriptContext* context, QScriptEngine* engine) {
     qint32 exit_code = context->argument(0).toInt32();
 
@@ -29,6 +21,9 @@ QScriptValue exitFunc(QScriptContext* context, QScriptEngine* engine) {
     return QScriptValue::UndefinedValue;
 }
 
+/*!
+ * @brief eval 関数
+ */
 QScriptValue evalFunc(QScriptContext* context, QScriptEngine* engine) {
     if (!context->argument(0).isString()) {
         //TODO: Error
@@ -41,6 +36,9 @@ QScriptValue evalFunc(QScriptContext* context, QScriptEngine* engine) {
 
 }
 
+/*!
+ * @brief Common-api の初期化
+ */
 cllaun::API_Common::API_Common(QScriptEngine *engine) {
     setMethod(engine, "exit", exitFunc);
     setMethod(engine, "eval", evalFunc);

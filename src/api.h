@@ -40,19 +40,6 @@ namespace cllaun {
     }
 
     /*!
-     * @brief QObject を継承したクラスから生成した QScriptValue から元のオブジェクトを取り出す
-     *
-     * @tparam T      thisObject の元の型
-     * @param context thisObject を取り出すコンテキスト
-     *
-     * @return        元のオブジェクト
-     */
-    template <typename T>
-    static inline T* getThis(QScriptContext* context) {
-        return dynamic_cast<T*>(context->thisObject().toQObject());
-    }
-
-    /*!
      * @brief RunScriptFile
      * @param path
      * @return

@@ -1,8 +1,8 @@
 #include "api_parser.h"
-
-#include "api.h"
+#include <QScriptEngine>
 #include "command.h"
 #include "parser.h"
+
 
 Q_DECLARE_METATYPE(cllaun::Command::Type)
 
@@ -11,28 +11,39 @@ namespace {
 using namespace cllaun;
 using cllaun::Command;
 
+/*!
+ * @brief Parser.parse  パースを実行する
+ * @return パースの実行結果の Command オブジェクト
+ */
 QScriptValue parserParse(QScriptContext* context, QScriptEngine* engine) {
     if (!context->argument(0).isString()) {
-        //TODO: Error
-        context->throwError("Argument Error:");
+        context->throwError(
+                QScriptContext::TypeError, "Argument Error: argument 0 must be a String.");
         return QScriptValue(QScriptValue::UndefinedValue);
     }
-
     Command* command = new Command(Parser::parse(context->argument(0).toString()));
 
     return engine->newQObject(command, QScriptEngine::AutoOwnership);
 }
 
+/*!
+ * @brief Parser.split  コマンド文字列をトークン分割する
+ * @return  各要素にトークン文字列を持つ配列
+ */
 QScriptValue parserSplit(QScriptContext* context, QScriptEngine* engine) {
     if (!context->argument(0).isString()) {
-        //TODO: Error
-        context->throwError("Argument Error:");
+        context->throwError(
+                QScriptContext::TypeError, "Argument Error: argument 0 must be a String.");
         return QScriptValue(QScriptValue::UndefinedValue);
     }
 
     return engine->toScriptValue(Parser::split(context->argument(0).toString()));
 }
 
+
+/*
+ * Command::Type の C++ / Qt Script 間の変換関数
+ */
 QScriptValue typeToScriptValue(QScriptEngine* engine, const Command::Type& type) {
     switch (type) {
     case Command::INVALID:
@@ -72,6 +83,9 @@ void typeFromScriptValue(const QScriptValue& obj, Command::Type& type) {
 }
 
 
+/*!
+ * @brief Parser-api の初期化
+ */
 cllaun::API_Parser::API_Parser(QScriptEngine* engine) {
     qScriptRegisterMetaType(engine, typeToScriptValue, typeFromScriptValue);
     QScriptValue parser_obj = engine->newObject();

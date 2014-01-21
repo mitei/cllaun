@@ -6,23 +6,42 @@
 #include <QScriptEngine>
 #include "api/api_shortcut.h"
 
+/*!
+ * @brief コンストラクタ
+ *
+ * @param _self   Widget の実体である QWidget
+ * @param parent  親ウィジェット
+ */
 cllaun::widget::Widget::Widget(QWidget* _self, QWidget* parent)
     : self(_self), shortcut(API_Shortcut::newShortcutObject(this))
 {
     if (parent != nullptr) {
         self->setParent(parent);
     }
+    // デフォルトのショートカットを上書き可能にする。
     self->installEventFilter(this);
 }
 
+/*!
+ * @brief デストラクタ
+ */
 cllaun::widget::Widget::~Widget() {
     delete self;
 }
 
+/*!
+ * @brief 実体である QWidget を取り出す
+ *
+ * @return 実体の QWidget へのポインタ
+ */
 QWidget* cllaun::widget::Widget::getQWidget() {
     return self;
 }
 
+
+/*
+ * ACCESSOR
+ */
 int cllaun::widget::Widget::getX() const {
     return self->x();
 }
@@ -59,22 +78,43 @@ const QScriptValue& cllaun::widget::Widget::getShortcut() const {
     return shortcut;
 }
 
+/*!
+ * @brief ウィジェットの移動
+ *
+ * @param x  移動先の X 座標
+ * @param y  移動先の Y 座標
+ */
 void cllaun::widget::Widget::move(int x, int y) {
     self->move(x, y);
 }
 
+/*!
+ * @brief ウィジェットのリサイズ
+ *
+ * @param w  リサイズ後の幅
+ * @param h  リサイズ後の高さ
+ */
 void cllaun::widget::Widget::resize(int w, int h) {
     self->resize(w, h);
 }
 
+/*!
+ * @brief ウィジェットを表示する
+ */
 void cllaun::widget::Widget::show() {
     self->show();
 }
 
+/*!
+ * @brief ウィジェットを非表示にする
+ */
 void cllaun::widget::Widget::hide() {
     self->hide();
 }
 
+/*!
+ * @brief デフォルトのショートカットを QShortcut で上書きできるようにするイベントフィルタ
+ */
 bool cllaun::widget::Widget::eventFilter(QObject* obj, QEvent* e) {
     switch (e->type()) {
     case QEvent::ShortcutOverride:

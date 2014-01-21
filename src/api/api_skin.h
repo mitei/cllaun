@@ -1,5 +1,13 @@
 #pragma once
 
+/*!
+ * @brief スキンの読み込みなどを提供
+ *
+ * skin = {
+ *     read : function(name:String) { ...
+ * };
+ */
+
 class QApplication;
 class QScriptEngine;
 

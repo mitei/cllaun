@@ -1,17 +1,13 @@
 #include "launcher.h"
-
 #include <QCoreApplication>
 #include <QProcess>
 #include <QFileInfo>
 #include <QDir>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
-#include <QDebug>
-
 #include "parser.h"
 #include "command.h"
 #include "dirs.h"
-
 #ifdef WIN32
 #include <Windows.h>
 #endif
@@ -23,7 +19,6 @@ namespace {
  * @brief QStringList から QScriptValueList への変換
  *
  * @param src 変換元の QStringList
- *
  * @return 返還後の QScriptValueList
  */
 QScriptValueList fromStringList(const QStringList& src) {
@@ -41,7 +36,6 @@ QScriptValueList fromStringList(const QStringList& src) {
  * @brief Launcher スクリプトオブジェクトの生成
  *
  * @param engine   オブジェクトの生成に使用するスクリプトエンジン
- *
  * @return 生成した Launcher スクリプトオブジェクト
  */
 QScriptValue cllaun::Launcher::newQObject(QScriptEngine* engine) {
@@ -56,7 +50,6 @@ QScriptValue cllaun::Launcher::newQObject(QScriptEngine* engine) {
  * @brief コマンドを実行する
  *
  * @param command コマンド文字列
- *
  * @return 実行結果
  */
 int cllaun::Launcher::run(QObject* command_obj) {
@@ -129,7 +122,6 @@ int cllaun::Launcher::run(QObject* command_obj) {
  * @brief コマンドタイプに応じてコマンド名を修正して返す
  *
  * @param command 正規化するコマンドオブジェクト
- *
  * @return 修正後のコマンド名
  */
 QString cllaun::Launcher::normalize(const Command& command) {
@@ -156,25 +148,18 @@ QString cllaun::Launcher::normalize(const Command& command) {
  *
  * @param path ファイルまたはディレクトリのパス
  * @param args 引数文字列
- *
  * @return 実行結果
  */
 int cllaun::Launcher::execute(const QString& path, const QString& args) {
-    qDebug() << "execute:" << path << args;
     SHELLEXECUTEINFO sh_info;
 
     QFileInfo info(path);
     if (!info.exists()) return -1; // Error: path not exists.
-    /*
-     * set directory that contains path-file, as working-directory.
-     */
     QDir dir(path);
     if (info.isFile()) dir.cdUp();
     QString directory = QDir::toNativeSeparators(dir.absolutePath());
 
-    /*
-     * set SHELLEXECUTEINFO(sh_info) members.
-     */
+    // set SHELLEXECUTEINFO(sh_info) members.
     sh_info.cbSize   = sizeof(SHELLEXECUTEINFO);
     //sh_info.fMask    = SEE_MASK_FLAG_NO_UI;
     sh_info.fMask    = NULL;
@@ -202,10 +187,10 @@ int cllaun::Launcher::execute(const QString& path, const QString& args) {
  *
  * @param path ファイルまたはディレクトリのパス
  * @param args 引数文字列
- *
  * @return 実行結果
  */
 int cllaun::Launcher::execute(const QString& path, const QString& args) {
+    // TODO
     return 0;
 }
 #endif

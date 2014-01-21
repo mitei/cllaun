@@ -1,5 +1,11 @@
 #pragma once
 
+/*!
+ * @brief ショートカット API の提供
+ *
+ * shortcut = { }; // 独自の GlobalShortcutClass, ShortcutClass による実装。
+ */
+
 #include <QScriptValue>
 class QScriptEngine;
 

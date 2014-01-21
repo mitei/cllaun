@@ -1,12 +1,19 @@
 #include "dirs.h"
-
 #include <QString>
 #include <QStringList>
 
 
+/*!
+ * @brief コンストラクタ
+ */
 cllaun::Dirs::Dirs() {
 }
 
+/*!
+ * @brief コンストラクタ
+ *
+ * @param ディレクトリ名のリスト
+ */
 cllaun::Dirs::Dirs(const QStringList& _dirs): dirs(_dirs) {
 }
 

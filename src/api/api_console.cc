@@ -1,17 +1,20 @@
 #include "api_console.h"
-
 #include <QScriptValueIterator>
-#include <QDebug>
-
-#include "api.h"
+#include <QScriptEngine>
 
 
 namespace {
 
+/*!
+ * @brief console.dir 関数
+ *
+ * モダンブラウザの console.dir 関数の模倣。
+ * 完璧じゃないので暇な時に作り直し。
+ */
 QScriptValue consoleDir(QScriptContext* context, QScriptEngine* engine) {
     if (!context->argument(0).isObject()) {
-        // TODO: Error
-        context->throwError("Argument Error: ");
+        context->throwError(
+                QScriptContext::TypeError, "Argument Error: argument 0 must be an Object.");
     }
 
     QScriptValueIterator itr(context->argument(0));
@@ -24,6 +27,9 @@ QScriptValue consoleDir(QScriptContext* context, QScriptEngine* engine) {
 
 }
 
+/*!
+ * @brief Console-api の初期化
+ */
 cllaun::API_Console::API_Console(QScriptEngine* engine) {
     QScriptValue console_obj = engine->newObject();
     console_obj.setProperty("log", engine->globalObject().property("print"));

@@ -3,7 +3,6 @@
 #include <QObject>
 #include <QScriptable>
 #include <QStringList>
-
 class QScriptEngine;
 
 namespace cllaun {
@@ -17,11 +16,11 @@ public:
 
 public slots:
     // 設定ファイルを読み込む
-    void read();
+    void read() const;
 
 private:
     Config();
-    static QStringList file_list;
+    static QStringList file_list; /*!< 設定ファイル名のリスト */
 };
 
 }
