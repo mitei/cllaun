@@ -2,11 +2,11 @@
 #include <QCoreApplication>
 #include <QProcess>
 #include <QFileInfo>
+#include <QStringList>
 #include <QDir>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
 #include "parser.h"
-#include "command.h"
 #include "dirs.h"
 #ifdef WIN32
 #include <Windows.h>
@@ -76,7 +76,7 @@ int cllaun::Launcher::run(QObject* command_obj) {
     case Command::ANY:
 
     case Command::EXECUTABLE: {
-        QStringList paths = qscriptvalue_cast<QStringList>(context()->thisObject().property("paths"));
+        QStringList paths = qscriptvalue_cast<QStringList>(thisObject().property("paths"));
         Dirs dirs(paths);
         QStringList name_filter;
         name_filter << (name + ".*");
@@ -127,8 +127,12 @@ int cllaun::Launcher::run(QObject* command_obj) {
         }
     }
 
-    case Command::PATH:
-        return execute(name, command->getArgs().join(' '));
+    case Command::PATH: {
+        QFileInfo path_info(name);
+        if (path_info.exists()) {
+            return execute(name, command->getArgs().join(' '));
+        }
+    }
 
     default:
         return -1;
@@ -142,21 +146,29 @@ int cllaun::Launcher::run(QObject* command_obj) {
  * @return 修正後のコマンド名
  */
 QString cllaun::Launcher::normalize(const Command& command) {
-    switch(command.getType()) {
+    return normalize(command.getType(), command.getName());
+}
+
+QString cllaun::Launcher::normalize(const QString& name) {
+    return normalize(Parser::type(name), name);
+}
+
+QString cllaun::Launcher::normalize(cllaun::Command::Type type, const QString& name) {
+    switch(type) {
     // ALIAS または PLUGIN の場合、接頭辞を取り除く
     case Command::ALIAS:
     case Command::PLUGIN:
-        return command.getName().mid(1);
+        return name.mid(1);
 
     // コマンドタイプが PATH で、ダブルクォートで囲まれている場合、ダブルクォートを取り除く。
     // また、パスセパレータをプラットフォーム固有のセパレータに変換する。
     case Command::PATH:
         return QDir::toNativeSeparators(
-            command.getName().startsWith('"') && command.getName().endsWith('"') ?
-                command.getName().mid(1, command.getName().size() - 2) :
-                command.getName());
+            name.startsWith('"') && name.endsWith('"') ?
+                name.mid(1, name.size() - 2) :
+                name);
     default:
-        return command.getName();
+        return name;
     }
 }
 
@@ -212,3 +224,90 @@ int cllaun::Launcher::execute(const QString& path, const QString& args) {
     return 0;
 }
 #endif
+
+/*!
+ * @brief 指定されたコマンドタイプのコマンド候補リストを取得
+ *
+ * @param type  検索するコマンドの種類
+ * @param name  コマンド名（またはコマンド名の先頭N文字）
+ * @return  一致したコマンドのリスト。見つからなかった場合は空のリスト。
+ */
+QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& name) {
+    QStringList candidates;
+
+    switch (type) {
+    case Command::ANY:
+    case Command::EXECUTABLE: {
+        QStringList paths = qscriptvalue_cast<QStringList>(thisObject().property("paths"));
+        Dirs dirs(paths);
+        QStringList name_filter = QStringList() << (name + "*.*");
+        // ファイルまたは実行可能ファイルのみ検索
+        QStringList entry_list = dirs.entryList(name_filter, QDir::Files|QDir::Executable);
+        if (!entry_list.isEmpty()) {
+            candidates += entry_list;
+
+        }
+
+        // Command type が EXECUTABLE の場合、検索終了
+        if (type == Command::EXECUTABLE) break;
+    }
+
+    case Command::ALIAS: {
+        QScriptValue aliases_obj = thisObject().property("aliases");
+        QScriptValueIterator iter(aliases_obj);
+        while (iter.hasNext()) {
+            iter.next();
+            if (iter.name().startsWith(name, Qt::CaseInsensitive)) {
+                candidates.push_back(iter.name());
+            }
+        }
+
+        // Command type が ALIAS の場合、検索終了
+        if (type == Command::ALIAS) break;
+    }
+
+    case Command::PLUGIN: {
+        QScriptValue commands_obj = thisObject().property("commands");
+        QScriptValueIterator iter(commands_obj);
+        while (iter.hasNext()) {
+            iter.next();
+            if (iter.name().startsWith(name, Qt::CaseInsensitive)) {
+                candidates.push_back(iter.name());
+            }
+        }
+
+        // Command type が PLUGIN の場合、検索終了
+        if (type == Command::PLUGIN) break;
+    }
+
+    case Command::PATH: {
+        QFileInfo path_info(name);
+        QStringList name_filter = QStringList() << (path_info.fileName() + "*");
+        QStringList filename_list = path_info.dir().entryList(name_filter, QDir::Files|QDir::Executable);
+        // ディレクトリ名を含む絶対パスに変換して候補リストに追加
+        foreach (const QString filename, filename_list) {
+            candidates.push_back(QDir::toNativeSeparators(path_info.dir().absolutePath() + "/" + filename));
+        }
+
+        // Command type が PATH の場合、検索終了
+        if (type == Command::PATH) break;
+    }
+
+    default:
+        break;
+    }
+
+    return candidates;
+}
+
+/*!
+ * @brief コマンド候補リストを取得
+ *
+ * @param src  検索するコマンド名（またはコマンド名の先頭N文字）
+ *
+ * @return  一致したコマンドのリスト
+ */
+QStringList cllaun::Launcher::list(const QString& src) {
+    Command::Type type = Parser::type(src);
+    return list(type, normalize(type, src));
+}
