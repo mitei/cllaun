@@ -30,27 +30,53 @@ cllaun::widget::LineEdit::LineEdit(QWidget* parent)
 cllaun::widget::LineEdit::~LineEdit() {
 }
 
-/*!
- * @brief LineEdit 上のテキストを取得する
- *
- * @return LineEdit 上のテキスト
+/*
+ * ラッパ
  */
 QString cllaun::widget::LineEdit::getText() const {
     return dynamic_cast<QLineEdit*>(self)->text();
 }
 
-/*!
- * @brief LineEdit のテキストを設定する
- *
- * @param text LineEdit に設定するテキスト
- */
+int cllaun::widget::LineEdit::getCursorPosition() const {
+    return dynamic_cast<QLineEdit*>(self)->cursorPosition();
+}
+
+void cllaun::widget::LineEdit::setCursorPosition(int pos) {
+    dynamic_cast<QLineEdit*>(self)->setCursorPosition(pos);
+}
+
+QString cllaun::widget::LineEdit::getSelectedText() const {
+    return dynamic_cast<QLineEdit*>(self)->selectedText();
+}
+
+int cllaun::widget::LineEdit::getMaxLength() const {
+    return dynamic_cast<QLineEdit*>(self)->maxLength();
+}
+
+void cllaun::widget::LineEdit::setMaxLength(int length) {
+    dynamic_cast<QLineEdit*>(self)->setMaxLength(length);
+}
+
+void cllaun::widget::LineEdit::setSelection(int start, int length) {
+    dynamic_cast<QLineEdit*>(self)->setSelection(start, length);
+}
+
+void cllaun::widget::LineEdit::home(bool mark) {
+    dynamic_cast<QLineEdit*>(self)->home(mark);
+}
+
+void cllaun::widget::LineEdit::end(bool mark) {
+    dynamic_cast<QLineEdit*>(self)->end(mark);
+}
+
+void cllaun::widget::LineEdit::deselect() {
+    dynamic_cast<QLineEdit*>(self)->deselect();
+}
+
 void cllaun::widget::LineEdit::setText(const QString& text) {
     dynamic_cast<QLineEdit*>(self)->setText(text);
 }
 
-/*!
- * @brief LineEdit 上のテキストを選択状態にする。
- */
 void cllaun::widget::LineEdit::selectAll() {
     dynamic_cast<QLineEdit*>(self)->selectAll();
 }

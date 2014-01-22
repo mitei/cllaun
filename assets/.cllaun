@@ -30,6 +30,16 @@ commandLine.returnPressed.connect(commandLine, function() {
     var cmd = Parser.parse(this.text);
     Launcher.run(cmd);
 });
+commandLine.textChanged.connect(commandLine, function() {
+    var cmd = Parser.parse(this.text.substr(0, this.cursorPosition));
+    var candidates;
+    if (cmd.args.length > 0) {
+        candidates = Launcher.list(cmd.args[cmd.args.length - 1]);
+    } else {
+        candidates = Launcher.list(cmd.name);
+    }
+    print('onCursorPositionChanged: ' + candidates.toString());
+});
 
 window.move(300, 300);
 window.show();

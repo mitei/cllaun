@@ -14,12 +14,24 @@ namespace widget {
 class LineEdit : public Widget {
     Q_OBJECT
     Q_PROPERTY(QString text READ getText WRITE setText)
+    Q_PROPERTY(int cursorPosition READ getCursorPosition WRITE setCursorPosition)
+    Q_PROPERTY(QString slectedText READ getSelectedText)
+    Q_PROPERTY(int maxLength READ getMaxLength WRITE setMaxLength)
 
 public:
     LineEdit(QWidget* parent = nullptr);
     virtual ~LineEdit();
     /* property */
     QString getText() const;
+    int getCursorPosition() const;    void setCursorPosition(int pos);
+    QString getSelectedText() const;
+    int getMaxLength() const;         void setMaxLength(int length);
+
+    /* QLineEdit Public Functions ラッパ */
+    Q_INVOKABLE void setSelection(int start, int length);
+    Q_INVOKABLE void home(bool mark);
+    Q_INVOKABLE void end(bool mark);
+    Q_INVOKABLE void deselect();
 
 signals:
     /* QLineEdit シグナルのラッパ */
