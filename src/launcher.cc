@@ -57,21 +57,21 @@ int cllaun::Launcher::run(QObject* command_obj) {
 
     Command* command = qobject_cast<Command*>(command_obj);
 
-    // When argument 0 is not a Command object, throw Error.
+    // 第一引数が Command* でない場合、エラー
     if (command == nullptr) {
-        context()->throwError("Argument Error: argument 0 must be instance of Command.");
+        context()->throwError(
+                QScriptContext::TypeError, "Argument Error: argument 0 must be instance of Command.");
         return -1;
     }
-    // When Command Type is INVALID, throw Error.
+    // Command::Type が INVALID の場合、何もしない
     if (command->getType() == Command::INVALID) {
-        context()->throwError("Error: Command Type is INVALID.");
         return -1;
     }
 
-    // get normalized command-name.
+    // コマンド名を正規化
     QString name = normalize(*command);
 
-    // run command.
+    // コマンドタイプに応じて実行
     switch(command->getType()) {
     case Command::ANY:
 
@@ -80,22 +80,28 @@ int cllaun::Launcher::run(QObject* command_obj) {
         Dirs dirs(paths);
         QStringList name_filter;
         name_filter << (name + ".*");
+        // ファイルまたは実行可能ファイルのみ検索
         QStringList entry_list = dirs.entryList(name_filter, QDir::Files|QDir::Executable);
         if (!entry_list.isEmpty()) {
             return execute(entry_list.at(0), command->getArgs().join(' '));
         } else if (command->getType() == Command::EXECUTABLE) {
-            return -1; // Error
+            // コマンドタイプが EXECUTABLE かつ、Launcher.paths に指定されたコマンドを含む
+            // ディレクトリが存在しない場合、実行すべきコマンドが存在しないため、何もしない
+            return -1;
         }
     }
 
     case Command::ALIAS: {
         QScriptValue alias_obj = thisObject().property("aliases").property(name);
         if (alias_obj.isValid()) {
+            // エイリアスが見つかった場合、別名を取得して新しい Command オブジェクトを生成、実行する
             QString alias = alias_obj.toString();
             Command new_command = Command(cllaun::Parser::type(alias), alias, command->getArgs());
             return run(&new_command);
         } else if (command->getType() == Command::ALIAS) {
-            return -1; // Error
+            // コマンドタイプが ALIAS かつ、Launcher.aliases に指定されたエイリアスが存在しない場合、
+            // 実行すべきコマンドが不明なため、何もしない
+            return -1;
         }
     }
 
@@ -103,6 +109,7 @@ int cllaun::Launcher::run(QObject* command_obj) {
         QScriptValue command_obj = thisObject().property("commands").property(name);
         if (command_obj.isFunction()) {
             QStringList args = command->getArgs();
+            // 引数がダブルクォートで囲まれている場合、ダブルクォートを取り除く
             if (args.count() > 0) {
                 for (int i = 0; i < args.size(); ++i) {
                     QString arg = args.at(i);
@@ -114,7 +121,9 @@ int cllaun::Launcher::run(QObject* command_obj) {
             command_obj.call(QScriptValue(), fromStringList(args));
             return 0;
         } else if (command->getType() == Command::PLUGIN) {
-            return -1; // Error
+            // コマンドタイプが PLUGIN かつ、Launcher.commands に指定されたプラグイン・コマンドが存在しない場合、
+            // 実行すべきプラグイン・コマンドが存在しないため、何もしない
+            return -1;
         }
     }
 
@@ -139,7 +148,8 @@ QString cllaun::Launcher::normalize(const Command& command) {
     case Command::PLUGIN:
         return command.getName().mid(1);
 
-    // PATH かつ、ダブルクォートで囲まれている場合、ダブルクォートを取り除く
+    // コマンドタイプが PATH で、ダブルクォートで囲まれている場合、ダブルクォートを取り除く。
+    // また、パスセパレータをプラットフォーム固有のセパレータに変換する。
     case Command::PATH:
         return QDir::toNativeSeparators(
             command.getName().startsWith('"') && command.getName().endsWith('"') ?

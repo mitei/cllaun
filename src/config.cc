@@ -40,6 +40,12 @@ void cllaun::Config::read() const {
         const QString conf_file_path = search_dirs.filePath(file_name);
         if (!conf_file_path.isEmpty()) {
             runScriptFile(engine(), conf_file_path);
+            if (engine()->hasUncaughtException()) {
+                QString error_str = QString("%1:%2 : %3").arg(conf_file_path)
+                                                         .arg(engine()->uncaughtExceptionLineNumber())
+                                                         .arg(engine()->uncaughtException().toString());
+                engine()->globalObject().property("print").call(QScriptValue(), QScriptValueList() << error_str);
+            }
         }
     }
 
