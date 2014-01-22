@@ -19,7 +19,7 @@ namespace {
  * @brief QStringList から QScriptValueList への変換
  *
  * @param src 変換元の QStringList
- * @return 返還後の QScriptValueList
+ * @return 変換後の QScriptValueList
  */
 QScriptValueList fromStringList(const QStringList& src) {
     QScriptValueList dest;
