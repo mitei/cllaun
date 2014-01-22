@@ -51,14 +51,6 @@ QStringList cllaun::Parser::split(QString src) {
         tokens << token;
         pos += regex.matchedLength();
     }
-    if (tokens.count() > 1) {
-        for (int i = 1; i < tokens.size(); ++i) {
-            QString arg = tokens.at(i);
-            if (arg.startsWith('"') && arg.endsWith('"')) {
-                tokens.replace(i, arg.mid(1, arg.size() - 2));
-            }
-        }
-    }
 
     return tokens;
 }

@@ -102,8 +102,16 @@ int cllaun::Launcher::run(QObject* command_obj) {
     case Command::PLUGIN: {
         QScriptValue command_obj = thisObject().property("commands").property(name);
         if (command_obj.isFunction()) {
-            QScriptValueList args = fromStringList(command->getArgs());
-            command_obj.call(QScriptValue(), args);
+            QStringList args = command->getArgs();
+            if (args.count() > 0) {
+                for (int i = 0; i < args.size(); ++i) {
+                    QString arg = args.at(i);
+                    if (arg.startsWith('"') && arg.endsWith('"')) {
+                        args.replace(i, arg.mid(1, arg.size() - 2));
+                    }
+                }
+            }
+            command_obj.call(QScriptValue(), fromStringList(args));
             return 0;
         } else if (command->getType() == Command::PLUGIN) {
             return -1; // Error
@@ -133,10 +141,10 @@ QString cllaun::Launcher::normalize(const Command& command) {
 
     // PATH かつ、ダブルクォートで囲まれている場合、ダブルクォートを取り除く
     case Command::PATH:
-        if (command.getName().startsWith('"') &&
-            command.getName().endsWith('"')) {
-            return command.getName().mid(1, command.getName().size() - 2);
-        }
+        return QDir::toNativeSeparators(
+            command.getName().startsWith('"') && command.getName().endsWith('"') ?
+                command.getName().mid(1, command.getName().size() - 2) :
+                command.getName());
     default:
         return command.getName();
     }
