@@ -5,13 +5,23 @@
 /*!
  * @brief コンストラクタ
  *
- * @param parent 親ウィジェット
+ * @param tarent 親ウィジェット
  */
 cllaun::widget::LineEdit::LineEdit(QWidget* parent)
     : cllaun::widget::Widget(new QLineEdit, parent)
 {
     connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(returnPressed()),
             this, SLOT(emitReturnPressed()));
+    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(cursorPositionChanged(int,int)),
+            this, SLOT(emitCursorPositionChanged(int,int)));
+    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(editingFinished()),
+            this, SLOT(emitEditingFinished()));
+    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(selectionChanged()),
+            this, SLOT(emitSelectionChanged()));
+    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(textChanged(QString)),
+            this, SLOT(emitTextChanged(QString)));
+    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(textEdited(QString)),
+            this, SLOT(emitTextEdited(QString)));
 }
 
 /*!
@@ -39,19 +49,31 @@ void cllaun::widget::LineEdit::setText(const QString& text) {
 }
 
 /*!
- * @brief QLineEdit::returnPressed シグナルの代替
- *
- * QLineEdit をラップしているため、スクリプトから QLineEdit::returnPressed シグナルが扱えない。
- * LineEdit 内部の QLineEdit の returnPressed シグナルを LineEdit::emitReturnPressed スロットに接続し、
- * LineEdit::returnPressed シグナルを emit している。
- */
-void cllaun::widget::LineEdit::emitReturnPressed() {
-    emit returnPressed();
-}
-
-/*!
  * @brief LineEdit 上のテキストを選択状態にする。
  */
 void cllaun::widget::LineEdit::selectAll() {
     dynamic_cast<QLineEdit*>(self)->selectAll();
+}
+
+void cllaun::widget::LineEdit::clear() {
+    dynamic_cast<QLineEdit*>(self)->clear();
+}
+
+void cllaun::widget::LineEdit::copy() const {
+    dynamic_cast<QLineEdit*>(self)->copy();
+}
+void cllaun::widget::LineEdit::cut() {
+    dynamic_cast<QLineEdit*>(self)->cut();
+}
+
+void cllaun::widget::LineEdit::paste() {
+    dynamic_cast<QLineEdit*>(self)->paste();
+}
+
+void cllaun::widget::LineEdit::redo() {
+    dynamic_cast<QLineEdit*>(self)->redo();
+}
+
+void cllaun::widget::LineEdit::undo() {
+    dynamic_cast<QLineEdit*>(self)->undo();
 }
