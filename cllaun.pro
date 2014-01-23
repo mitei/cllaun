@@ -5,14 +5,14 @@ CONFIG(debug, debug|release) {
     base_dir = debug
 # Qxt
     win32:LIBS += $$(QXT_DIR)/lib/QxtWidgetsd.lib
-    unix:LIBS += -lQxtWidgetsd
+    #unix:LIBS += -lQxtWidgetsd
 }
 CONFIG(release, debug|release) {
     suffix = ""
     base_dir = release
 # Qxt
     win32:LIBS += $$(QXT_DIR)/lib/QxtWidgets.lib
-    unix:LIBS += -lQxtWidgets
+    #unix:LIBS += -lQxtWidgets
 }
 
 OBJECTS_DIR = obj/$${base_dir}
@@ -37,10 +37,9 @@ INCLUDEPATH += \
     $$(QXT_DIR)/include \
     $$(QXT_DIR)/include/QxtCore
 QXT += core gui
-win32:LIBS += \
-    $$(QXT_DIR)/lib/QxtWidgetsd.lib
 unix:LIBS += -L$$(QXT_DIR)/lib
 unix:QT += x11extras
+unix:LIBS += -lQxtWidgets
 
 # Input
 HEADERS += \

@@ -12,7 +12,6 @@
 #include <Windows.h>
 #endif
 
-
 namespace {
 
 /*!
@@ -220,8 +219,12 @@ int cllaun::Launcher::execute(const QString& path, const QString& args) {
  * @return 実行結果
  */
 int cllaun::Launcher::execute(const QString& path, const QString& args) {
-    // TODO
-    return 0;
+    QFileInfo file_info(path);
+    if (file_info.isExecutable()) {
+        return system((path + ' ' + args).toStdString().c_str());
+    } else {
+        return system(("xdg-open " + path).toStdString().c_str());
+    }
 }
 #endif
 
