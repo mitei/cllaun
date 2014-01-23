@@ -1,6 +1,5 @@
 #include "launcher.h"
 #include <QCoreApplication>
-#include <QProcess>
 #include <QFileInfo>
 #include <QStringList>
 #include <QDir>
@@ -243,7 +242,7 @@ QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& na
     case Command::EXECUTABLE: {
         QStringList paths = qscriptvalue_cast<QStringList>(thisObject().property("paths"));
         Dirs dirs(paths);
-        QStringList name_filter = QStringList() << (name + "*.*");
+        QStringList name_filter = QStringList() << (name + "*");
         // ファイルまたは実行可能ファイルのみ検索
         QStringList entry_list = dirs.entryList(name_filter, QDir::Files|QDir::Executable);
         if (!entry_list.isEmpty()) {
@@ -286,7 +285,7 @@ QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& na
     case Command::PATH: {
         QFileInfo path_info(name);
         QStringList name_filter = QStringList() << (path_info.fileName() + "*");
-        QStringList filename_list = path_info.dir().entryList(name_filter, QDir::Files|QDir::Executable);
+        QStringList filename_list = path_info.dir().entryList(name_filter, QDir::Files|QDir::Dirs);
         // ディレクトリ名を含む絶対パスに変換して候補リストに追加
         foreach (const QString filename, filename_list) {
             candidates.push_back(QDir::toNativeSeparators(path_info.dir().absolutePath() + "/" + filename));
