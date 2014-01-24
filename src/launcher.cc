@@ -288,7 +288,10 @@ QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& na
         QStringList filename_list = path_info.dir().entryList(name_filter, QDir::Files|QDir::Dirs);
         // ディレクトリ名を含む絶対パスに変換して候補リストに追加
         foreach (const QString filename, filename_list) {
-            candidates.push_back(QDir::toNativeSeparators(path_info.dir().absolutePath() + "/" + filename));
+            QString absolute_path = path_info.absolutePath();
+            if (!absolute_path.endsWith('/')) absolute_path += '/';
+            absolute_path = QDir::toNativeSeparators(absolute_path + filename);
+            candidates.push_back(absolute_path);
         }
 
         // Command type が PATH の場合、検索終了
