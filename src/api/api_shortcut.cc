@@ -38,9 +38,9 @@ cllaun::API_Shortcut::~API_Shortcut() {
  * @param parent  親ウィジェット
  * @return        Shortcuts オブジェクト
  */
-QScriptValue cllaun::API_Shortcut::newShortcutObject(widget::Widget* parent) {
+QScriptValue cllaun::API_Shortcut::newShortcutObject(QWidget* parent) {
     QScriptEngine* engine = shortcut_cls->engine();
-    Shortcuts* shortcuts = new Shortcuts(parent->getQWidget());
+    Shortcuts* shortcuts = new Shortcuts(parent);
     QScriptValue shortcuts_obj = engine->newQObject(shortcuts, QScriptEngine::AutoOwnership);
     QScriptValue instance = engine->newObject(shortcut_cls, shortcuts_obj);
 

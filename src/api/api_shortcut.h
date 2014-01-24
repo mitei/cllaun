@@ -8,12 +8,10 @@
 
 #include <QScriptValue>
 class QScriptEngine;
+class QWidget;
 
 namespace cllaun {
 
-namespace widget {
-class Widget;
-}
 class ShortcutClass;
 class GlobalShortcutClass;
 
@@ -22,7 +20,7 @@ public:
     API_Shortcut(QScriptEngine* engine);
     ~API_Shortcut();
 
-    static QScriptValue newShortcutObject(widget::Widget* parent);
+    static QScriptValue newShortcutObject(QWidget* parent);
 
 private:
     static ShortcutClass* shortcut_cls;

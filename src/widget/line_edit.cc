@@ -8,19 +8,20 @@
  * @param tarent 親ウィジェット
  */
 cllaun::widget::LineEdit::LineEdit(QWidget* parent)
-    : cllaun::widget::Widget(new QLineEdit, parent)
+    : self(parent)
 {
-    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(returnPressed()),
+    initialize(&self);
+    connect(&self, SIGNAL(returnPressed()),
             this, SLOT(emitReturnPressed()));
-    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(cursorPositionChanged(int,int)),
+    connect(&self, SIGNAL(cursorPositionChanged(int,int)),
             this, SLOT(emitCursorPositionChanged(int,int)));
-    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(editingFinished()),
+    connect(&self, SIGNAL(editingFinished()),
             this, SLOT(emitEditingFinished()));
-    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(selectionChanged()),
+    connect(&self, SIGNAL(selectionChanged()),
             this, SLOT(emitSelectionChanged()));
-    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(textChanged(QString)),
+    connect(&self, SIGNAL(textChanged(QString)),
             this, SLOT(emitTextChanged(QString)));
-    connect(dynamic_cast<QLineEdit*>(this->self), SIGNAL(textEdited(QString)),
+    connect(&self, SIGNAL(textEdited(QString)),
             this, SLOT(emitTextEdited(QString)));
 }
 
@@ -34,72 +35,72 @@ cllaun::widget::LineEdit::~LineEdit() {
  * ラッパ
  */
 QString cllaun::widget::LineEdit::getText() const {
-    return dynamic_cast<QLineEdit*>(self)->text();
+    return self.text();
 }
 
 int cllaun::widget::LineEdit::getCursorPosition() const {
-    return dynamic_cast<QLineEdit*>(self)->cursorPosition();
+    return self.cursorPosition();
 }
 
 void cllaun::widget::LineEdit::setCursorPosition(int pos) {
-    dynamic_cast<QLineEdit*>(self)->setCursorPosition(pos);
+    self.setCursorPosition(pos);
 }
 
 QString cllaun::widget::LineEdit::getSelectedText() const {
-    return dynamic_cast<QLineEdit*>(self)->selectedText();
+    return self.selectedText();
 }
 
 int cllaun::widget::LineEdit::getMaxLength() const {
-    return dynamic_cast<QLineEdit*>(self)->maxLength();
+    return self.maxLength();
 }
 
 void cllaun::widget::LineEdit::setMaxLength(int length) {
-    dynamic_cast<QLineEdit*>(self)->setMaxLength(length);
+    self.setMaxLength(length);
 }
 
 void cllaun::widget::LineEdit::setSelection(int start, int length) {
-    dynamic_cast<QLineEdit*>(self)->setSelection(start, length);
+    self.setSelection(start, length);
 }
 
 void cllaun::widget::LineEdit::home(bool mark) {
-    dynamic_cast<QLineEdit*>(self)->home(mark);
+    self.home(mark);
 }
 
 void cllaun::widget::LineEdit::end(bool mark) {
-    dynamic_cast<QLineEdit*>(self)->end(mark);
+    self.end(mark);
 }
 
 void cllaun::widget::LineEdit::deselect() {
-    dynamic_cast<QLineEdit*>(self)->deselect();
+    self.deselect();
 }
 
 void cllaun::widget::LineEdit::setText(const QString& text) {
-    dynamic_cast<QLineEdit*>(self)->setText(text);
+    self.setText(text);
 }
 
 void cllaun::widget::LineEdit::selectAll() {
-    dynamic_cast<QLineEdit*>(self)->selectAll();
+    self.selectAll();
 }
 
 void cllaun::widget::LineEdit::clear() {
-    dynamic_cast<QLineEdit*>(self)->clear();
+    self.clear();
 }
 
 void cllaun::widget::LineEdit::copy() const {
-    dynamic_cast<QLineEdit*>(self)->copy();
+    self.copy();
 }
 void cllaun::widget::LineEdit::cut() {
-    dynamic_cast<QLineEdit*>(self)->cut();
+    self.cut();
 }
 
 void cllaun::widget::LineEdit::paste() {
-    dynamic_cast<QLineEdit*>(self)->paste();
+    self.paste();
 }
 
 void cllaun::widget::LineEdit::redo() {
-    dynamic_cast<QLineEdit*>(self)->redo();
+    self.redo();
 }
 
 void cllaun::widget::LineEdit::undo() {
-    dynamic_cast<QLineEdit*>(self)->undo();
+    self.undo();
 }

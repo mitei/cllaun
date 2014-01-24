@@ -67,8 +67,10 @@ HEADERS += \
     #src/api/api_http.h \
     #src/api/api_socket.h \
     src/api/api_widgets.h \
+    src/widget/abstract_widget.h \
     src/widget/widget.h \
-    src/widget/line_edit.h
+    src/widget/line_edit.h \
+    src/widget/string_list_view.h
 
 SOURCES += \
     src/main.cc \
@@ -94,8 +96,10 @@ SOURCES += \
     #src/api/api_http.cc \
     #src/api/api_socket.cc \
     src/api/api_widgets.cc \
+    src/widget/abstract_widget.cc \
     src/widget/widget.cc \
-    src/widget/line_edit.cc
+    src/widget/line_edit.cc \
+    src/widget/string_list_view.cc
 
 #win:SOURCES += src/launcher_win.cc
 

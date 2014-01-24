@@ -38,11 +38,21 @@ commandLine.textChanged.connect(commandLine, function() {
     } else {
         candidates = Launcher.list(cmd.name);
     }
-    print('onCursorPositionChanged: ' + candidates.toString());
+
+    listView.data = candidates;
+    if (candidates.length == 0) {
+        listView.hide();
+    } else {
+        listView.show();
+        print('onCursorPositionChanged: ' + candidates.toString());
+    }
 });
 
+window.resize(1000, 1000);
 window.move(300, 300);
 window.show();
+listView.move(16, 52);
+listView.hide();
 
 // Plugin-api test
 plugin.importAll();

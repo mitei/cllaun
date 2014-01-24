@@ -18,6 +18,7 @@ namespace cllaun {
 namespace widget {
 class Widget;
 class LineEdit;
+class StringListView;
 }
 
 class API_Widgets {
@@ -29,6 +30,7 @@ private:
     QMainWindow* parent_window;
     widget::Widget* window;
     widget::LineEdit* command_line;
+    widget::StringListView* list_view;
     API_Shortcut api_shortcut;
 
 private:

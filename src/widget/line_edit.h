@@ -1,7 +1,8 @@
 #pragma once
 
-#include "widget/widget.h"
+#include "widget/abstract_widget.h"
 #include <QObject>
+#include <QLineEdit>
 class QWidget;
 
 namespace cllaun {
@@ -11,7 +12,7 @@ namespace widget {
  * @class LineEdit
  * @brief QLineEdit のラッパ
  */
-class LineEdit : public Widget {
+class LineEdit : public AbstractWidget {
     Q_OBJECT
     Q_PROPERTY(QString text READ getText WRITE setText)
     Q_PROPERTY(int cursorPosition READ getCursorPosition WRITE setCursorPosition)
@@ -21,6 +22,8 @@ class LineEdit : public Widget {
 public:
     LineEdit(QWidget* parent = nullptr);
     virtual ~LineEdit();
+    QWidget* getQWidget() { return &self; }
+
     /* property */
     QString getText() const;
     int getCursorPosition() const;    void setCursorPosition(int pos);
@@ -61,6 +64,9 @@ private slots:
     void emitSelectionChanged() { emit selectionChanged(); }
     void emitTextChanged(const QString& text) { emit textChanged(text); }
     void emitTextEdited(const QString& text) { emit textEdited(text); }
+
+private:
+    QLineEdit self;
 };
 
 }
