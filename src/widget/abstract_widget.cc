@@ -94,6 +94,10 @@ void cllaun::widget::AbstractWidget::hide() {
     getQWidget()->hide();
 }
 
+void cllaun::widget::AbstractWidget::setFocus() {
+    getQWidget()->setFocus();
+}
+
 /*!
  * @brief デフォルトのショートカットを QShortcut で上書きできるようにするイベントフィルタ
  */

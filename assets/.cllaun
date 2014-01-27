@@ -11,6 +11,31 @@ commandLine.shortcut['Ctrl+G'] = function() {
     commandLine.text = "Ctrl+G";
     commandLine.selectAll();
 };
+commandLine.shortcut['Tab'] = function() {
+    listView.setFocus();
+    listView.index = 0;
+};
+listView.shortcut['Tab'] = function() {
+    listView.index++;
+};
+listView.shortcut['Shift+Tab'] = function() {
+    listView.index--;
+};
+listView.activated.connect(listView, function(i) {
+    var cmd = Parser.parse(commandLine.text);
+    var subcmd = Parser.parse(commandLine.text.substr(0, commandLine.cursorPosition));
+    var newcmd = [cmd.name].concat(cmd.args);
+    print(newcmd);
+    print(this.data[i]);
+    newcmd[subcmd.args.length] = this.data[i];
+    commandLine.text = newcmd.join(' ');
+    commandLine.setFocus();
+    listView.hide();
+});
+listView.shortcut['Esc'] = function() {
+    commandLine.setFocus();
+    listView.hide();
+};
 
 // Plugin-command test
 Launcher.commands['exit'] = function() {

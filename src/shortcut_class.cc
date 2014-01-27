@@ -21,6 +21,7 @@ Q_DECLARE_METATYPE(QKeySequence)
 cllaun::Shortcut::Shortcut(QWidget* parent, const QScriptValue& _callback)
     : QObject(parent), shortcut(parent), callback(_callback)
 {
+    shortcut.setContext(Qt::WidgetWithChildrenShortcut);
     qScriptConnect(&shortcut, SIGNAL(activated()), QScriptValue(), callback);
 }
 

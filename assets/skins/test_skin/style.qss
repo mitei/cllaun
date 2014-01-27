@@ -24,5 +24,9 @@
     color: #bcbcbc;
     background-color: #333333;
 }
+#listView::item:selected {
+    background-color: #555555;
+    color: #D0D0D0;
+}
 #window {
 }

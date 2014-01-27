@@ -39,6 +39,7 @@ public slots:
     void show();
     // ウィジェットを非表示にする
     void hide();
+    void setFocus();
 
 protected:
     void initialize(QWidget* self);
