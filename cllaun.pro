@@ -45,7 +45,6 @@ unix:LIBS += -lQxtWidgets
 HEADERS += \
     src/dirs.h \
     src/skin.h \
-    src/config.h \
     src/plugin.h \
     src/shortcut_class.h \
     src/global_shortcut_class.h \
@@ -57,7 +56,6 @@ HEADERS += \
     src/api/api_common.h \
     src/api/api_console.h \
     #src/api/api_module.h \
-    src/api/api_config.h \
     src/api/api_skin.h \
     src/api/api_plugin.h \
     src/api/api_parser.h \
@@ -76,7 +74,6 @@ SOURCES += \
     src/main.cc \
     src/dirs.cc \
     src/skin.cc \
-    src/config.cc \
     src/plugin.cc \
     src/shortcut_class.cc \
     src/global_shortcut_class.cc \
@@ -85,7 +82,6 @@ SOURCES += \
     src/api/api_common.cc \
     src/api/api_console.cc \
     #src/api/api_module.cc \
-    src/api/api_config.cc \
     src/api/api_skin.cc \
     src/api/api_plugin.cc \
     src/api/api_shortcut.cc \

@@ -44,14 +44,21 @@ namespace cllaun {
      * @param path
      * @return
      */
-    static inline QScriptValue runScriptFile(QScriptEngine* engine, const QString& path) {
+    static inline bool runScriptFile(QScriptEngine* engine, const QString& path) {
         QFile script_file(path);
         script_file.open(QFile::ReadOnly);
         QString str_script = QString::fromUtf8(script_file.readAll());
+
         QFileInfo script_info(script_file);
-        engine->pushContext();
-        QScriptValue retv = engine->evaluate(str_script, script_info.fileName());
-        engine->popContext();
-        return retv;
+        engine->evaluate(str_script, script_info.fileName());
+        if (engine->hasUncaughtException()) {
+            QString error_str = QString("%1:%2 : %3").arg(path)
+                                                     .arg(engine->uncaughtExceptionLineNumber())
+                                                     .arg(engine->uncaughtException().toString());
+            engine->globalObject().property("print").call(QScriptValue(), QScriptValueList() << error_str);
+            return false;
+        } else {
+            return true;
+        }
     }
 }
