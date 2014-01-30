@@ -11,6 +11,8 @@
 #include "api/api_shortcut.h"
 
 class QScriptEngine;
+class QScriptValue;
+class QScriptContext;
 class QMainWindow;
 
 namespace cllaun {
@@ -26,8 +28,11 @@ public:
     API_Widgets(QScriptEngine* engine);
     ~API_Widgets();
 
+    template <typename WidgetT>
+    static QScriptValue constructor(QScriptContext* context, QScriptEngine* engine);
+
 private:
-    QMainWindow* parent_window;
+    static QMainWindow* parent_window;
     widget::Widget* window;
     widget::LineEdit* command_line;
     widget::StringListView* list_view;

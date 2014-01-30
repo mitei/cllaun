@@ -67,6 +67,7 @@ HEADERS += \
     src/api/api_widgets.h \
     src/widget/abstract_widget.h \
     src/widget/widget.h \
+    src/widget/window.h \
     src/widget/line_edit.h \
     src/widget/string_list_view.h
 
@@ -94,6 +95,7 @@ SOURCES += \
     src/api/api_widgets.cc \
     src/widget/abstract_widget.cc \
     src/widget/widget.cc \
+    src/widget/window.cc \
     src/widget/line_edit.cc \
     src/widget/string_list_view.cc
 

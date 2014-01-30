@@ -2,29 +2,29 @@
 
 
 cllaun::widget::StringListView::StringListView(QWidget* parent)
-    : self(parent)
+    : AbstractWidget(parent), self(new QListView(parent)), model(new QStringListModel(self))
 {
-    self.setModel(&model);
-    initialize(&self);
+    self->setModel(model);
+    initialize(self);
 
-    connect(&self, SIGNAL(activated(QModelIndex)),
+    connect(self, SIGNAL(activated(QModelIndex)),
             this,  SLOT(emitActivated(QModelIndex)));
 }
 
 QStringList cllaun::widget::StringListView::getData() const {
-    return model.stringList();
+    return model->stringList();
 }
 
 void cllaun::widget::StringListView::setData(const QStringList& data) {
-    model.setStringList(data);
+    model->setStringList(data);
 }
 
 int cllaun::widget::StringListView::getCurrentIndex() const {
-    return self.currentIndex().row();
+    return self->currentIndex().row();
 }
 
 void cllaun::widget::StringListView::setCurrentIndex(int i) {
-    self.setCurrentIndex(model.index(i));
+    self->setCurrentIndex(model->index(i));
 }
 
 void cllaun::widget::StringListView::emitActivated(const QModelIndex& index) {

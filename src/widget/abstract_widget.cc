@@ -12,7 +12,9 @@
  * @param _self   Widget の実体である QWidget
  * @param parent  親ウィジェット
  */
-cllaun::widget::AbstractWidget::AbstractWidget() {
+cllaun::widget::AbstractWidget::AbstractWidget(QObject* parent)
+    : QObject(parent)
+{
 }
 
 void cllaun::widget::AbstractWidget::initialize(QWidget* self) {
@@ -103,7 +105,7 @@ void cllaun::widget::AbstractWidget::setFocus() {
  */
 bool cllaun::widget::AbstractWidget::eventFilter(QObject* obj, QEvent* e) {
     switch (e->type()) {
-    case QEvent::ShortcutOverride:
+    case QEvent::ShortcutOverride: {
         QKeyEvent* ke = static_cast<QKeyEvent*>(e);
         if (ke == QKeySequence::AddTab ||
             ke == QKeySequence::Back ||
@@ -175,6 +177,7 @@ bool cllaun::widget::AbstractWidget::eventFilter(QObject* obj, QEvent* e) {
         {
             return true;
         }
+    }
     }
     return false;
 }

@@ -22,7 +22,7 @@ class LineEdit : public AbstractWidget {
 public:
     LineEdit(QWidget* parent = nullptr);
     virtual ~LineEdit();
-    QWidget* getQWidget() { return &self; }
+    QWidget* getQWidget() { return self; }
 
     /* property */
     QString getText() const;
@@ -65,8 +65,8 @@ private slots:
     void emitTextChanged(const QString& text) { emit textChanged(text); }
     void emitTextEdited(const QString& text) { emit textEdited(text); }
 
-private:
-    QLineEdit self;
+protected:
+    QLineEdit* self;
 };
 
 }

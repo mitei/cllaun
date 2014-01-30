@@ -14,7 +14,7 @@ class StringListView : public AbstractWidget {
 
 public:
     StringListView(QWidget* parent = nullptr);
-    QWidget* getQWidget() { return &self; }
+    QWidget* getQWidget() { return self; }
 
     /* property */
     QStringList getData() const;
@@ -28,9 +28,9 @@ signals:
 private slots:
     void emitActivated(const QModelIndex& index);
 
-private:
-    QListView self;
-    QStringListModel model;
+protected:
+    QListView* self;
+    QStringListModel* model;
 };
 
 }

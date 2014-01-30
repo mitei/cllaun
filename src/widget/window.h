@@ -1,7 +1,6 @@
 #pragma once
 
-#include "abstract_widget.h"
-#include <QWidget>
+#include "widget.h"
 
 namespace cllaun {
 namespace widget {
@@ -12,15 +11,11 @@ namespace widget {
  *
  * QWidget は Qt Script から扱うには余計なプロパテイが多いため、ラッパで隠す。
  */
-class Widget : public AbstractWidget {
+class Window : public Widget {
     Q_OBJECT
 
 public:
-    Widget(QWidget* parent = nullptr);
-    QWidget* getQWidget() { return self; }
-
-protected:
-    QWidget* self; /*!< ウィジェットの実体 */
+    Window(QWidget* parent = nullptr);
 };
 
 }

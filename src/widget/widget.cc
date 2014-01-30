@@ -1,7 +1,7 @@
 #include "widget/widget.h"
 
 cllaun::widget::Widget::Widget(QWidget* parent)
-    : self(parent)
+    : AbstractWidget(parent), self(new QWidget(parent))
 {
-    initialize(&self);
+    initialize(self);
 }

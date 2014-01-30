@@ -16,7 +16,7 @@ class AbstractWidget : public QObject {
     Q_PROPERTY(QScriptValue shortcut READ getShortcut)
 
 public:
-    AbstractWidget();
+    AbstractWidget(QObject* parent = nullptr);
     virtual ~AbstractWidget() { }
     virtual QWidget* getQWidget() = 0;
 
