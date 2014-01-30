@@ -247,7 +247,6 @@ QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& na
         QStringList entry_list = dirs.entryList(name_filter, QDir::Files|QDir::Executable);
         if (!entry_list.isEmpty()) {
             candidates += entry_list;
-
         }
 
         // Command type が EXECUTABLE の場合、検索終了
@@ -260,7 +259,7 @@ QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& na
         while (iter.hasNext()) {
             iter.next();
             if (iter.name().startsWith(name, Qt::CaseInsensitive)) {
-                candidates.push_back(iter.name());
+                candidates.push_back('?' + iter.name());
             }
         }
 
@@ -274,7 +273,7 @@ QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& na
         while (iter.hasNext()) {
             iter.next();
             if (iter.name().startsWith(name, Qt::CaseInsensitive)) {
-                candidates.push_back(iter.name());
+                candidates.push_back(':' + iter.name());
             }
         }
 
@@ -291,7 +290,7 @@ QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& na
             QString absolute_path = path_info.absolutePath();
             if (!absolute_path.endsWith('/')) absolute_path += '/';
             absolute_path = QDir::toNativeSeparators(absolute_path + filename);
-            candidates.push_back(absolute_path);
+            candidates.push_back('"' + absolute_path + '"');
         }
 
         // Command type が PATH の場合、検索終了

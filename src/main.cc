@@ -31,8 +31,8 @@ int main(int argc, char** argv) {
     // 設定ファイルの読み込み
     QStringList conflist = QStringList() << (app.applicationDirPath() + "/.cllaun")
                                          << (app.applicationDirPath() + "/_cllaun")
-                                         /*<< (QDir::homePath() + "/.cllaun")
-                                         << (QDir::homePath() + "/_cllaun")*/;
+                                         << (QDir::homePath() + "/.cllaun")
+                                         << (QDir::homePath() + "/_cllaun");
     foreach (const QString conf, conflist) {
         QFileInfo confinfo(conf);
         if (confinfo.exists()) {

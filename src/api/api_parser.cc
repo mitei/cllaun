@@ -91,5 +91,5 @@ cllaun::API_Parser::API_Parser(QScriptEngine* engine) {
     QScriptValue parser_obj = engine->newObject();
     parser_obj.setProperty("parse", engine->newFunction(parserParse));
     parser_obj.setProperty("split", engine->newFunction(parserSplit));
-    engine->globalObject().setProperty("Parser", parser_obj, QScriptValue::Undeletable|QScriptValue::ReadOnly);
+    engine->globalObject().setProperty("parser", parser_obj, QScriptValue::Undeletable|QScriptValue::ReadOnly);
 }

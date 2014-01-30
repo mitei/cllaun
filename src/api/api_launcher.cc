@@ -7,6 +7,6 @@
  * @brief Launcher-api の初期化
  */
 cllaun::API_Launcher::API_Launcher(QScriptEngine* engine) {
-    engine->globalObject().setProperty("Launcher", Launcher::newQObject(engine),
+    engine->globalObject().setProperty("launcher", Launcher::newQObject(engine),
                                        QScriptValue::ReadOnly|QScriptValue::Undeletable);
 }

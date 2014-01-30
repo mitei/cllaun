@@ -22,8 +22,8 @@ listView.shortcut['Shift+Tab'] = function() {
     listView.index--;
 };
 listView.activated.connect(listView, function(i) {
-    var cmd = Parser.parse(commandLine.text);
-    var subcmd = Parser.parse(commandLine.text.substr(0, commandLine.cursorPosition));
+    var cmd = parser.parse(commandLine.text);
+    var subcmd = parser.parse(commandLine.text.substr(0, commandLine.cursorPosition));
     var newcmd = [cmd.name].concat(cmd.args);
     print(newcmd);
     print(this.data[i]);
@@ -32,36 +32,36 @@ listView.activated.connect(listView, function(i) {
     commandLine.setFocus();
     listView.hide();
 });
-listView.shortcut['Esc'] = function() {
+listView.shortcut['Esc'] = listView.shortcut['Backspace'] = function() {
     commandLine.setFocus();
     listView.hide();
 };
 
 // Plugin-command test
-Launcher.commands['exit'] = function() {
+launcher.commands['exit'] = function() {
     exit();
 };
-Launcher.commands['eval'] = function(script_str) {
+launcher.commands['eval'] = function(script_str) {
     eval(script_str);
 };
 
 // Alias-api test
-Launcher.aliases['quit'] = ':exit';
+launcher.aliases['quit'] = ':exit';
 
 // signal-slot test
 commandLine.returnPressed.connect(commandLine, function() {
     this.selectAll();
     window.hide();
-    var cmd = Parser.parse(this.text);
-    Launcher.run(cmd);
+    var cmd = parser.parse(this.text);
+    launcher.run(cmd);
 });
 commandLine.textChanged.connect(commandLine, function() {
-    var cmd = Parser.parse(this.text.substr(0, this.cursorPosition));
+    var cmd = parser.parse(this.text.substr(0, this.cursorPosition));
     var candidates;
     if (cmd.args.length > 0) {
-        candidates = Launcher.list(cmd.args[cmd.args.length - 1]);
+        candidates = launcher.list(cmd.args[cmd.args.length - 1]);
     } else {
-        candidates = Launcher.list(cmd.name);
+        candidates = launcher.list(cmd.name);
     }
 
     listView.data = candidates;
