@@ -13,6 +13,10 @@ class AbstractWidget : public QObject {
     Q_PROPERTY(int y READ getY WRITE setY)
     Q_PROPERTY(int width READ getWidth WRITE setWidth)
     Q_PROPERTY(int height READ getHeight WRITE setHeight)
+    Q_PROPERTY(QString tooltip READ getTooltip WRITE setTooltip)
+    Q_PROPERTY(QString styleSheet READ getStylesheet WRITE setStylesheet)
+    Q_PROPERTY(bool translucentBackground READ isTranslucentBackground WRITE setTranslucentBackground)
+    Q_PROPERTY(QString id READ getId WRITE setId)
     Q_PROPERTY(QScriptValue shortcut READ getShortcut)
 
 public:
@@ -24,10 +28,14 @@ public:
     bool eventFilter(QObject* obj, QEvent* event);
 
     /* property */
-    int getX();         void setX(int x);
-    int getY();         void setY(int y);
-    int getWidth();     void setWidth(int w);
-    int getHeight();    void setHeight(int h);
+    int getX();                void setX(int x);
+    int getY();                void setY(int y);
+    int getWidth();            void setWidth(int w);
+    int getHeight();           void setHeight(int h);
+    QString getTooltip();      void setTooltip(const QString& text);
+    QString getStylesheet();   void setStylesheet(const QString& stylesheet);
+    bool isTranslucentBackground();  void setTranslucentBackground(bool flag);
+    QString getId();           void setId(const QString& id);
     const QScriptValue& getShortcut() const;
 
 public slots:

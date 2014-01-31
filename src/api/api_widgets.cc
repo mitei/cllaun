@@ -7,6 +7,7 @@
 #include "widget/string_list_view.h"
 #include "api.h"
 
+
 QMainWindow* cllaun::API_Widgets::parent_window = nullptr;
 
 template <typename WidgetT>
@@ -26,6 +27,7 @@ cllaun::API_Widgets::API_Widgets(QScriptEngine *engine)
     if (parent_window == nullptr)
         parent_window = new QMainWindow;
 
+    /*
     window = new widget::Widget(parent_window);
     window->getQWidget()->setWindowFlags(Qt::Window|Qt::FramelessWindowHint|Qt::WindowStaysOnTopHint);
     window->getQWidget()->setAttribute(Qt::WA_TranslucentBackground);
@@ -39,6 +41,7 @@ cllaun::API_Widgets::API_Widgets(QScriptEngine *engine)
     engine->globalObject().setProperty("window", engine->newQObject(window));
     engine->globalObject().setProperty("commandLine", engine->newQObject(command_line));
     engine->globalObject().setProperty("listView", engine->newQObject(list_view));
+    */
 
     setMethod(engine, "Widget", constructor<widget::Widget>);
     setMethod(engine, "Window", constructor<widget::Window>);

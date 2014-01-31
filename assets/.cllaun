@@ -1,5 +1,13 @@
 print("--- Config: default.cllaun_conf");
 
+global.window = new Window();
+window.id = "window";
+window.frameLess = window.staysOnTop = window.translucentBackground = true;
+global.commandLine = new LineEdit(window);
+commandLine.id = "commandLine";
+global.listView = new StringListView(window);
+listView.id = "listView";
+
 // Skin-api test
 skin.read("test_skin");
 
@@ -7,10 +15,7 @@ skin.read("test_skin");
 shortcut['Ctrl+Alt+Space'] = window.show;
 
 // (Widget-)Shortcut-api test
-commandLine.shortcut['Ctrl+G'] = function() {
-    commandLine.text = "Ctrl+G";
-    commandLine.selectAll();
-};
+commandLine.shortcut['Esc'] = window.hide;
 commandLine.shortcut['Tab'] = function() {
     listView.setFocus();
     listView.index = 0;
@@ -25,8 +30,6 @@ listView.activated.connect(listView, function(i) {
     var cmd = parser.parse(commandLine.text);
     var subcmd = parser.parse(commandLine.text.substr(0, commandLine.cursorPosition));
     var newcmd = [cmd.name].concat(cmd.args);
-    print(newcmd);
-    print(this.data[i]);
     newcmd[subcmd.args.length] = this.data[i];
     commandLine.text = newcmd.join(' ');
     commandLine.setFocus();

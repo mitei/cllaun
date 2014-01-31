@@ -58,9 +58,42 @@ void cllaun::widget::AbstractWidget::setHeight(int h) {
     getQWidget()->resize(getQWidget()->width(), h);
 }
 
+QString cllaun::widget::AbstractWidget::getTooltip(){
+    return getQWidget()->toolTip();
+}
+
+void cllaun::widget::AbstractWidget::setTooltip(const QString& text) {
+    getQWidget()->setToolTip(text);
+}
+
+QString cllaun::widget::AbstractWidget::getStylesheet() {
+    return getQWidget()->styleSheet();
+}
+
+void cllaun::widget::AbstractWidget::setStylesheet(const QString& stylesheet) {
+    getQWidget()->setStyleSheet(stylesheet);
+}
+
+bool cllaun::widget::AbstractWidget::isTranslucentBackground() {
+    return getQWidget()->testAttribute(Qt::WA_TranslucentBackground);
+}
+
+void cllaun::widget::AbstractWidget::setTranslucentBackground(bool flag) {
+    getQWidget()->setAttribute(Qt::WA_TranslucentBackground, flag);
+}
+
+QString cllaun::widget::AbstractWidget::getId() {
+    return getQWidget()->objectName();
+}
+
+void cllaun::widget::AbstractWidget::setId(const QString& id) {
+    getQWidget()->setObjectName(id);
+}
+
 const QScriptValue& cllaun::widget::AbstractWidget::getShortcut() const {
     return shortcut;
 }
+
 
 /*!
  * @brief ウィジェットの移動
