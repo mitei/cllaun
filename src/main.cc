@@ -12,9 +12,14 @@
 #include "api/api_launcher.h"
 #include "api.h"
 
+#define VERSION "0.0.0"
+#define APP_NAME "Cllaun"
+
 
 int main(int argc, char** argv) {
     QApplication app(argc, argv);
+    app.setApplicationVersion(VERSION);
+    app.setApplicationName(APP_NAME);
     app.setQuitOnLastWindowClosed(false);
     app.addLibraryPath(app.applicationDirPath() + "/plugins");
 

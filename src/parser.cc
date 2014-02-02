@@ -12,10 +12,11 @@
  *   [^\"] :  ダブルクォート以外の文字
  *   * :      の 0回以上の連続
  *   | :      または
+ *   \\\\  :  バックスラッシュ+半角スペース と
  *   [^ \"] : 半角スペースとダブルクォート以外の文字
  *   + :      の 1回以上の連続
  */
-#define COMMAND_TOKEN_REGEXP "(\"(\\\\\"|[^\"])*\")|([^ \"]+)"
+#define COMMAND_TOKEN_REGEXP "(\"(\\\\\"|[^\"])*\")|((\\\\ |[^ \"])+)"
 
 
 /*!
@@ -48,6 +49,7 @@ QStringList cllaun::Parser::split(QString src) {
     while ((pos = regex.indexIn(src, pos)) != -1) {
         QString token = regex.cap(0);
         token.replace("\\\"", "\"");
+        token.replace("\\ ", " ");
         tokens << token;
         pos += regex.matchedLength();
     }

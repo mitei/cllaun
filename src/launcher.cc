@@ -290,7 +290,7 @@ QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& na
             QString absolute_path = path_info.absolutePath();
             if (!absolute_path.endsWith('/')) absolute_path += '/';
             absolute_path = QDir::toNativeSeparators(absolute_path + filename);
-            candidates.push_back('"' + absolute_path + '"');
+            candidates.push_back(absolute_path.replace(" ", "\\ "));
         }
 
         // Command type が PATH の場合、検索終了
