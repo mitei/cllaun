@@ -8,6 +8,12 @@ commandLine.id = "commandLine";
 global.listView = new StringListView(window);
 listView.id = "listView";
 
+window.resize(1000, 1000);
+window.move(300, 300);
+window.show();
+listView.move(16, 52);
+listView.hide();
+
 // Skin-api test
 skin.read("test_skin");
 
@@ -75,12 +81,6 @@ commandLine.textChanged.connect(commandLine, function() {
         print('onCursorPositionChanged: ' + candidates.toString());
     }
 });
-
-window.resize(1000, 1000);
-window.move(300, 300);
-window.show();
-listView.move(16, 52);
-listView.hide();
 
 // Plugin-api test
 plugin.importAll();
