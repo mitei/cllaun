@@ -26,7 +26,7 @@ public:
 
 public slots:
     // 指定された名前のプラグインを読み込む
-    void import(const QString& name) const;
+    void imports(const QString& name) const;
     // すべてのプラグインを読み込む
     void importAll() const;
 

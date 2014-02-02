@@ -1,4 +1,4 @@
-print("--- Config: default.cllaun_conf");
+print("--- Config: {APP_DIR}/.cllaun");
 
 global.window = new Window();
 window.id = "window";
@@ -78,11 +78,10 @@ commandLine.textChanged.connect(commandLine, function() {
         listView.hide();
     } else {
         listView.show();
-        print('onCursorPositionChanged: ' + candidates.toString());
     }
 });
 
 // Plugin-api test
 plugin.importAll();
 
-print("--- /Config: default.cllaun_conf");
+print("--- /Config: {APP_DIR}/.cllaun");

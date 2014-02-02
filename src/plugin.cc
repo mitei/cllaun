@@ -46,7 +46,7 @@ QStringList cllaun::Plugin::available() const {
  *
  * @param name  読み込みたいプラグイン名
  */
-void cllaun::Plugin::import(const QString& name) const {
+void cllaun::Plugin::imports(const QString& name) const {
     QScriptValue result = engine()->importExtension(name);
     // スクリプトの読み込み時にエラーが発生した場合、エラーオブジェクトが返る。
     // そうでない場合、undefined が返る。
