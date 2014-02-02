@@ -3,10 +3,14 @@
 #include <QFileInfo>
 #include <QStringList>
 #include <QDir>
+#include <QProcess>
+#include <QDesktopServices>
+#include <QUrl>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
 #include "parser.h"
 #include "dirs.h"
+#include <QDebug>
 #ifdef WIN32
 #include <Windows.h>
 #endif
@@ -77,11 +81,16 @@ int cllaun::Launcher::run(QObject* command_obj) {
         QStringList paths = qscriptvalue_cast<QStringList>(thisObject().property("paths"));
         Dirs dirs(paths);
         QStringList name_filter;
-        name_filter << (name + ".*");
+        name_filter << (name + "*");
         // ファイルまたは実行可能ファイルのみ検索
         QStringList entry_list = dirs.entryList(name_filter, QDir::Files|QDir::Executable);
         if (!entry_list.isEmpty()) {
-            return execute(entry_list.at(0), command->getArgs().join(' '));
+            const QString name = entry_list.at(0);
+            if (QProcess::startDetached(name, command->getArgs())) {
+                return 0;
+            } else {
+                QDesktopServices::openUrl(QUrl::fromLocalFile(name));
+            }
         } else if (command->getType() == Command::EXECUTABLE) {
             // コマンドタイプが EXECUTABLE かつ、Launcher.paths に指定されたコマンドを含む
             // ディレクトリが存在しない場合、実行すべきコマンドが存在しないため、何もしない
@@ -128,7 +137,12 @@ int cllaun::Launcher::run(QObject* command_obj) {
     case Command::PATH: {
         QFileInfo path_info(name);
         if (path_info.exists()) {
-            return execute(name, command->getArgs().join(' '));
+            if (path_info.isExecutable()) {
+                if (QProcess::startDetached(name, command->getArgs())) {
+                    return 0;
+                }
+            }
+            return QDesktopServices::openUrl(QUrl::fromLocalFile(name)) ? 0 : -1;
         }
     }
 
@@ -178,6 +192,7 @@ QString cllaun::Launcher::normalize(cllaun::Command::Type type, const QString& n
  * @param args 引数文字列
  * @return 実行結果
  */
+/*
 int cllaun::Launcher::execute(const QString& path, const QString& args) {
     SHELLEXECUTEINFO sh_info;
 
@@ -207,6 +222,7 @@ int cllaun::Launcher::execute(const QString& path, const QString& args) {
     // TODO: return result
     return 1;
 }
+*/
 #endif
 
 #ifdef __unix
@@ -217,6 +233,7 @@ int cllaun::Launcher::execute(const QString& path, const QString& args) {
  * @param args 引数文字列
  * @return 実行結果
  */
+/*
 int cllaun::Launcher::execute(const QString& path, const QString& args) {
     QFileInfo file_info(path);
     if (file_info.isExecutable()) {
@@ -225,6 +242,7 @@ int cllaun::Launcher::execute(const QString& path, const QString& args) {
         return system(("xdg-open " + path).toStdString().c_str());
     }
 }
+*/
 #endif
 
 /*!

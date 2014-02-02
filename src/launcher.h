@@ -17,7 +17,7 @@ public slots:
     // コマンドを実行
     int run(QObject* command);
     // ファイルを開く
-    int execute(const QString& path, const QString& args);
+    //int execute(const QString& path, const QString& args);
     // 候補リストを取得
     QStringList list(const QString& src);
 
