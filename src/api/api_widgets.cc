@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include "widget/widget.h"
 #include "widget/window.h"
+#include "widget/label.h"
 #include "widget/line_edit.h"
 #include "widget/string_list_view.h"
 #include "api.h"
@@ -29,9 +30,19 @@ cllaun::API_Widgets::API_Widgets(QScriptEngine *engine)
 
     setMethod(engine, "Widget", constructor<widget::Widget>);
     setMethod(engine, "Window", constructor<widget::Window>);
+    setMethod(engine, "Label", constructor<widget::Label>);
     setMethod(engine, "LineEdit", constructor<widget::LineEdit>);
     setMethod(engine, "StringListView", constructor<widget::StringListView>);
 
+    qScriptRegisterMetaType(engine,
+                            widget::Label::alignmentToScriptValue,
+                            widget::Label::alignmentFromScriptValue);
+    qScriptRegisterMetaType(engine,
+                            widget::Label::interactionToScriptValue,
+                            widget::Label::interactionFromScriptValue);
+    qScriptRegisterMetaType(engine,
+                            widget::Label::textformatToScriptValue,
+                            widget::Label::textformatFromScriptValue);
 }
 
 cllaun::API_Widgets::~API_Widgets() {
