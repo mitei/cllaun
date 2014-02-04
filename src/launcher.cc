@@ -237,7 +237,7 @@ QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& na
     case Command::PATH: {
         QFileInfo path_info(name);
         QStringList name_filter = QStringList() << (path_info.fileName() + "*");
-        QStringList filename_list = path_info.dir().entryList(name_filter, QDir::Files|QDir::Dirs);
+        QStringList filename_list = path_info.dir().entryList(name_filter, QDir::NoDotAndDotDot|QDir::Files|QDir::Dirs);
         // ディレクトリ名を含む絶対パスに変換して候補リストに追加
         foreach (const QString filename, filename_list) {
             QString absolute_path = path_info.absolutePath();
