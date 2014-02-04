@@ -10,10 +10,6 @@
 #include <QScriptValueIterator>
 #include "parser.h"
 #include "dirs.h"
-#include <QDebug>
-#ifdef WIN32
-#include <Windows.h>
-#endif
 
 namespace {
 
@@ -183,67 +179,6 @@ QString cllaun::Launcher::normalize(cllaun::Command::Type type, const QString& n
         return name;
     }
 }
-
-#ifdef WIN32
-/*!
- * @brief Windows 用 `ファイルを開く`
- *
- * @param path ファイルまたはディレクトリのパス
- * @param args 引数文字列
- * @return 実行結果
- */
-/*
-int cllaun::Launcher::execute(const QString& path, const QString& args) {
-    SHELLEXECUTEINFO sh_info;
-
-    QFileInfo info(path);
-    if (!info.exists()) return -1; // Error: path not exists.
-    QDir dir(path);
-    if (info.isFile()) dir.cdUp();
-    QString directory = QDir::toNativeSeparators(dir.absolutePath());
-
-    // set SHELLEXECUTEINFO(sh_info) members.
-    sh_info.cbSize   = sizeof(SHELLEXECUTEINFO);
-    //sh_info.fMask    = SEE_MASK_FLAG_NO_UI;
-    sh_info.fMask    = NULL;
-    sh_info.hwnd     = NULL;
-    sh_info.lpVerb   = NULL; // "open"
-    sh_info.lpFile   =
-            reinterpret_cast<LPCTSTR>(QDir::toNativeSeparators(path).utf16());
-    sh_info.lpParameters = (args != "") ?
-            reinterpret_cast<LPCTSTR>(args.utf16()) :
-            NULL;
-    sh_info.lpDirectory = reinterpret_cast<LPCTSTR>(directory.utf16());
-    sh_info.nShow = SW_NORMAL;
-    sh_info.hInstApp = NULL;
-
-    ShellExecuteEx(&sh_info);
-
-    // TODO: return result
-    return 1;
-}
-*/
-#endif
-
-#ifdef __unix
-/*!
- * @brief UNIX 用 execute
- *
- * @param path ファイルまたはディレクトリのパス
- * @param args 引数文字列
- * @return 実行結果
- */
-/*
-int cllaun::Launcher::execute(const QString& path, const QString& args) {
-    QFileInfo file_info(path);
-    if (file_info.isExecutable()) {
-        return system((path + ' ' + args).toStdString().c_str());
-    } else {
-        return system(("xdg-open " + path).toStdString().c_str());
-    }
-}
-*/
-#endif
 
 /*!
  * @brief 指定されたコマンドタイプのコマンド候補リストを取得
