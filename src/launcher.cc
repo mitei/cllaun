@@ -170,11 +170,14 @@ QString cllaun::Launcher::normalize(cllaun::Command::Type type, const QString& n
 
     // コマンドタイプが PATH で、ダブルクォートで囲まれている場合、ダブルクォートを取り除く。
     // また、パスセパレータをプラットフォーム固有のセパレータに変換する。
-    case Command::PATH:
-        return QDir::toNativeSeparators(
-            name.startsWith('"') && name.endsWith('"') ?
-                name.mid(1, name.size() - 2) :
-                name);
+    case Command::PATH: {
+        QString normalized = name;
+        if (normalized.startsWith('"') && normalized.endsWith('"'))
+            normalized = normalized.mid(1, normalized.size() - 2);
+        if (normalized.startsWith("~/"))
+            normalized = QDir::homePath() + normalized.mid(1);
+        return QDir::toNativeSeparators(normalized);
+    }
     default:
         return name;
     }
@@ -240,7 +243,7 @@ QStringList cllaun::Launcher::list(cllaun::Command::Type type, const QString& na
         QStringList filename_list = path_info.dir().entryList(name_filter, QDir::NoDotAndDotDot|QDir::Files|QDir::Dirs);
         // ディレクトリ名を含む絶対パスに変換して候補リストに追加
         foreach (const QString filename, filename_list) {
-            QString absolute_path = path_info.absolutePath();
+            QString absolute_path = path_info.dir().absolutePath();
             if (!absolute_path.endsWith('/')) absolute_path += '/';
             absolute_path = QDir::toNativeSeparators(absolute_path + filename);
             candidates.push_back(absolute_path.replace(" ", "\\ "));
