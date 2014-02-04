@@ -47,12 +47,9 @@ listView.shortcut['Esc'] = listView.shortcut['Backspace'] = function() {
 };
 
 // Plugin-command test
-launcher.commands['exit'] = function() {
-    exit();
-};
-launcher.commands['eval'] = function(script_str) {
-    eval(script_str);
-};
+launcher.commands['exit'] = exit;
+launcher.commands['eval'] = eval;
+launcher.aliases['!'] = ':eval';
 
 // Alias-api test
 launcher.aliases['quit'] = ':exit';
