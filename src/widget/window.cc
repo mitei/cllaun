@@ -3,22 +3,30 @@
 cllaun::widget::Window::Window(QWidget* parent)
     : Widget(parent)
 {
-    self->setWindowFlags(Qt::Window);
 }
 
+cllaun::widget::QWindow* cllaun::widget::Window::getThis() {
+    return thisObject().data().toVariant().value<QWindow*>();
+}
+
+/*
+ * Property accessors
+ */
+
 QString cllaun::widget::Window::getWindowTitle() {
-    return self->windowTitle();
+    return getThis()->windowTitle();
 }
 
 void cllaun::widget::Window::setWindowTitle(const QString& title) {
-    self->setWindowTitle(title);
+    getThis()->setWindowTitle(title);
 }
 
 bool cllaun::widget::Window::isFrameless(){
-    return (self->windowFlags() & Qt::FramelessWindowHint) ? true : false;
+    return (getThis()->windowFlags() & Qt::FramelessWindowHint) ? true : false;
 }
 
 void cllaun::widget::Window::setFrameless(bool flag) {
+    QWindow* self = getThis();
     if (flag) {
         self->setWindowFlags(self->windowFlags() | Qt::FramelessWindowHint);
     } else {
@@ -28,10 +36,11 @@ void cllaun::widget::Window::setFrameless(bool flag) {
 
 /*
 bool cllaun::widget::Window::isNoDropShadow() {
-    return (self->windowFlags() & Qt::NoDropShadowWindowHint) ? true : false;
+    return (getThis()->windowFlags() & Qt::NoDropShadowWindowHint) ? true : false;
 }
 
 void cllaun::widget::Window::setNoDropShadow(bool flag) {
+    QWindow* self = getThis();
     if (flag) {
         self->setWindowFlags(self->windowFlags() | Qt::NoDropShadowWindowHint);
     } else {
@@ -41,10 +50,11 @@ void cllaun::widget::Window::setNoDropShadow(bool flag) {
 */
 
 bool cllaun::widget::Window::isStaysOnTop() {
-    return (self->windowFlags() & Qt::WindowStaysOnTopHint) ? true : false;
+    return (getThis()->windowFlags() & Qt::WindowStaysOnTopHint) ? true : false;
 }
 
 void cllaun::widget::Window::setStaysOnTop(bool flag) {
+    QWindow* self = getThis();
     if (flag) {
         self->setWindowFlags(self->windowFlags() | Qt::WindowStaysOnTopHint);
     } else {
@@ -53,10 +63,11 @@ void cllaun::widget::Window::setStaysOnTop(bool flag) {
 }
 
 bool cllaun::widget::Window::isStaysOnBottom() {
-    return (self->windowFlags() & Qt::WindowStaysOnBottomHint) ? true : false;
+    return (getThis()->windowFlags() & Qt::WindowStaysOnBottomHint) ? true : false;
 }
 
 void cllaun::widget::Window::setStaysOnBottom(bool flag) {
+    QWindow* self = getThis();
     if (flag) {
         self->setWindowFlags(self->windowFlags() | Qt::WindowStaysOnBottomHint);
     } else {
@@ -66,10 +77,11 @@ void cllaun::widget::Window::setStaysOnBottom(bool flag) {
 
 /*
 bool cllaun::widget::Window::isAcceptFocus() {
-    return (self->windowFlags() & Qt::WindowDoesNotAcceptFocus) ? false : true;
+    return (getThis()->windowFlags() & Qt::WindowDoesNotAcceptFocus) ? false : true;
 }
 
 void cllaun::widget::Window::setAcceptFocus(bool flag) {
+    QWindow* self = getThis();
     if (!flag) {
         self->setWindowFlags(self->windowFlags() | Qt::WindowDoesNotAcceptFocus);
     } else {
@@ -80,10 +92,11 @@ void cllaun::widget::Window::setAcceptFocus(bool flag) {
 
 /*
 bool cllaun::widget::Window::hasTitleBar() {
-    return (self->windowFlags() & Qt::WindowTitleHint) ? true : false;
+    return (getThis()->windowFlags() & Qt::WindowTitleHint) ? true : false;
 }
 
 void cllaun::widget::Window::setHasTitleBar(bool flag) {
+    QWindow* self = getThis();
     if (flag) {
         self->setWindowFlags(self->windowFlags() | Qt::WindowTitleHint);
     } else {
@@ -93,10 +106,11 @@ void cllaun::widget::Window::setHasTitleBar(bool flag) {
 */
 
 bool cllaun::widget::Window::hasMinimizeButton() {
-    return (self->windowFlags() & Qt::WindowMinimizeButtonHint) ? true : false;
+    return (getThis()->windowFlags() & Qt::WindowMinimizeButtonHint) ? true : false;
 }
 
 void cllaun::widget::Window::setHasMinimizeButton(bool flag) {
+    QWindow* self = getThis();
     if (flag) {
         self->setWindowFlags(self->windowFlags() | Qt::WindowMinimizeButtonHint);
     } else {
@@ -105,10 +119,11 @@ void cllaun::widget::Window::setHasMinimizeButton(bool flag) {
 }
 
 bool cllaun::widget::Window::hasMaximizeButton() {
-    return (self->windowFlags() & Qt::WindowMaximizeButtonHint) ? true : false;
+    return (getThis()->windowFlags() & Qt::WindowMaximizeButtonHint) ? true : false;
 }
 
 void cllaun::widget::Window::setHasMaximizeButton(bool flag) {
+    QWindow* self = getThis();
     if (flag) {
         self->setWindowFlags(self->windowFlags() | Qt::WindowMaximizeButtonHint);
     } else {
@@ -117,10 +132,11 @@ void cllaun::widget::Window::setHasMaximizeButton(bool flag) {
 }
 
 bool cllaun::widget::Window::hasCloseButton() {
-    return (self->windowFlags() & Qt::WindowCloseButtonHint) ? true : false;
+    return (getThis()->windowFlags() & Qt::WindowCloseButtonHint) ? true : false;
 }
 
 void cllaun::widget::Window::setHasCloseButton(bool flag) {
+    QWindow* self = getThis();
     if (flag) {
         self->setWindowFlags(self->windowFlags() | Qt::WindowCloseButtonHint);
     } else {
@@ -130,10 +146,11 @@ void cllaun::widget::Window::setHasCloseButton(bool flag) {
 
 // for Mac
 bool cllaun::widget::Window::hasSystemMenu() {
-    return (self->windowFlags() & Qt::WindowSystemMenuHint) ? true : false;
+    return (getThis()->windowFlags() & Qt::WindowSystemMenuHint) ? true : false;
 }
 
 void cllaun::widget::Window::setHasSystemMenu(bool flag) {
+    QWindow* self = getThis();
     if (flag) {
         self->setWindowFlags(self->windowFlags() | Qt::WindowSystemMenuHint);
     } else {

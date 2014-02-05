@@ -18,10 +18,14 @@ listView.hide();
 skin.read("test_skin");
 
 // Global-Shortcut-api test
-shortcut['Ctrl+Alt+Space'] = window.show;
+shortcut['Ctrl+Alt+Space'] = function() {
+    window.show();
+};
 
 // (Widget-)Shortcut-api test
-commandLine.shortcut['Esc'] = window.hide;
+commandLine.shortcut['Esc'] = function() {
+    window.hide();
+}
 commandLine.shortcut['Tab'] = function() {
     listView.setFocus();
     listView.index = 0;

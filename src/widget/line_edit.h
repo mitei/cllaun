@@ -1,9 +1,7 @@
 #pragma once
 
-#include "widget/abstract_widget.h"
-#include <QObject>
+#include "widget/widget.h"
 #include <QLineEdit>
-class QWidget;
 
 namespace cllaun {
 namespace widget {
@@ -12,7 +10,7 @@ namespace widget {
  * @class LineEdit
  * @brief QLineEdit のラッパ
  */
-class LineEdit : public AbstractWidget {
+class LineEdit : public Widget {
     Q_OBJECT
     Q_PROPERTY(QString text READ getText WRITE setText)
     Q_PROPERTY(int cursorPosition READ getCursorPosition WRITE setCursorPosition)
@@ -21,20 +19,17 @@ class LineEdit : public AbstractWidget {
 
 public:
     LineEdit(QWidget* parent = nullptr);
-    virtual ~LineEdit();
-    QWidget* getQWidget() { return self; }
+    virtual ~LineEdit() { }
+    virtual void initialize(QWidget* self);
 
     /* property */
-    QString getText() const;
-    int getCursorPosition() const;    void setCursorPosition(int pos);
-    QString getSelectedText() const;
-    int getMaxLength() const;         void setMaxLength(int length);
+    QString getText();
+    int getCursorPosition();    void setCursorPosition(int pos);
+    QString getSelectedText();
+    int getMaxLength();         void setMaxLength(int length);
 
-    /* QLineEdit Public Functions ラッパ */
-    Q_INVOKABLE void setSelection(int start, int length);
-    Q_INVOKABLE void home(bool mark);
-    Q_INVOKABLE void end(bool mark);
-    Q_INVOKABLE void deselect();
+public slots:
+    void setText(const QString& text);
 
 signals:
     /* QLineEdit シグナルのラッパ */
@@ -45,17 +40,6 @@ signals:
     void textChanged(const QString& text);
     void textEdited(const QString& text);
 
-public slots:
-    /* QLineEdit スロットのラッパ */
-    void clear();
-    void copy() const;
-    void cut();
-    void paste();
-    void redo();
-    void selectAll();
-    void setText(const QString& text);
-    void undo();
-
 private slots:
     /* QLineEdit シグナルによって呼ばれ、対応する LineEdit シグナルを emit する。 */
     void emitReturnPressed() { emit returnPressed(); }
@@ -65,9 +49,10 @@ private slots:
     void emitTextChanged(const QString& text) { emit textChanged(text); }
     void emitTextEdited(const QString& text) { emit textEdited(text); }
 
-protected:
-    QLineEdit* self;
+private:
+    inline QLineEdit* getThis();
 };
 
 }
 }
+

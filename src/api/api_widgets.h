@@ -28,14 +28,11 @@ public:
     API_Widgets(QScriptEngine* engine);
     ~API_Widgets();
 
-    template <typename WidgetT>
-    static QScriptValue constructor(QScriptContext* context, QScriptEngine* engine);
+    template <typename WrapT, typename BaseT>
+    static QScriptValue constructor(QScriptContext* context, QScriptEngine* engine, void* proto);
 
 private:
     static QMainWindow* parent_window;
-    widget::Widget* window;
-    widget::LineEdit* command_line;
-    widget::StringListView* list_view;
     API_Shortcut api_shortcut;
 
 private:

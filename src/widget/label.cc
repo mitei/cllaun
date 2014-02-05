@@ -3,85 +3,84 @@
 
 
 cllaun::widget::Label::Label(QWidget *parent)
-    : AbstractWidget(parent), self(new QLabel(parent))
+    : Widget(parent)
 {
-    initialize(self);
 }
 
-cllaun::widget::Label::~Label() {
+QLabel* cllaun::widget::Label::getThis() {
+    return thisObject().data().toVariant().value<QLabel*>();
 }
 
-
-QString cllaun::widget::Label::getText() const {
-    return self->text();
+QString cllaun::widget::Label::getText() {
+    return getThis()->text();
 }
 
 void cllaun::widget::Label::setText(const QString& text) {
-    self->setText(text);
+    getThis()->setText(text);
 }
 
-bool cllaun::widget::Label::hasSelectedText() const {
-    return self->hasSelectedText();
+bool cllaun::widget::Label::hasSelectedText() {
+    return getThis()->hasSelectedText();
 }
 
-QString cllaun::widget::Label::getSelectedText() const {
-    return self->selectedText();
+QString cllaun::widget::Label::getSelectedText() {
+    return getThis()->selectedText();
 }
 
-int cllaun::widget::Label::getIndent() const {
-    return self->indent();
+int cllaun::widget::Label::getIndent() {
+    return getThis()->indent();
 }
 
 void cllaun::widget::Label::setIndent(int indent) {
-    self->setIndent(indent);
+    getThis()->setIndent(indent);
 }
 
-int cllaun::widget::Label::getMargin() const {
-    return self->margin();
+int cllaun::widget::Label::getMargin() {
+    return getThis()->margin();
 }
 
 void cllaun::widget::Label::setMargin(int margin) {
-    self->setMargin(margin);
+    getThis()->setMargin(margin);
 }
 
-bool cllaun::widget::Label::getWordWrap() const {
-    return self->wordWrap();
+bool cllaun::widget::Label::getWordWrap() {
+    return getThis()->wordWrap();
 }
 
 void cllaun::widget::Label::setWordWrap(bool on) {
-    self->setWordWrap(on);
+    getThis()->setWordWrap(on);
 }
 
-bool cllaun::widget::Label::getOpenExternalLinks() const {
-    return self->openExternalLinks();
+bool cllaun::widget::Label::getOpenExternalLinks() {
+    return getThis()->openExternalLinks();
 }
 
 void cllaun::widget::Label::setOpenExternalLinks(bool on) {
-    self->setOpenExternalLinks(on);
+    getThis()->setOpenExternalLinks(on);
 }
 
-Qt::Alignment cllaun::widget::Label::getAlignment() const {
-    return self->alignment();
+Qt::Alignment cllaun::widget::Label::getAlignment() {
+    return getThis()->alignment();
 }
 
 void cllaun::widget::Label::setAlignment(Qt::Alignment align) {
-    self->setAlignment(align);
+    getThis()->setAlignment(align);
 }
 
-Qt::TextInteractionFlags cllaun::widget::Label::getInteraction() const {
-    return self->textInteractionFlags();
+Qt::TextInteractionFlags cllaun::widget::Label::getInteraction() {
+    return getThis()->textInteractionFlags();
 }
 
 void cllaun::widget::Label::setInteraction(Qt::TextInteractionFlags flags) {
-    self->setTextInteractionFlags(flags);
+    getThis()->setTextInteractionFlags(flags);
 }
 
-Qt::TextFormat cllaun::widget::Label::getTextFormat() const {
-    return self->textFormat();
+Qt::TextFormat cllaun::widget::Label::getTextFormat() {
+    return getThis()->textFormat();
 }
 
 void cllaun::widget::Label::setTextFormat(Qt::TextFormat format) {
-    self->setTextFormat(format);
+    getThis()->setTextFormat(format);
 }
 
 

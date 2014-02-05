@@ -1,6 +1,6 @@
 #pragma once
 
-#include "abstract_widget.h"
+#include "widget.h"
 #include <QLabel>
 
 Q_DECLARE_METATYPE(Qt::Alignment)
@@ -8,10 +8,9 @@ Q_DECLARE_METATYPE(Qt::TextInteractionFlags)
 Q_DECLARE_METATYPE(Qt::TextFormat)
 
 namespace cllaun {
-
 namespace widget {
 
-class Label : public AbstractWidget {
+class Label : public Widget {
     Q_OBJECT
     Q_PROPERTY(QString text READ getText WRITE setText)
     Q_PROPERTY(bool hasSelectedText READ hasSelectedText)
@@ -26,21 +25,20 @@ class Label : public AbstractWidget {
 
 public:
     Label(QWidget* parent = nullptr);
-    virtual ~Label();
-    QWidget* getQWidget() { return self; }
+    virtual ~Label() { }
 
     /* property */
-    QString getText() const;
-    bool hasSelectedText() const;
-    QString getSelectedText() const;
-    int getIndent() const;                 void setIndent(int indent);
-    int getMargin() const;                 void setMargin(int margin);
-    bool getWordWrap() const;              void setWordWrap(bool on);
-    bool getOpenExternalLinks() const;     void setOpenExternalLinks(bool on);
-    Qt::Alignment getAlignment() const;    void setAlignment(Qt::Alignment align);
-    Qt::TextInteractionFlags getInteraction() const;
+    QString getText();
+    bool hasSelectedText();
+    QString getSelectedText();
+    int getIndent();                 void setIndent(int indent);
+    int getMargin();                 void setMargin(int margin);
+    bool getWordWrap();              void setWordWrap(bool on);
+    bool getOpenExternalLinks();     void setOpenExternalLinks(bool on);
+    Qt::Alignment getAlignment();    void setAlignment(Qt::Alignment align);
+    Qt::TextInteractionFlags getInteraction();
     void setInteraction(Qt::TextInteractionFlags flags);
-    Qt::TextFormat getTextFormat() const;  void setTextFormat(Qt::TextFormat format);
+    Qt::TextFormat getTextFormat();  void setTextFormat(Qt::TextFormat format);
 
     static QScriptValue alignmentToScriptValue(QScriptEngine* engine, const Qt::Alignment& align);
     static void alignmentFromScriptValue(const QScriptValue& obj, Qt::Alignment& align);
@@ -52,10 +50,10 @@ public:
 public slots:
     void setText(const QString& text);
 
-protected:
-    QLabel* self;
+private:
+    inline QLabel* getThis();
 };
 
 }
-
 }
+

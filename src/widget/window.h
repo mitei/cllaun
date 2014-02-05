@@ -1,9 +1,21 @@
 #pragma once
 
 #include "widget.h"
+#include <QWidget>
 
 namespace cllaun {
 namespace widget {
+
+class QWindow : public QWidget {
+    Q_OBJECT
+
+public:
+    QWindow(QWidget* parent = nullptr)
+        : QWidget(parent)
+    {
+        this->setWindowFlags(Qt::Window);
+    }
+};
 
 /*!
  * @class Widget
@@ -27,6 +39,7 @@ class Window : public Widget {
 
 public:
     Window(QWidget* parent = nullptr);
+
     QString getWindowTitle();  void setWindowTitle(const QString& title);
     bool isFrameless();        void setFrameless(bool flag);
     //bool isNoDropShadow();     void setNoDropShadow(bool flag);
@@ -39,7 +52,11 @@ public:
     bool hasCloseButton();     void setHasCloseButton(bool flag);
     // for Mac
     bool hasSystemMenu();      void setHasSystemMenu(bool flag);
+
+private:
+    inline QWindow* getThis();
 };
 
 }
 }
+
