@@ -65,12 +65,18 @@ HEADERS += \
     #src/api/api_http.h \
     #src/api/api_socket.h \
     src/api/api_widgets.h \
-    src/widget/abstract_widget.h \
     src/widget/widget.h \
+    src/widget/widget_proto.h \
     src/widget/window.h \
     src/widget/label.h \
+    src/widget/label_proto.h \
     src/widget/line_edit.h \
-    src/widget/string_list_view.h
+    src/widget/line_edit_proto.h \
+    src/widget/string_list_view.h \
+    src/widget/string_list_view_proto.h \
+    src/widget/abstract_button.h \
+    src/widget/abstract_button_proto.h \
+    src/widget/push_button.h
 
 SOURCES += \
     src/main.cc \
@@ -94,12 +100,18 @@ SOURCES += \
     #src/api/api_http.cc \
     #src/api/api_socket.cc \
     src/api/api_widgets.cc \
-    src/widget/abstract_widget.cc \
     src/widget/widget.cc \
+    src/widget/widget_proto.cc \
     src/widget/window.cc \
     src/widget/label.cc \
+    src/widget/label_proto.cc \
     src/widget/line_edit.cc \
-    src/widget/string_list_view.cc
+    src/widget/line_edit_proto.cc \
+    src/widget/string_list_view.cc \
+    src/widget/string_list_view_proto.cc \
+    src/widget/abstract_button.cc \
+    src/widget/abstract_button_proto.cc \
+    src/widget/push_button.cc
 
 #win:SOURCES += src/launcher_win.cc
 

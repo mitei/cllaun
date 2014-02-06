@@ -14,6 +14,7 @@ class StringListView : public Widget {
 
 public:
     StringListView(QWidget* parent = nullptr);
+    ~StringListView();
     virtual void initialize(QWidget *self);
 
     /* property */

@@ -5,6 +5,9 @@ cllaun::widget::StringListView::StringListView(QWidget* parent)
     : Widget(parent), model(new QStringListModel(parent))
 {
 }
+cllaun::widget::StringListView::~StringListView() {
+    if (model->QObject::parent() == nullptr) { delete model; }
+}
 
 QListView* cllaun::widget::StringListView::getThis() {
     return thisObject().data().toVariant().value<QListView*>();

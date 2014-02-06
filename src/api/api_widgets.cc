@@ -10,6 +10,8 @@
 #include "widget/line_edit_proto.h"
 #include "widget/string_list_view.h"
 #include "widget/string_list_view_proto.h"
+#include "widget/push_button.h"
+#include "widget/abstract_button_proto.h"
 #include "api.h"
 
 
@@ -18,7 +20,7 @@ QMainWindow* cllaun::API_Widgets::parent_window = nullptr;
 template <typename WrapT, typename BaseT>
 QScriptValue cllaun::API_Widgets::constructor(QScriptContext* context, QScriptEngine* engine, void* proto) {
     // set parent
-    QWidget* parent = nullptr;
+    QWidget* parent = parent_window;
     if (context->argumentCount() > 0) {
         cllaun::widget::Widget* parent_wrap = qscriptvalue_cast<cllaun::widget::Widget*>(context->argument(0));
         if (parent_wrap != nullptr)
@@ -28,7 +30,6 @@ QScriptValue cllaun::API_Widgets::constructor(QScriptContext* context, QScriptEn
     self->setAttribute(Qt::WA_DeleteOnClose);
     WrapT* wrap = new WrapT(self);
     wrap->initialize(self);
-    //self->installEventFilter(wrap);
     QScriptValue instance = engine->newQObject(wrap);
     instance.setData(engine->newVariant(qVariantFromValue<BaseT*>(self)));
     instance.setPrototype(*static_cast<QScriptValue*>(proto));
@@ -57,8 +58,9 @@ cllaun::API_Widgets::API_Widgets(QScriptEngine *engine)
     static QScriptValue string_list_view_proto = engine->newQObject(new widget::StringListViewProto(engine));
     string_list_view_proto.setPrototype(widget_proto);
     setMethod(engine, "StringListView", constructor<widget::StringListView, QListView>, &string_list_view_proto);
+    static QScriptValue abstract_button_proto = engine->newQObject(new widget::AbstractButtonProto(engine));
+    setMethod(engine, "PushButton", constructor<widget::PushButton, QPushButton>, &abstract_button_proto);
 
-    /*
     qScriptRegisterMetaType(engine,
                             widget::Label::alignmentToScriptValue,
                             widget::Label::alignmentFromScriptValue);
@@ -68,7 +70,6 @@ cllaun::API_Widgets::API_Widgets(QScriptEngine *engine)
     qScriptRegisterMetaType(engine,
                             widget::Label::textformatToScriptValue,
                             widget::Label::textformatFromScriptValue);
-                            */
 }
 
 cllaun::API_Widgets::~API_Widgets() {
