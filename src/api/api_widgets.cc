@@ -13,6 +13,7 @@
 #include "widget/abstract_button_proto.h"
 #include "widget/push_button.h"
 #include "widget/radio_button.h"
+#include "widget/checkbox.h"
 #include "api.h"
 
 
@@ -62,6 +63,7 @@ cllaun::API_Widgets::API_Widgets(QScriptEngine *engine)
     static QScriptValue abstract_button_proto = engine->newQObject(new widget::AbstractButtonProto(engine));
     setMethod(engine, "PushButton", constructor<widget::PushButton, QPushButton>, &abstract_button_proto);
     setMethod(engine, "RadioButton", constructor<widget::RadioButton, QRadioButton>, &abstract_button_proto);
+    setMethod(engine, "CheckBox", constructor<widget::CheckBox, QCheckBox>, &abstract_button_proto);
 
     qScriptRegisterMetaType(engine,
                             widget::Label::alignmentToScriptValue,
