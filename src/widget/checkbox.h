@@ -12,10 +12,17 @@ class CheckBox : public AbstractButton {
 
 public:
     CheckBox(QWidget* parent = nullptr);
+    void initialize(QWidget* self);
 
     /* property */
     bool isTristate();
     void setTristate(bool y = true);
+
+signals:
+    void stateChanged(int state);
+
+private slots:
+    void emitStateChanged(int state) { emit stateChanged(state); }
 
 private:
     inline QCheckBox* getThis();
