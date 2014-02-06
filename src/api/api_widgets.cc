@@ -73,6 +73,8 @@ cllaun::API_Widgets::API_Widgets(QScriptEngine *engine)
 }
 
 cllaun::API_Widgets::~API_Widgets() {
-    delete parent_window;
-    parent_window = nullptr;
+    if (parent_window != nullptr) {
+        delete parent_window;
+        parent_window = nullptr;
+    }
 }
