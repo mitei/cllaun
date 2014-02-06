@@ -1,17 +1,18 @@
 #include "api_widgets.h"
 #include <QScriptEngine>
 #include <QMainWindow>
-#include "widget/widget.h"
 #include "widget/widget_proto.h"
+#include "widget/widget.h"
 #include "widget/window.h"
-#include "widget/label.h"
 #include "widget/label_proto.h"
-#include "widget/line_edit.h"
+#include "widget/label.h"
 #include "widget/line_edit_proto.h"
-#include "widget/string_list_view.h"
+#include "widget/line_edit.h"
 #include "widget/string_list_view_proto.h"
-#include "widget/push_button.h"
+#include "widget/string_list_view.h"
 #include "widget/abstract_button_proto.h"
+#include "widget/push_button.h"
+#include "widget/radio_button.h"
 #include "api.h"
 
 
@@ -60,6 +61,7 @@ cllaun::API_Widgets::API_Widgets(QScriptEngine *engine)
     setMethod(engine, "StringListView", constructor<widget::StringListView, QListView>, &string_list_view_proto);
     static QScriptValue abstract_button_proto = engine->newQObject(new widget::AbstractButtonProto(engine));
     setMethod(engine, "PushButton", constructor<widget::PushButton, QPushButton>, &abstract_button_proto);
+    setMethod(engine, "RadioButton", constructor<widget::RadioButton, QRadioButton>, &abstract_button_proto);
 
     qScriptRegisterMetaType(engine,
                             widget::Label::alignmentToScriptValue,

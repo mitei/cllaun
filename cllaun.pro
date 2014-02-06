@@ -76,7 +76,8 @@ HEADERS += \
     src/widget/string_list_view_proto.h \
     src/widget/abstract_button.h \
     src/widget/abstract_button_proto.h \
-    src/widget/push_button.h
+    src/widget/push_button.h \
+    src/widget/radio_button.h
 
 SOURCES += \
     src/main.cc \
@@ -111,7 +112,8 @@ SOURCES += \
     src/widget/string_list_view_proto.cc \
     src/widget/abstract_button.cc \
     src/widget/abstract_button_proto.cc \
-    src/widget/push_button.cc
+    src/widget/push_button.cc \
+    src/widget/radio_button.cc
 
 #win:SOURCES += src/launcher_win.cc
 
