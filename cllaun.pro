@@ -3,16 +3,10 @@ CONFIG += debug_and_releae
 CONFIG(debug, debug|release) {
     suffix = _debug
     base_dir = debug
-# Qxt
-    win32:LIBS += $$(QXT_DIR)/lib/QxtWidgetsd.lib
-    #unix:LIBS += -lQxtWidgetsd
 }
 CONFIG(release, debug|release) {
     suffix = ""
     base_dir = release
-# Qxt
-    win32:LIBS += $$(QXT_DIR)/lib/QxtWidgets.lib
-    #unix:LIBS += -lQxtWidgets
 }
 
 OBJECTS_DIR = obj/$${base_dir}
@@ -29,14 +23,13 @@ QT += core gui widgets script
 unix:QMAKE_CXXFLAGS += "-std=c++11"
 
 INCLUDEPATH += src
-win32:LIBS += shell32.lib
 
 # Qxt
-CONFIG += qxt
-INCLUDEPATH += \
+unix:CONFIG += qxt
+unix:INCLUDEPATH += \
     $$(QXT_DIR)/include \
     $$(QXT_DIR)/include/QxtCore
-QXT += core gui
+unix:QXT += core gui
 unix:LIBS += -L$$(QXT_DIR)/lib
 unix:QT += x11extras
 unix:LIBS += -lQxtWidgets
@@ -116,6 +109,13 @@ SOURCES += \
     src/widget/push_button.cc \
     src/widget/radio_button.cc \
     src/widget/checkbox.cc
+
+win32:HEADERS += \
+    src/qglobalshortcut.h
+win32:SOURCES += \
+    src/qglobalshortcut.cc \
+    src/qglobalshortcut_win.cc
+
 
 #win:SOURCES += src/launcher_win.cc
 

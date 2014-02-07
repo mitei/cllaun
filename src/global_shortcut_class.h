@@ -3,7 +3,12 @@
 #include <QObject>
 #include <QList>
 #include <QScriptClass>
+#ifdef Q_OS_WIN32
+#include "qglobalshortcut.h"
+#else
 #include <QxtWidgets/QxtGlobalShortcut>
+typedef QxtGlobalShortcut QGlobalShortcut;
+#endif
 
 namespace cllaun {
 /*
@@ -33,7 +38,7 @@ public:
     const QScriptValue& getCallback() const;
 
 private:
-    QxtGlobalShortcut shortcut; /*!< ショートカットオブジェクト */
+    QGlobalShortcut shortcut; /*!< ショートカットオブジェクト */
     QScriptValue callback; /*!< ショートカット実行時に呼ばれるコールバック関数 */
 };
 

@@ -1,5 +1,4 @@
 #include "global_shortcut_class.h"
-#include <QxtWidgets/QxtGlobalShortcut>
 #include <QScriptEngine>
 #include <QKeySequence>
 
@@ -17,7 +16,7 @@
  * @param _callback  ショートカットの実行時に呼ばれる関数
  */
 cllaun::GlobalShortcut::GlobalShortcut(QObject* parent, const QScriptValue& _callback)
-    : QObject(parent), shortcut(parent), callback(_callback)
+    : QObject(parent), shortcut(this), callback(_callback)
 {
     qScriptConnect(&shortcut, SIGNAL(activated()), QScriptValue(), callback);
 }
@@ -28,7 +27,11 @@ cllaun::GlobalShortcut::GlobalShortcut(QObject* parent, const QScriptValue& _cal
  * @param key  キーシーケンス
  */
 void cllaun::GlobalShortcut::setKey(const QKeySequence& key) {
+#ifdef Q_OS_WIN32
+    shortcut.setKey(key);
+#else
     shortcut.setShortcut(key);
+#endif
 }
 
 /*!
@@ -48,7 +51,11 @@ void cllaun::GlobalShortcut::setCallback(const QScriptValue& _callback) {
  * @return 設定されているキーシーケンス
  */
 QKeySequence cllaun::GlobalShortcut::getKeySequence() const {
+#ifdef Q_OS_WIN32
+    return shortcut.key();
+#else
     return shortcut.shortcut();
+#endif
 }
 
 /*!
