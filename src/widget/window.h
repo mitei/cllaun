@@ -13,7 +13,7 @@ public:
     QWindow(QWidget* parent = nullptr)
         : QWidget(parent)
     {
-        this->setWindowFlags(Qt::Window);
+        this->setWindowFlags(Qt::Dialog);
     }
 };
 
