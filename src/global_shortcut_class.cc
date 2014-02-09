@@ -27,11 +27,7 @@ cllaun::GlobalShortcut::GlobalShortcut(QObject* parent, const QScriptValue& _cal
  * @param key  キーシーケンス
  */
 void cllaun::GlobalShortcut::setKey(const QKeySequence& key) {
-#ifdef Q_OS_WIN32
     shortcut.setKey(key);
-#else
-    shortcut.setShortcut(key);
-#endif
 }
 
 /*!
@@ -51,11 +47,7 @@ void cllaun::GlobalShortcut::setCallback(const QScriptValue& _callback) {
  * @return 設定されているキーシーケンス
  */
 QKeySequence cllaun::GlobalShortcut::getKeySequence() const {
-#ifdef Q_OS_WIN32
     return shortcut.key();
-#else
-    return shortcut.shortcut();
-#endif
 }
 
 /*!

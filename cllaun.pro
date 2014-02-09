@@ -24,15 +24,8 @@ unix:QMAKE_CXXFLAGS += "-std=c++11"
 
 INCLUDEPATH += src
 
-# Qxt
-unix:CONFIG += qxt
-unix:INCLUDEPATH += \
-    $$(QXT_DIR)/include \
-    $$(QXT_DIR)/include/QxtCore
-unix:QXT += core gui
-unix:LIBS += -L$$(QXT_DIR)/lib
 unix:QT += x11extras
-unix:LIBS += -lQxtWidgets
+unix:LIBS += -lX11 -lxcb
 
 # Input
 HEADERS += \
@@ -110,14 +103,15 @@ SOURCES += \
     src/widget/radio_button.cc \
     src/widget/checkbox.cc
 
-win32:HEADERS += \
+HEADERS += \
     src/qglobalshortcut.h
+SOURCES += \
+    src/qglobalshortcut.cc
+
 win32:SOURCES += \
-    src/qglobalshortcut.cc \
     src/qglobalshortcut_win.cc
-
-
-#win:SOURCES += src/launcher_win.cc
+unix:SOURCES += \
+    src/qglobalshortcut_x11.cc
 
 OTHER_FILES += \
     assets/.cllaun

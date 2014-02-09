@@ -3,12 +3,7 @@
 #include <QObject>
 #include <QList>
 #include <QScriptClass>
-#ifdef Q_OS_WIN32
 #include "qglobalshortcut.h"
-#else
-#include <QxtWidgets/QxtGlobalShortcut>
-typedef QxtGlobalShortcut QGlobalShortcut;
-#endif
 
 namespace cllaun {
 /*
