@@ -35,15 +35,18 @@ HEADERS += \
     src/shortcut_class.h \
     src/global_shortcut_class.h \
     src/command.h \
-    src/api/api_shortcut.h \
+    src/system.h \
     src/parser.h \
     src/launcher.h \
+\
     src/api.h \
     src/api/api_common.h \
+    src/api/api_sys.h \
     src/api/api_console.h \
     #src/api/api_module.h \
     src/api/api_skin.h \
     src/api/api_plugin.h \
+    src/api/api_shortcut.h \
     src/api/api_parser.h \
     src/api/api_launcher.h \
     #src/api/api_file.h \
@@ -51,6 +54,7 @@ HEADERS += \
     #src/api/api_http.h \
     #src/api/api_socket.h \
     src/api/api_widgets.h \
+\
     src/widget/widget.h \
     src/widget/widget_proto.h \
     src/widget/window.h \
@@ -73,9 +77,12 @@ SOURCES += \
     src/plugin.cc \
     src/shortcut_class.cc \
     src/global_shortcut_class.cc \
+    src/system.cc \
     src/parser.cc \
     src/launcher.cc \
+\
     src/api/api_common.cc \
+    src/api/api_sys.cc \
     src/api/api_console.cc \
     #src/api/api_module.cc \
     src/api/api_skin.cc \
@@ -88,6 +95,7 @@ SOURCES += \
     #src/api/api_http.cc \
     #src/api/api_socket.cc \
     src/api/api_widgets.cc \
+\
     src/widget/widget.cc \
     src/widget/widget_proto.cc \
     src/widget/window.cc \

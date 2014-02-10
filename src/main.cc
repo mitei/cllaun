@@ -7,6 +7,7 @@
 #include "api/api_plugin.h"
 #include "api/api_widgets.h"
 #include "api/api_common.h"
+#include "api/api_sys.h"
 #include "api/api_console.h"
 #include "api/api_parser.h"
 #include "api/api_launcher.h"
@@ -29,6 +30,7 @@ int main(int argc, char** argv) {
     cllaun::API_Skin       api_skin(&engine, &app);
     cllaun::API_Widgets    api_widgets(&engine);
     cllaun::API_Common     api_common(&engine);
+    cllaun::API_Sys        api_sys(&engine);
     cllaun::API_Console    api_console(&engine);
     cllaun::API_Parser     api_parser(&engine);
     cllaun::API_Launcher   api_launcher(&engine);
