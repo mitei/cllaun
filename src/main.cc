@@ -27,14 +27,14 @@ int main(int argc, char** argv) {
     // スクリプトエンジンの初期化
     QScriptEngine engine;
     engine.globalObject().setProperty("global", engine.globalObject());
-    cllaun::API_Skin       api_skin(&engine, &app);
-    cllaun::API_Widgets    api_widgets(&engine);
-    cllaun::API_Common     api_common(&engine);
-    cllaun::API_Sys        api_sys(&engine);
-    cllaun::API_Console    api_console(&engine);
-    cllaun::API_Parser     api_parser(&engine);
-    cllaun::API_Launcher   api_launcher(&engine);
-    cllaun::API_Plugin     api_plugin(&engine);
+    cllaun::API_Skin       api_skin(&engine, &app); Q_UNUSED(api_skin)
+    cllaun::API_Widgets    api_widgets(&engine);    Q_UNUSED(api_widgets)
+    cllaun::API_Common     api_common(&engine);     Q_UNUSED(api_common)
+    cllaun::API_Sys        api_sys(&engine);        Q_UNUSED(api_sys)
+    cllaun::API_Console    api_console(&engine);    Q_UNUSED(api_console)
+    cllaun::API_Parser     api_parser(&engine);     Q_UNUSED(api_parser)
+    cllaun::API_Launcher   api_launcher(&engine);   Q_UNUSED(api_launcher)
+    cllaun::API_Plugin     api_plugin(&engine);     Q_UNUSED(api_plugin)
 
     // 設定ファイルの読み込み
     QStringList conflist = QStringList() << (app.applicationDirPath() + "/.cllaun")
