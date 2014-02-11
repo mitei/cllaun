@@ -9,8 +9,7 @@
 #include "api/api_common.h"
 #include "api/api_sys.h"
 #include "api/api_console.h"
-#include "api/api_parser.h"
-#include "api/api_launcher.h"
+#include "api/api_file.h"
 #include "api.h"
 
 #define VERSION "0.0.0"
@@ -32,9 +31,8 @@ int main(int argc, char** argv) {
     cllaun::API_Common     api_common(&engine);     Q_UNUSED(api_common)
     cllaun::API_Sys        api_sys(&engine);        Q_UNUSED(api_sys)
     cllaun::API_Console    api_console(&engine);    Q_UNUSED(api_console)
-    cllaun::API_Parser     api_parser(&engine);     Q_UNUSED(api_parser)
-    cllaun::API_Launcher   api_launcher(&engine);   Q_UNUSED(api_launcher)
     cllaun::API_Plugin     api_plugin(&engine);     Q_UNUSED(api_plugin)
+    cllaun::API_File       api_file(&engine);       Q_UNUSED(api_file)
 
     // 設定ファイルの読み込み
     QStringList conflist = QStringList() << (app.applicationDirPath() + "/.cllaun")

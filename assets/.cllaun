@@ -1,5 +1,41 @@
 print("--- Config: {APP_DIR}/.cllaun");
 
+global.cllaun = {};
+cllaun.parse = (function() {
+    const REGEX = /(?:"(?:\\"|[^"])*")|(?:\\ |[^ "])+/g;
+    return function(cmd) {
+        return cmd.match(REGEX).map(function(v) {
+            return v.replace(/\\"/g, '"').replace(/\\ /g, ' ');
+        });
+    };
+}());
+cllaun.getCompletions = function(incomp) {
+    var compl = [];
+    cllaun.rules.filter(function(v) {
+        return incomp.match(v.rule) != '';
+    }).forEach(function(v) {
+        compl.push(v.complement(incomp));
+    });
+    return compl;
+};
+cllaun.rules = [
+{
+    type: 'executable',
+    rule: /[\w-\.]+/,
+    complement: function(cmd) {
+        var list = [];
+        global.sys.execute.paths.forEach(function(v) {
+            var dir = new Dir(v);
+            list.push(dir.entries(new RegExp(cmd + '*'), Dir.FILES|Dir.EXECUTABLE));
+        });
+        return list;
+    },
+    execute: function(cmd, args) {
+        global.sys.execute(cmd, args);
+    }
+}
+];
+
 global.window = new Window();
 window.id = "window";
 window.frameLess = window.staysOnTop = window.translucentBackground = true;
@@ -51,12 +87,26 @@ listView.shortcut['Esc'] = listView.shortcut['Backspace'] = function() {
 };
 
 // Plugin-command test
-launcher.commands['exit'] = exit;
-launcher.commands['eval'] = eval;
-launcher.aliases['!'] = ':eval';
+cllaun.commands = {};
+cllaun.aliases = {};
+cllaun.commands['eval'] = function(args) {
+    eval(args);
+};
+cllaun.commands['execute'] = function(args) {
+    print(args);
+    sys.execute(args);
+};
 
-// Alias-api test
-launcher.aliases['quit'] = ':exit';
+cllaun.commands['open'] = function(args) {
+    print(args);
+    sys.open(args);
+};
+
+cllaun.commands['exit'] = function() {
+    sys.exit(0);
+};
+cllaun.aliases['!'] = ':eval';
+cllaun.aliases['quit'] = ':exit';
 
 // signal-slot test
 commandLine.returnPressed.connect(commandLine, function() {
@@ -66,14 +116,11 @@ commandLine.returnPressed.connect(commandLine, function() {
     launcher.run(cmd);
 });
 commandLine.textChanged.connect(commandLine, function() {
-    var cmd = parser.parse(this.text.substr(0, this.cursorPosition));
-    var candidates;
-    if (cmd.args.length > 0) {
-        candidates = launcher.list(cmd.args[cmd.args.length - 1]);
-    } else {
-        candidates = launcher.list(cmd.name);
-    }
-
+    var cmd = this.text;
+    if (cmd == '') return;
+    var tokens = cllaun.parse(this.text.substr(0, this.cursorPosition));
+    if (!tokens.length) return;
+    var candidates = cllaun.getCompletions(tokens[tokens.length-1]);
     listView.data = candidates;
     if (candidates.length == 0) {
         listView.hide();
