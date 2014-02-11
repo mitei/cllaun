@@ -35,10 +35,7 @@ QScriptValue cllaun::API_Sys::open(QScriptContext* context, QScriptEngine* engin
         return QScriptValue(false);
 
     const QString path = context->argument(0).toString();
-    const QFileInfo path_info(path);
-    if (path_info.exists())
-        return QScriptValue(cllaun::sys_open(path));
-    return QScriptValue(false);
+    return QScriptValue(cllaun::sys_open(path));
 }
 
 QScriptValue cllaun::API_Sys::exit(QScriptContext* context, QScriptEngine* engine) {

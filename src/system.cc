@@ -26,6 +26,10 @@ bool cllaun::sys_execute(const QString& path, const QStringList& args) {
  * @return      ファイルのオープンに成功したら true
  */
 bool cllaun::sys_open(const QString& path) {
+    QUrl url(path);
+    if (url.isValid() && !url.isRelative()) {
+        return QDesktopServices::openUrl(url);
+    }
     return QDesktopServices::openUrl(QUrl::fromLocalFile(path));
 }
 
