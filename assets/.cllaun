@@ -14,9 +14,18 @@ cllaun.getCompletions = function(incomp) {
     cllaun.rules.filter(function(v) {
         return incomp.match(v.rule) != '';
     }).forEach(function(v) {
-        compl.push(v.complement(incomp));
+        compl = compl.concat(v.complement(incomp));
     });
     return compl;
+};
+cllaun.execute = function(cmd, args) {
+    for (var i = 0; i < cllaun.rules.length; ++i) {
+        var v = cllaun.rules[i];
+        if (cmd.match(v.rule)) {
+            v.execute(cmd, args);
+            break;
+        }
+    }
 };
 cllaun.rules = [
 {
@@ -26,7 +35,7 @@ cllaun.rules = [
         var list = [];
         global.sys.execute.paths.forEach(function(v) {
             var dir = new Dir(v);
-            list.push(dir.entries(new RegExp(cmd + '*'), Dir.FILES|Dir.EXECUTABLE));
+            list = list.concat(dir.entryList([cmd + '*'], Dir.Files|Dir.Executable));
         });
         return list;
     },
@@ -113,13 +122,12 @@ commandLine.returnPressed.connect(commandLine, function() {
     this.selectAll();
     window.hide();
     var cmd = parser.parse(this.text);
-    launcher.run(cmd);
+    cllaun.execute(cmd.shift(), cmd);
 });
 commandLine.textChanged.connect(commandLine, function() {
     var cmd = this.text;
-    if (cmd == '') return;
-    var tokens = cllaun.parse(this.text.substr(0, this.cursorPosition));
-    if (!tokens.length) return;
+    if (cmd == '') return listView.hide();
+    var tokens = cllaun.parse(cmd.substr(0, this.cursorPosition));
     var candidates = cllaun.getCompletions(tokens[tokens.length-1]);
     listView.data = candidates;
     if (candidates.length == 0) {
