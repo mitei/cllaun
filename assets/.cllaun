@@ -11,27 +11,32 @@ cllaun.parse = (function() {
 }());
 cllaun.getCompletions = function(incomp) {
     var compl = [];
-    cllaun.rules.filter(function(v) {
-        return incomp.match(v.rule) != '';
-    }).forEach(function(v) {
+    var matches = cllaun.rules.filter(function(v) {
+        return incomp.match(v.rule) != null;
+    });
+    (matches.length > 0 ? matches : cllaun.rules).forEach(function(v) {
         compl = compl.concat(v.complement(incomp));
     });
     return compl;
 };
 cllaun.execute = function(cmd, args) {
-    for (var i = 0; i < cllaun.rules.length; ++i) {
-        var v = cllaun.rules[i];
-        if (cmd.match(v.rule)) {
-            v.execute(cmd, args);
-            break;
-        }
+    var matches = cllaun.rules.filter(function(v) {
+        return cmd.match(v.rule) != null;
+    });
+    var a = matches.length > 0 ? matches : cllaun.rules;
+    for (var i = 0; i < a.length; ++i) {
+        var o = a[i];
+        print(o.type + ' : ' + cmd + ' : ' + args.toString());
+        if (o.execute(cmd, args)) return;
     }
 };
+
 cllaun.rules = [
 {
     type: 'executable',
-    rule: /[\w-\.]+/,
+    rule: /![\w-.]*/,
     complement: function(cmd) {
+        if (cmd.match(/!.*/)) cmd = cmd.substr(1, cmd.length - 1);
         var list = [];
         global.sys.execute.paths.forEach(function(v) {
             var dir = new Dir(v);
@@ -40,7 +45,72 @@ cllaun.rules = [
         return list;
     },
     execute: function(cmd, args) {
-        global.sys.execute(cmd, args);
+        if (cmd.match(/!.*/)) cmd = cmd.substr(1, cmd.length - 1);
+        return sys.execute(cmd, args);
+    }
+},
+{
+    type: 'alias',
+    rule: /\?.*/,
+    complement: function(cmd) {
+        if (cmd.match(/\?.*/)) cmd = cmd.substr(1, cmd.length - 1);
+        var list = [];
+        for (var k in cllaun.aliases) {
+            var m = k.match(new RegExp('^' + cmd + '.*'));
+            if (m) list[list.length] = '?' + m;
+        }
+        return list;
+    },
+    execute: function(cmd, args) {
+        if (cmd.match(/\?.*/)) cmd = cmd.substr(1, cmd.length - 1);
+        var f = cllaun.aliases[cmd];
+        if (f) {
+            cllaun.execute(f, args); return true;
+        } else {
+            return false;
+        }
+    }
+},
+{
+    type: 'plugin',
+    rule: /:[\w-]+/,
+    complement: function(cmd) {
+        if (cmd.match(/:.*/)) cmd = cmd.substr(1, cmd.length - 1);
+        var list = [];
+        for (var k in cllaun.commands) {
+            var m = k.match(new RegExp('^' + cmd + '.*'));
+            if (m) list[list.length] = ':' + m;
+        }
+        return list;
+    },
+    execute: function(cmd, args) {
+        if (cmd.match(/:.*/)) cmd = cmd.substr(1, cmd.length - 1);
+        var f = cllaun.commands[cmd];
+        if (f) {
+            f(args); return true;
+        } else {
+            return false;
+        }
+    }
+},
+{
+    type: 'path',
+    rule: /(?:.*[\\\/].*)/,
+    complement: function(p) {
+        var r = /(.+)[\/\\]([^\/\\]*)$/;
+        var res = r.exec(p);
+        if (res) {
+            var d = new Dir(res[1]),
+                f = res[2];
+            var ent = d.entryList([f + '*'], Dir.AllEntries|Dir.NoDotAndDotDot|Dir.Hidden, Dir.DirsLast);
+            return ent.map(function(e) {
+                return res[1].replace(/([^\\]) /, '$1\\ ') + '/' + e.replace(/([^\\]) /, '$1\\ ');
+            });
+        }
+        return [];
+    },
+    execute: function(p) {
+        return sys.open(p);
     }
 }
 ];
@@ -82,12 +152,12 @@ listView.shortcut['Shift+Tab'] = function() {
     listView.index--;
 };
 listView.activated.connect(listView, function(i) {
-    var cmd = parser.parse(commandLine.text);
-    var subcmd = parser.parse(commandLine.text.substr(0, commandLine.cursorPosition));
-    var newcmd = [cmd.name].concat(cmd.args);
-    newcmd[subcmd.args.length] = this.data[i];
-    commandLine.text = newcmd.join(' ');
+    var cmd = cllaun.parse(commandLine.text);
+    var subcmd = cllaun.parse(commandLine.text.substr(0, commandLine.cursorPosition));
+    cmd[subcmd.length -1] = this.data[i];
+    commandLine.text = cmd.join(' ');
     commandLine.setFocus();
+    commandLine.cursorPosition = commandLine.text.length;
     listView.hide();
 });
 listView.shortcut['Esc'] = listView.shortcut['Backspace'] = function() {
@@ -102,26 +172,23 @@ cllaun.commands['eval'] = function(args) {
     eval(args);
 };
 cllaun.commands['execute'] = function(args) {
-    print(args);
     sys.execute(args);
 };
 
 cllaun.commands['open'] = function(args) {
-    print(args);
     sys.open(args);
 };
 
 cllaun.commands['exit'] = function() {
     sys.exit(0);
 };
-cllaun.aliases['!'] = ':eval';
 cllaun.aliases['quit'] = ':exit';
 
 // signal-slot test
 commandLine.returnPressed.connect(commandLine, function() {
     this.selectAll();
     window.hide();
-    var cmd = parser.parse(this.text);
+    var cmd = cllaun.parse(this.text);
     cllaun.execute(cmd.shift(), cmd);
 });
 commandLine.textChanged.connect(commandLine, function() {
